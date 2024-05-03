@@ -1,0 +1,1305 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next gemini use-motion" lang="zh-Hans">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+<meta name="theme-color" content="#222">
+
+
+
+  
+  
+    
+    
+  <script src="/lib/pace/pace.min.js?v=1.0.2"></script>
+  <link href="/lib/pace/pace-theme-minimal.min.css?v=1.0.2" rel="stylesheet">
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.4" rel="stylesheet" type="text/css" />
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=5.1.4">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=5.1.4" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="ctfhub,web," />
+
+
+
+
+
+
+
+
+
+
+<meta name="description" content="Web一、http协议1、请求方式HTTP，即超文本传输协议，是一种实现客户端和服务器之间通信的响应协议，它是用作客户端和服务器之间的请求。客户端（浏览器）会向服务器提交HTTP请求；然后服务器向客户端返回响应；其中响应包含有关请求的状态信息，还可能包含请求的内容。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="ctfhub学习">
+<meta property="og:url" content="http://qliuewy.top/2023/10/13/ctfhub%E5%AD%A6%E4%B9%A0/index.html">
+<meta property="og:site_name" content="杂记 from nobody">
+<meta property="og:description" content="Web一、http协议1、请求方式HTTP，即超文本传输协议，是一种实现客户端和服务器之间通信的响应协议，它是用作客户端和服务器之间的请求。客户端（浏览器）会向服务器提交HTTP请求；然后服务器向客户端返回响应；其中响应包含有关请求的状态信息，还可能包含请求的内容。">
+<meta property="og:locale">
+<meta property="og:image" content="https://img-blog.csdnimg.cn/64cd2feb00444281850eaba87145a9f9.png?x-oss-process=image/watermark,type_ZHJvaWRzYW5zZmFsbGJhY2s,shadow_50,text_Q1NETiBAcXFfMzU5MzA3Mzk=,size_20,color_FFFFFF,t_70,g_se,x_16">
+<meta property="og:image" content="http://qliuewy.top/2023/10/13/ctfhub%E5%AD%A6%E4%B9%A0/image-20231002231106455.png">
+<meta property="og:image" content="https://liuew.oss-cn-hangzhou.aliyuncs.com/img/SouthEast.jpeg">
+<meta property="og:image" content="https://liuew.oss-cn-hangzhou.aliyuncs.com/img/20171213135233120.jpg">
+<meta property="og:image" content="https://liuew.oss-cn-hangzhou.aliyuncs.com/img/20171213135952148.jpg">
+<meta property="og:image" content="https://liuew.oss-cn-hangzhou.aliyuncs.com/img/image-20231003120137538.png">
+<meta property="og:image" content="https://liuew.oss-cn-hangzhou.aliyuncs.com/img/image-20231003120330394.png">
+<meta property="og:image" content="https://liuew.oss-cn-hangzhou.aliyuncs.com/img/image-20231003120226450.png">
+<meta property="og:image" content="https://liuew.oss-cn-hangzhou.aliyuncs.com/img/image-20231003132025977.png">
+<meta property="og:image" content="https://liuew.oss-cn-hangzhou.aliyuncs.com/img/image-20231005231842554.png">
+<meta property="og:image" content="https://liuew.oss-cn-hangzhou.aliyuncs.com/img/image-20231005232606857.png">
+<meta property="og:image" content="https://liuew.oss-cn-hangzhou.aliyuncs.com/img/image-20231005233013161.png">
+<meta property="og:image" content="https://liuew.oss-cn-hangzhou.aliyuncs.com/img/image-20231005233416132.png">
+<meta property="og:image" content="https://liuew.oss-cn-hangzhou.aliyuncs.com/img/image-20231006001932693.png">
+<meta property="article:published_time" content="2023-10-13T03:39:31.000Z">
+<meta property="article:modified_time" content="2023-10-19T14:49:51.257Z">
+<meta property="article:author" content="liuew">
+<meta property="article:tag" content="ctfhub">
+<meta property="article:tag" content="web">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://img-blog.csdnimg.cn/64cd2feb00444281850eaba87145a9f9.png?x-oss-process=image/watermark,type_ZHJvaWRzYW5zZmFsbGJhY2s,shadow_50,text_Q1NETiBAcXFfMzU5MzA3Mzk=,size_20,color_FFFFFF,t_70,g_se,x_16">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '',
+    scheme: 'Gemini',
+    version: '5.1.4',
+    sidebar: {"position":"left","display":"always","offset":12,"b2t":true,"scrollpercent":true,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://qliuewy.top/2023/10/13/ctfhub学习/"/>
+
+
+
+
+
+  <title>ctfhub学习 | 杂记 from nobody</title>
+  
+
+
+
+
+
+
+
+
+<meta name="generator" content="Hexo 6.3.0"></head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta custom-logo">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">杂记 from nobody</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle">成为自己想成为的样子</p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-fa fa-th"></i> <br />
+            
+            分类
+          </a>
+        </li>
+      
+
+      
+        <li class="menu-item menu-item-search">
+          
+            <a href="javascript:;" class="popup-trigger">
+          
+            
+              <i class="menu-item-icon fa fa-search fa-fw"></i> <br />
+            
+            搜索
+          </a>
+        </li>
+      
+    </ul>
+  
+
+  
+    <div class="site-search">
+      
+  <div class="popup search-popup local-search-popup">
+  <div class="local-search-header clearfix">
+    <span class="search-icon">
+      <i class="fa fa-search"></i>
+    </span>
+    <span class="popup-btn-close">
+      <i class="fa fa-times-circle"></i>
+    </span>
+    <div class="local-search-input-wrapper">
+      <input autocomplete="off"
+             placeholder="搜索..." spellcheck="false"
+             type="text" id="local-search-input">
+    </div>
+  </div>
+  <div id="local-search-result"></div>
+</div>
+
+
+
+    </div>
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://qliuewy.top/2023/10/13/ctfhub%E5%AD%A6%E4%B9%A0/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/uploads/touxiang.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="杂记 from nobody">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">ctfhub学习</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2023-10-13T11:39:31+08:00">
+                2023-10-13
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/ctf/" itemprop="url" rel="index">
+                    <span itemprop="name">ctf</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+            <div class="post-wordcount">
+              
+                
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-file-word-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">字数统计&#58;</span>
+                
+                <span title="字数统计">
+                  11k
+                </span>
+              
+
+              
+                <span class="post-meta-divider">|</span>
+              
+
+              
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-clock-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">阅读时长 &asymp;</span>
+                
+                <span title="阅读时长">
+                  40 mins.
+                </span>
+              
+            </div>
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+  
+
+      
+        <h1 id="Web"><a href="#Web" class="headerlink" title="Web"></a>Web</h1><h2 id="一、http协议"><a href="#一、http协议" class="headerlink" title="一、http协议"></a>一、http协议</h2><h3 id="1、请求方式"><a href="#1、请求方式" class="headerlink" title="1、请求方式"></a>1、请求方式</h3><p>HTTP，即超文本传输协议，是一种实现客户端和服务器之间通信的响应协议，它是用作客户端和服务器之间的请求。客户端（浏览器）会向服务器提交HTTP请求；然后服务器向客户端返回响应；其中响应包含有关请求的状态信息，还可能包含请求的内容。</p>
+<span id="more"></span>
+
+<p>HTTP共有八种请求方法：GET, POST，HEAD，OPTIONS, PUT, DELETE, TRACE 和 CONNECT</p>
+<p>其中用的最多的是GET,POST,PUT,DELETE</p>
+<p>使用burpsuite抓包软件可以拦截客户端与服务器的通信，可改变客户端。也就是客户输出的请求，将自己的想要改的请求发送给服务器，从而获得想要的信息</p>
+<h3 id="2、302跳转"><a href="#2、302跳转" class="headerlink" title="2、302跳转"></a>2、302跳转</h3><p>302跳转，即时将本来用户想要到达的一个网址，跳转到另一个新的网址</p>
+<p>比如一个portal（门户）页面，换了新的域名，但是老的域名地址还有很多用户在使用，这样可以对老域名配置302跳转到新域名地址，保证服务的延续。<br>另外对于一些客户端预埋的Url（网址）链接，免不了老版本地址失效与更改，将老地址配置302跳转到新地址，这样就能够全面兼容所有客户端版本。</p>
+<p>对于302这种改变原本的网址访问而跳转到另一个网址的，可以使用burpsuite软件进行抓包拦截，拦截成功会显示其进行了302跳转的行为，并且通过发送到重发器可以得到跳转前的信息</p>
+<h3 id="3、cookie"><a href="#3、cookie" class="headerlink" title="3、cookie"></a>3、cookie</h3><p>cookie的中文翻译是曲奇，小甜饼的意思。cookie其实就是一些数据信息，类型为“<strong>小型文本文件</strong>”，存储于电脑上的文本文件中。</p>
+<p>我们想象一个场景，当我们打开一个网站时，如果这个网站我们曾经登录过，那么当我们再次打开网站时，发现就不需要再次登录了，而是直接进入了首页。例如bilibili，csdn等网站。这是怎么做到的呢？其实就是游览器保存了我们的cookie，里面记录了一些信息，当然，这些cookie是服务器创建后返回给游览器的。游览器只进行了保存。</p>
+<p>我们在发送HTTP请求时，发现浏览器将我们的cookie都进行了携带**(注意：浏览器只会携带在当前请求的url中包含了该cookie中path值的cookie)**，并且是以key：value的形式进行表示的。多个cookie用；进行隔开。 </p>
+<p>cookie过程说明：1. 当用户通过浏览器第一次访问服务器的时候，服务器肯定是不知道他的身份的。<br>    所以，就要<strong>创建一个独特的身份标识数据，格式是“key&#x3D;value”，然后放进 Set-Cookie 字段里</strong>，<br>    随着响应报文一同发给浏览器。</p>
+<ol start="2">
+<li><p>浏览器收到响应报文，看到里面有 Set-Cookie，知道这是服务器给的身份标识，于是就保存起来，<br>下次再请求的时候就<strong>自动把这个值放进 Cookie 字段里发给服务器</strong>。</p>
+</li>
+<li><p><strong>因为第二次请求里面有了 Cookie 字段，服务器就知道这个用户不是新人</strong>，之前来过，<br>就可以拿出Cookie里的值，去<strong>检查究竟是从哪一个客户端发来的连接请求</strong>，然后对比服务器上的记录，最后得到之前的状态信息。识别出用户的身份，然后提供个性化的服务。</p>
+</li>
+</ol>
+<h3 id="4、基础认证"><a href="#4、基础认证" class="headerlink" title="4、基础认证"></a>4、基础认证</h3><p>用<strong>BASE64</strong>算法加密后的字符串放在<strong>HTTP Request</strong>中的<strong>Header Authorization</strong>中发送给服务端， 这种方式叫HTTP基本认证(Basic Authentication)</p>
+<p><strong>Basic</strong>认证是一种较为简单的HTTP认证方式，客户端通过明文（<a target="_blank" rel="noopener" href="https://so.csdn.net/so/search?q=Base64&spm=1001.2101.3001.7020">Base64</a>编码格式）传输用户名和密码到服务端进行认证，通常需要配合HTTPS来保证信息传输的安全。</p>
+<p>如图</p>
+<p><img src="https://img-blog.csdnimg.cn/64cd2feb00444281850eaba87145a9f9.png?x-oss-process=image/watermark,type_ZHJvaWRzYW5zZmFsbGJhY2s,shadow_50,text_Q1NETiBAcXFfMzU5MzA3Mzk=,size_20,color_FFFFFF,t_70,g_se,x_16" alt="img"></p>
+<p>在解关于基础认证方面的题时，可以使用burpsuite对其进行抓包，因为基础认证是将BASE64加密过的用户名与密码放在HTTP Request中的Header Authorization发送给服务端</p>
+<p><img src="/2023/10/13/ctfhub%E5%AD%A6%E4%B9%A0/image-20231002231106455.png" alt="image-20231002231106455"></p>
+<p>所以可以在抓包到的信息中存在Authorization后面像是被base64加密过的字符进行分析，并且使用密码表文件对其进行强行爆破，可能可以得到正确的用户名与密码</p>
+<h2 id="二、信息泄露"><a href="#二、信息泄露" class="headerlink" title="二、信息泄露"></a>二、信息泄露</h2><h3 id="1、目录遍历"><a href="#1、目录遍历" class="headerlink" title="1、目录遍历"></a>1、目录遍历</h3><p>先从一张图看看目录遍历漏洞长什么样子</p>
+<p><img src="https://liuew.oss-cn-hangzhou.aliyuncs.com/img/SouthEast.jpeg" alt="SouthEast">!](..&#x2F;..&#x2F;..&#x2F;桌面&#x2F;SouthEast.jpeg)</p>
+<p>一般遇到目录遍历漏洞，我们常做的就是去寻找有价值的东西去读取、下载，比如数据库</p>
+<p><img src="https://liuew.oss-cn-hangzhou.aliyuncs.com/img/20171213135233120.jpg" alt="20171213135233120">一般是没有index.php就可能出现像这样的一个目录遍历的漏洞，但是一般情况下index文件都会有的。</p>
+<p>那么怎么去找目录遍历漏洞，一般是输入到文件目录，看页面响应，</p>
+<p>比如站点上的一张图片的的连接为：<a target="_blank" rel="noopener" href="http://192.168.24.190/Images/185_01.jpg">http://192.168.24.190/Images/185_01.jpg</a></p>
+<p>我们把图片删除，只保留目录：<a target="_blank" rel="noopener" href="http://192.168.24.190/Images/">http://192.168.24.190/Images/</a></p>
+<p><img src="https://liuew.oss-cn-hangzhou.aliyuncs.com/img/20171213135952148.jpg" alt="20171213135952148">浏览器看看<br>!](..&#x2F;..&#x2F;..&#x2F;桌面&#x2F;20171213135952148.jpg)</p>
+<p>那这样子就是存在目录遍历漏洞。</p>
+<p>目录遍历（路径遍历）是由于web服务器或者web应用程序对用户输入的文件名称的安全性验证不足而导致的一种安全漏洞，使得攻击者通过利用一些特殊字符就可以绕过服务器的安全限制，比如改变网址目录的名称，访问任意的文件（可以使web根目录以外的文件），甚至执行系统命令。</p>
+<h3 id="2、phpinfo"><a href="#2、phpinfo" class="headerlink" title="2、phpinfo"></a>2、phpinfo</h3><p>phpinfo() 是 PHP 中的一个函数，用于显示 PHP 运行环境的配置信息。<strong>该函数可以显示 PHP 的版本信息、编译器信息、模块信息、配置信息等</strong>，可以帮助开发者了解 PHP 的运行环境和配置信息。</p>
+<p>使用 phpinfo() 函数非常简单，只需要在 PHP 代码中添加以下代码即可：</p>
+<?php
+
+phpinfo();
+
+?>
+
+<p>运行该代码后，会输出一个包含 PHP 运行环境配置信息的 HTML 页面，其中包括了 PHP 的版本、编译器信息、模块信息、配置信息等。可以通过这些信息来了解 PHP 运行环境的具体配置和支持的功能。</p>
+<p>需要注意的是，<strong>由于 phpinfo() 函数可以显示 PHP 运行环境的详细信息，因此在生产环境中使用该函数需要格外小心，确保不会泄露敏感信息。</strong>通常情况下，<strong>建议在开发环境中使用该函数来了解 PHP 的运行环境信息。</strong></p>
+<h3 id="3、备份文件下载"><a href="#3、备份文件下载" class="headerlink" title="3、备份文件下载"></a>3、备份文件下载</h3><h4 id="1-网站源码"><a href="#1-网站源码" class="headerlink" title="1.网站源码"></a>1.网站源码</h4><p>当开发人员在线上环境中对源代码进行了备份操作，并且将备份文件放在了 web 目录下，就会引起网站源码泄露。</p>
+<p>其中，常见的网站源码备份文件后缀有</p>
+<p><strong>tar</strong><br><strong>tar.gz</strong><br><strong>zip</strong><br><strong>rar</strong></p>
+<p>常见的网站源码备份文件名有</p>
+<p><strong>web</strong><br><strong>website</strong><br><strong>backup</strong><br><strong>back</strong><br><strong>www</strong><br><strong>wwwroot</strong><br><strong>temp</strong></p>
+<p>通常情况下，在网址后面加上&#x2F;<strong>备份文件名.备份文件后缀</strong>即可得到放在web目录下的备份文件，而遇到这种题目的时候，可以使用dirsearch工具对网页进行扫描，来暴力分析网页是否存在隐藏的有用的文件，一般在下载dirsearch的目录下进入cmd（快捷指令为win+r）</p>
+<p><img src="https://liuew.oss-cn-hangzhou.aliyuncs.com/img/image-20231003120137538.png" alt="image-20231003120137538">并且输入python dirsearch.py -u <a target="_blank" rel="noopener" href="http://xxxx/">http://xxxx</a>   就可以对目标网页进行扫描了</p>
+<p><img src="https://liuew.oss-cn-hangzhou.aliyuncs.com/img/image-20231003120330394.png" alt="image-20231003120330394"></p>
+<p>扫描结束后，查看返回值，大部分都是503，返回200的表示可以访问，代表该后缀下存在隐藏文件。</p>
+<p><img src="https://liuew.oss-cn-hangzhou.aliyuncs.com/img/image-20231003120226450.png" alt="image-20231003120226450"></p>
+<p>然后即可通过添加这个后缀获取解出该题所需的文件</p>
+<h4 id="2-bak文件"><a href="#2-bak文件" class="headerlink" title="2.bak文件"></a>2.bak文件</h4><p>后缀名是.bak的文件是备份文件，是文件格式的扩展名</p>
+<p>此类文件通常以.bak开头，该文件应具有原始扩展名，例如windows.dll.bak或windows_dll.bak，其中一些后缀有原始文件，名称和bak混合在一起。 例如，<a target="_blank" rel="noopener" href="https://so.csdn.net/so/search?q=proteus&spm=1001.2101.3001.7020">proteus</a>的备份文件是.DBK。如本题所得的bak文件就是index.php.bak<img src="https://liuew.oss-cn-hangzhou.aliyuncs.com/img/image-20231003132025977.png" alt="image-20231003132025977"></p>
+<p>所以在解题的过程中，获取bak文件常常是要在目录后加.bak的后缀来得到文件</p>
+<p>通常，可以通过直接重命名bak并将其替换为文件格式来还原.bak文件，并且该文件通常处于打开状态。</p>
+<p>举个简单的例子：有时，当autocad文件移动时，会生成一个.bak文件。 例如，现在有asdfjk.dwg文件的备份文件asdfjk.bak。 要将备份文件还原为正式文件，只需重命名备份文件即可将bak替换为dwg来打开。</p>
+<p>简单的说，bak文件就是SQL Sever数据库的数据库备份文件的后缀名，不能直接打开，但是可以复制和发送，也就是在发送数据库库的时候其实是发送的bak文件，接收后先还原然后就可以看到其中的内容了。</p>
+<h4 id="3-vim缓存"><a href="#3-vim缓存" class="headerlink" title="3.vim缓存"></a>3.vim缓存</h4><p>在使用vim时会创建临时缓存文件，关闭vim时缓存文件则会被删除，<strong>当vim异常退出后，因为未处理缓存文件，导致可以通过缓存文件恢复原始文件内容</strong></p>
+<p>以 index.php 为例：第一次产生的交换文件名为 .index.php.swp</p>
+<p>再次意外退出后，将会产生名为 .index.php.swo 的交换文件</p>
+<p>第三次产生的交换文件则为 .index.php.swn</p>
+<p>vim中的swp即swap（交换分区）的简写，在编辑文件时产生，它是隐藏文件。这个文件是一个临时交换文件，用来备份缓冲区中的内容。类似于Windows的虚拟内存，就是当内存不足的时候,把一部分硬盘空间虚拟成内存使用,从而解决内存容量不足的情况。</p>
+<p><strong>如果文件正常退出，则此文件自动删除。</strong></p>
+<p>如果并没有对文件进行修改，而只是读取文件，是不会产生swp文件的。</p>
+<p>vim -r 可以查看当前目录下所有的swp文件。<br>vim -r filename可以恢复文件，这样上次意外退出没有保存的修改，就会覆盖文件</p>
+<p><strong>注意：.swp是隐藏文件，因此最前面有. ，即.index.php.swp，注意index前面的点。</strong></p>
+<h4 id="4-DS-Store文件"><a href="#4-DS-Store文件" class="headerlink" title="4.  .DS_Store文件"></a>4.  .DS_Store文件</h4><p>.DS_Store文件在Mac OS上存在。</p>
+<p>DS_Store 是用来存储这个文件夹的显示属性的：比如文件图标的摆放位置。删除以后的副作用就是这些信息的失去。（当然，这点副作用其实不是太大）</p>
+<p>和别人交换文件（或你做的网页需要上传的时候）应该把 .DS_Store 文件删除比较妥当，因为里面包含了一些你不一定希望别人看见的信息（尤其是网站，通过 .DS_Store 可以知道这个目录里面所有文件的清单，很多时候这是一个不希望出现的问题）　　</p>
+<p>在写有关DS_Store文件的题目时，可以试着在网址后面添加.DS_Store这个后缀，可能可以得到隐藏的文件</p>
+<h3 id="4、git泄露"><a href="#4、git泄露" class="headerlink" title="4、git泄露"></a>4、git泄露</h3><h4 id="1-log"><a href="#1-log" class="headerlink" title="1.log"></a>1.log</h4><p>Git是一个可以实现有效控制应用版本的系统，但是在一旦在代码发布的时候，存在不规范的操作及配置，就很可能将源代码泄露出去。那么，一旦攻击者或者黑客发现这个问题之后，就可能利用其获取网站的源码、数据库等重要资源信息，进而造成严重的危害。</p>
+<p>在配置不当的情况下，<strong>可能会将“.git”文件直接部署到线上环境</strong>，这就造成了git泄露问题。</p>
+<p>攻击者<strong>利用该漏洞下载.git文件夹中的所有内容</strong>。如果文件夹中存在敏感信息(数据库账号密码、源码等)，通过白盒的审计等方式就可能直接获得控制服务器的权限和机会！</p>
+<p>解ctfhub中的此题时，首先可以用dirsearch扫描一下网站，在此附上dirsearch扫描的指令：<strong>python dirsearch.py -u <a target="_blank" rel="noopener" href="http://xxxx/">http://xxxx</a></strong></p>
+<p><img src="https://liuew.oss-cn-hangzhou.aliyuncs.com/img/image-20231005231842554.png" alt="image-20231005231842554"></p>
+<p>扫描得到发现存在git漏洞，于是就要用到一个新的工具——<strong>GitHack</strong></p>
+<p>下载GitHack附上一个别人的安装教程<a target="_blank" rel="noopener" href="https://blog.csdn.net/qq_45728555/article/details/125019304?ops_request_misc=%7B%22request_id%22:%22167722055016800213076838%22,%22scm%22:%2220140713.130102334..%22%7D&request_id=167722055016800213076838&biz_id=0&utm_medium=distribute.pc_search_result.none-task-blog-2~all~top_positive~default-1-125019304-null-null.142%5Ev73%5Econtrol,201%5Ev4%5Eadd_ask,239%5Ev2%5Einsert_chatgpt&utm_term=GitHack&spm=1018.2226.3001.4187">GitHack在kali Linux环境下的下载与安装_kali安装githack_想当白帽子的小白的博客-CSDN博客</a></p>
+<p>下载完githack后可以使用口令扫描网址</p>
+<p>python2 GitHack.py <a target="_blank" rel="noopener" href="http://challenge-b8c5f98cede73d6e.sandbox.ctfhub.com:10800/.git**%EF%BC%88%E8%AE%B0%E4%BD%8F%E8%A6%81%E5%9C%A8%E7%BD%91%E5%9D%80%E5%90%8E%E5%8A%A0%E4%B8%8A.git%EF%BC%89">http://challenge-b8c5f98cede73d6e.sandbox.ctfhub.com:10800/.git**（记住要在网址后加上.git）</a>**</p>
+<p><img src="https://liuew.oss-cn-hangzhou.aliyuncs.com/img/image-20231005232606857.png" alt="image-20231005232606857"></p>
+<p>扫描成功后发现在GitHack文件夹出现了一个dist文件夹，进入图片中出现的目录，输入git log查看历史日志信息</p>
+<p><img src="https://liuew.oss-cn-hangzhou.aliyuncs.com/img/image-20231005233013161.png" alt="image-20231005233013161"></p>
+<p>发现在第二次修改时有add flag操作，说明我们要找的flag就在第二次修改中加入其中，使用git reset这个版本回退命令来查看flag</p>
+<p>操作示例：</p>
+<p><strong>git reset –hard +对应版本的commit</strong><br><strong>例：git reset –hard 0037c2045e98f9067b2101944060c954cb880bb5</strong></p>
+<p><img src="https://liuew.oss-cn-hangzhou.aliyuncs.com/img/image-20231005233416132.png" alt="image-20231005233416132"></p>
+<p>发现有个txt文件出现在文件夹中，打开便得到flag</p>
+<p>在此附上一个git的菜鸟教程<a target="_blank" rel="noopener" href="https://www.runoob.com/git/git-reset.html">git reset 命令 | 菜鸟教程 (runoob.com)</a></p>
+<h4 id="2-stash"><a href="#2-stash" class="headerlink" title="2.stash"></a>2.stash</h4><p>stash 用于保存 git 工作状态到 git 栈，在需要的时候再恢复。</p>
+<p>输入命令    <strong>python2 GitHack.py <a target="_blank" rel="noopener" href="http://challenge-c1e9c8c119a100a0.sandbox.ctfhub.com:10800/.git">http://challenge-c1e9c8c119a100a0.sandbox.ctfhub.com:10800/.git</a></strong> </p>
+<p>利用<strong>git stash list</strong>列出Git栈内的所有备份，可以利用这个列表来决定从那个地方恢复。</p>
+<p><strong>git stash list</strong></p>
+<p>利用<strong>git stash pop</strong>从Git栈中读取最近一次保存的内容</p>
+<p><strong>git stash pop</strong></p>
+<p>然后得到flag文件出现在文件夹中</p>
+<h4 id="3-index"><a href="#3-index" class="headerlink" title="3.index"></a>3.index</h4><p>和上题差不多，先用githack克隆，git log ，再回退版本，然后ls</p>
+<p>在cat查看，就得到了flag</p>
+<p><img src="https://liuew.oss-cn-hangzhou.aliyuncs.com/img/image-20231006001932693.png" alt="image-20231006001932693"></p>
+
+      
+    </div>
+
+    <div>
+      
+        <div>
+  
+    <div style="text-align:center;color: #555;font-size:18px;">End~~ <i class="fa fa-paw"></i> 撒花ฅ&gt;ω&lt;*ฅ花撒</div>
+  
+</div>
+
+      
+    </div>
+    
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/ctfhub/" rel="tag"># ctfhub</a>
+          
+            <a href="/tags/web/" rel="tag"># web</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2023/10/20/ctfshow%E5%88%B7%E9%A2%98%E8%AE%B0%E5%BD%95/" rel="prev" title="">
+                 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+  <div>
+    
+    <div>
+  
+    <div style="text-align:center;color: #555;font-size:18px;">End~~ <i class="fa fa-paw"></i> 撒花ฅ&gt;ω&lt;*ฅ花撒</div>
+  
+</div>
+
+    
+ </div>
+
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <img class="site-author-image" itemprop="image"
+                src="/uploads/touxiang.jpg"
+                alt="" />
+            
+              <p class="site-author-name" itemprop="name"></p>
+              <p class="site-description motion-element" itemprop="description"></p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives/%7C%7C%20archive">
+              
+                  <span class="site-state-item-count">6</span>
+                  <span class="site-state-item-name">日志</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-categories">
+                <a href="/categories/index.html">
+                  <span class="site-state-item-count">2</span>
+                  <span class="site-state-item-name">分类</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-tags">
+                <a href="/tags/index.html">
+                  <span class="site-state-item-count">7</span>
+                  <span class="site-state-item-name">标签</span>
+                </a>
+              </div>
+            
+
+          </nav>
+
+          
+
+          
+            <div class="links-of-author motion-element">
+                
+                  <span class="links-of-author-item">
+                    <a href="https://www.csdn.net/" target="_blank" title="csdn">
+                      
+                        <i class="fa fa-fw fa-globe"></i>csdn</a>
+                  </span>
+                
+                  <span class="links-of-author-item">
+                    <a href="https://www.aliyun.com/activity/daily/topdeal?crowd=personal&utm_content=se_1014508963" target="_blank" title="阿里云">
+                      
+                        <i class="fa fa-fw fa-globe"></i>阿里云</a>
+                  </span>
+                
+                  <span class="links-of-author-item">
+                    <a href="https://www.bilibili.com/" target="_blank" title="bilibili">
+                      
+                        <i class="fa fa-fw fa-globe"></i>bilibili</a>
+                  </span>
+                
+            </div>
+          
+
+          
+          <div>
+             <iframe frameborder="no" border="0" marginwidth="0" marginheight="0" width="410" height="110" src="//music.163.com/outchain/player?type=2&id=188261&auto=1&height=66"></iframe>
+          </div>
+          
+    
+
+
+
+          
+          
+
+          
+          
+
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#Web"><span class="nav-number">1.</span> <span class="nav-text">Web</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%B8%80%E3%80%81http%E5%8D%8F%E8%AE%AE"><span class="nav-number">1.1.</span> <span class="nav-text">一、http协议</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#1%E3%80%81%E8%AF%B7%E6%B1%82%E6%96%B9%E5%BC%8F"><span class="nav-number">1.1.1.</span> <span class="nav-text">1、请求方式</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2%E3%80%81302%E8%B7%B3%E8%BD%AC"><span class="nav-number">1.1.2.</span> <span class="nav-text">2、302跳转</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3%E3%80%81cookie"><span class="nav-number">1.1.3.</span> <span class="nav-text">3、cookie</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#4%E3%80%81%E5%9F%BA%E7%A1%80%E8%AE%A4%E8%AF%81"><span class="nav-number">1.1.4.</span> <span class="nav-text">4、基础认证</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%BA%8C%E3%80%81%E4%BF%A1%E6%81%AF%E6%B3%84%E9%9C%B2"><span class="nav-number">1.2.</span> <span class="nav-text">二、信息泄露</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#1%E3%80%81%E7%9B%AE%E5%BD%95%E9%81%8D%E5%8E%86"><span class="nav-number">1.2.1.</span> <span class="nav-text">1、目录遍历</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2%E3%80%81phpinfo"><span class="nav-number">1.2.2.</span> <span class="nav-text">2、phpinfo</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3%E3%80%81%E5%A4%87%E4%BB%BD%E6%96%87%E4%BB%B6%E4%B8%8B%E8%BD%BD"><span class="nav-number">1.2.3.</span> <span class="nav-text">3、备份文件下载</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#1-%E7%BD%91%E7%AB%99%E6%BA%90%E7%A0%81"><span class="nav-number">1.2.3.1.</span> <span class="nav-text">1.网站源码</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#2-bak%E6%96%87%E4%BB%B6"><span class="nav-number">1.2.3.2.</span> <span class="nav-text">2.bak文件</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#3-vim%E7%BC%93%E5%AD%98"><span class="nav-number">1.2.3.3.</span> <span class="nav-text">3.vim缓存</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#4-DS-Store%E6%96%87%E4%BB%B6"><span class="nav-number">1.2.3.4.</span> <span class="nav-text">4.  .DS_Store文件</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#4%E3%80%81git%E6%B3%84%E9%9C%B2"><span class="nav-number">1.2.4.</span> <span class="nav-text">4、git泄露</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#1-log"><span class="nav-number">1.2.4.1.</span> <span class="nav-text">1.log</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#2-stash"><span class="nav-number">1.2.4.2.</span> <span class="nav-text">2.stash</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#3-index"><span class="nav-number">1.2.4.3.</span> <span class="nav-text">3.index</span></a></li></ol></li></ol></li></ol></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+        <div class="back-to-top">
+          <i class="fa fa-arrow-up"></i>
+          
+            <span id="scrollpercent"><span>0</span>%</span>
+          
+        </div>
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2024</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">liuew</span>
+
+  
+</div>
+
+
+
+
+
+
+  <div class="theme-info">主题 &mdash; <a class="theme-link" target="_blank" href="https://github.com/iissnan/hexo-theme-next">NexT.Gemini</a> v5.1.4</div>
+
+
+
+
+        
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/canvas-nest/canvas-nest.min.js"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.4"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.1.4"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.4"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  <script type="text/javascript">
+    // Popup Window;
+    var isfetched = false;
+    var isXml = true;
+    // Search DB path;
+    var search_path = "search.xml";
+    if (search_path.length === 0) {
+      search_path = "search.xml";
+    } else if (/json$/i.test(search_path)) {
+      isXml = false;
+    }
+    var path = "/" + search_path;
+    // monitor main search box;
+
+    var onPopupClose = function (e) {
+      $('.popup').hide();
+      $('#local-search-input').val('');
+      $('.search-result-list').remove();
+      $('#no-result').remove();
+      $(".local-search-pop-overlay").remove();
+      $('body').css('overflow', '');
+    }
+
+    function proceedsearch() {
+      $("body")
+        .append('<div class="search-popup-overlay local-search-pop-overlay"></div>')
+        .css('overflow', 'hidden');
+      $('.search-popup-overlay').click(onPopupClose);
+      $('.popup').toggle();
+      var $localSearchInput = $('#local-search-input');
+      $localSearchInput.attr("autocapitalize", "none");
+      $localSearchInput.attr("autocorrect", "off");
+      $localSearchInput.focus();
+    }
+
+    // search function;
+    var searchFunc = function(path, search_id, content_id) {
+      'use strict';
+
+      // start loading animation
+      $("body")
+        .append('<div class="search-popup-overlay local-search-pop-overlay">' +
+          '<div id="search-loading-icon">' +
+          '<i class="fa fa-spinner fa-pulse fa-5x fa-fw"></i>' +
+          '</div>' +
+          '</div>')
+        .css('overflow', 'hidden');
+      $("#search-loading-icon").css('margin', '20% auto 0 auto').css('text-align', 'center');
+
+      $.ajax({
+        url: path,
+        dataType: isXml ? "xml" : "json",
+        async: true,
+        success: function(res) {
+          // get the contents from search data
+          isfetched = true;
+          $('.popup').detach().appendTo('.header-inner');
+          var datas = isXml ? $("entry", res).map(function() {
+            return {
+              title: $("title", this).text(),
+              content: $("content",this).text(),
+              url: $("url" , this).text()
+            };
+          }).get() : res;
+          var input = document.getElementById(search_id);
+          var resultContent = document.getElementById(content_id);
+          var inputEventFunction = function() {
+            var searchText = input.value.trim().toLowerCase();
+            var keywords = searchText.split(/[\s\-]+/);
+            if (keywords.length > 1) {
+              keywords.push(searchText);
+            }
+            var resultItems = [];
+            if (searchText.length > 0) {
+              // perform local searching
+              datas.forEach(function(data) {
+                var isMatch = false;
+                var hitCount = 0;
+                var searchTextCount = 0;
+                var title = data.title.trim();
+                var titleInLowerCase = title.toLowerCase();
+                var content = data.content.trim().replace(/<[^>]+>/g,"");
+                var contentInLowerCase = content.toLowerCase();
+                var articleUrl = decodeURIComponent(data.url);
+                var indexOfTitle = [];
+                var indexOfContent = [];
+                // only match articles with not empty titles
+                if(title != '') {
+                  keywords.forEach(function(keyword) {
+                    function getIndexByWord(word, text, caseSensitive) {
+                      var wordLen = word.length;
+                      if (wordLen === 0) {
+                        return [];
+                      }
+                      var startPosition = 0, position = [], index = [];
+                      if (!caseSensitive) {
+                        text = text.toLowerCase();
+                        word = word.toLowerCase();
+                      }
+                      while ((position = text.indexOf(word, startPosition)) > -1) {
+                        index.push({position: position, word: word});
+                        startPosition = position + wordLen;
+                      }
+                      return index;
+                    }
+
+                    indexOfTitle = indexOfTitle.concat(getIndexByWord(keyword, titleInLowerCase, false));
+                    indexOfContent = indexOfContent.concat(getIndexByWord(keyword, contentInLowerCase, false));
+                  });
+                  if (indexOfTitle.length > 0 || indexOfContent.length > 0) {
+                    isMatch = true;
+                    hitCount = indexOfTitle.length + indexOfContent.length;
+                  }
+                }
+
+                // show search results
+
+                if (isMatch) {
+                  // sort index by position of keyword
+
+                  [indexOfTitle, indexOfContent].forEach(function (index) {
+                    index.sort(function (itemLeft, itemRight) {
+                      if (itemRight.position !== itemLeft.position) {
+                        return itemRight.position - itemLeft.position;
+                      } else {
+                        return itemLeft.word.length - itemRight.word.length;
+                      }
+                    });
+                  });
+
+                  // merge hits into slices
+
+                  function mergeIntoSlice(text, start, end, index) {
+                    var item = index[index.length - 1];
+                    var position = item.position;
+                    var word = item.word;
+                    var hits = [];
+                    var searchTextCountInSlice = 0;
+                    while (position + word.length <= end && index.length != 0) {
+                      if (word === searchText) {
+                        searchTextCountInSlice++;
+                      }
+                      hits.push({position: position, length: word.length});
+                      var wordEnd = position + word.length;
+
+                      // move to next position of hit
+
+                      index.pop();
+                      while (index.length != 0) {
+                        item = index[index.length - 1];
+                        position = item.position;
+                        word = item.word;
+                        if (wordEnd > position) {
+                          index.pop();
+                        } else {
+                          break;
+                        }
+                      }
+                    }
+                    searchTextCount += searchTextCountInSlice;
+                    return {
+                      hits: hits,
+                      start: start,
+                      end: end,
+                      searchTextCount: searchTextCountInSlice
+                    };
+                  }
+
+                  var slicesOfTitle = [];
+                  if (indexOfTitle.length != 0) {
+                    slicesOfTitle.push(mergeIntoSlice(title, 0, title.length, indexOfTitle));
+                  }
+
+                  var slicesOfContent = [];
+                  while (indexOfContent.length != 0) {
+                    var item = indexOfContent[indexOfContent.length - 1];
+                    var position = item.position;
+                    var word = item.word;
+                    // cut out 100 characters
+                    var start = position - 20;
+                    var end = position + 80;
+                    if(start < 0){
+                      start = 0;
+                    }
+                    if (end < position + word.length) {
+                      end = position + word.length;
+                    }
+                    if(end > content.length){
+                      end = content.length;
+                    }
+                    slicesOfContent.push(mergeIntoSlice(content, start, end, indexOfContent));
+                  }
+
+                  // sort slices in content by search text's count and hits' count
+
+                  slicesOfContent.sort(function (sliceLeft, sliceRight) {
+                    if (sliceLeft.searchTextCount !== sliceRight.searchTextCount) {
+                      return sliceRight.searchTextCount - sliceLeft.searchTextCount;
+                    } else if (sliceLeft.hits.length !== sliceRight.hits.length) {
+                      return sliceRight.hits.length - sliceLeft.hits.length;
+                    } else {
+                      return sliceLeft.start - sliceRight.start;
+                    }
+                  });
+
+                  // select top N slices in content
+
+                  var upperBound = parseInt('1');
+                  if (upperBound >= 0) {
+                    slicesOfContent = slicesOfContent.slice(0, upperBound);
+                  }
+
+                  // highlight title and content
+
+                  function highlightKeyword(text, slice) {
+                    var result = '';
+                    var prevEnd = slice.start;
+                    slice.hits.forEach(function (hit) {
+                      result += text.substring(prevEnd, hit.position);
+                      var end = hit.position + hit.length;
+                      result += '<b class="search-keyword">' + text.substring(hit.position, end) + '</b>';
+                      prevEnd = end;
+                    });
+                    result += text.substring(prevEnd, slice.end);
+                    return result;
+                  }
+
+                  var resultItem = '';
+
+                  if (slicesOfTitle.length != 0) {
+                    resultItem += "<li><a href='" + articleUrl + "' class='search-result-title'>" + highlightKeyword(title, slicesOfTitle[0]) + "</a>";
+                  } else {
+                    resultItem += "<li><a href='" + articleUrl + "' class='search-result-title'>" + title + "</a>";
+                  }
+
+                  slicesOfContent.forEach(function (slice) {
+                    resultItem += "<a href='" + articleUrl + "'>" +
+                      "<p class=\"search-result\">" + highlightKeyword(content, slice) +
+                      "...</p>" + "</a>";
+                  });
+
+                  resultItem += "</li>";
+                  resultItems.push({
+                    item: resultItem,
+                    searchTextCount: searchTextCount,
+                    hitCount: hitCount,
+                    id: resultItems.length
+                  });
+                }
+              })
+            };
+            if (keywords.length === 1 && keywords[0] === "") {
+              resultContent.innerHTML = '<div id="no-result"><i class="fa fa-search fa-5x" /></div>'
+            } else if (resultItems.length === 0) {
+              resultContent.innerHTML = '<div id="no-result"><i class="fa fa-frown-o fa-5x" /></div>'
+            } else {
+              resultItems.sort(function (resultLeft, resultRight) {
+                if (resultLeft.searchTextCount !== resultRight.searchTextCount) {
+                  return resultRight.searchTextCount - resultLeft.searchTextCount;
+                } else if (resultLeft.hitCount !== resultRight.hitCount) {
+                  return resultRight.hitCount - resultLeft.hitCount;
+                } else {
+                  return resultRight.id - resultLeft.id;
+                }
+              });
+              var searchResultList = '<ul class=\"search-result-list\">';
+              resultItems.forEach(function (result) {
+                searchResultList += result.item;
+              })
+              searchResultList += "</ul>";
+              resultContent.innerHTML = searchResultList;
+            }
+          }
+
+          if ('auto' === 'auto') {
+            input.addEventListener('input', inputEventFunction);
+          } else {
+            $('.search-icon').click(inputEventFunction);
+            input.addEventListener('keypress', function (event) {
+              if (event.keyCode === 13) {
+                inputEventFunction();
+              }
+            });
+          }
+
+          // remove loading animation
+          $(".local-search-pop-overlay").remove();
+          $('body').css('overflow', '');
+
+          proceedsearch();
+        }
+      });
+    }
+
+    // handle and trigger popup window;
+    $('.popup-trigger').click(function(e) {
+      e.stopPropagation();
+      if (isfetched === false) {
+        searchFunc(path, 'local-search-input', 'local-search-result');
+      } else {
+        proceedsearch();
+      };
+    });
+
+    $('.popup-btn-close').click(onPopupClose);
+    $('.popup').click(function(e){
+      e.stopPropagation();
+    });
+    $(document).on('keyup', function (event) {
+      var shouldDismissSearchPopup = event.which === 27 &&
+        $('.search-popup').is(':visible');
+      if (shouldDismissSearchPopup) {
+        onPopupClose();
+      }
+    });
+  </script>
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+  
+
+  
+
+  
+
+  
+
+<script src="/live2dw/lib/L2Dwidget.min.js?094cbace49a39548bed64abff5988b05"></script><script>L2Dwidget.init({"pluginRootPath":"live2dw/","pluginJsPath":"lib/","pluginModelPath":"assets/","tagMode":false,"model":{"jsonPath":"/live2dw/assets/assets/wanko.model.json"},"display":{"position":"right","width":150,"height":300},"mobile":{"show":"true#是否在手机端显示"},"log":false});</script></body>
+</html>
+<script type="text/javascript" src="/js/clicklove.js"></script>

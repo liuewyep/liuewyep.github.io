@@ -1,0 +1,1386 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next gemini use-motion" lang="zh-Hans">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+<meta name="theme-color" content="#222">
+
+
+
+  
+  
+    
+    
+  <script src="/lib/pace/pace.min.js?v=1.0.2"></script>
+  <link href="/lib/pace/pace-theme-minimal.min.css?v=1.0.2" rel="stylesheet">
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.4" rel="stylesheet" type="text/css" />
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=5.1.4">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=5.1.4" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="linux," />
+
+
+
+
+
+
+
+
+
+
+<meta name="description" content="在红岩上的第一节课讲的一些linux系统的基础操作命令">
+<meta property="og:type" content="article">
+<meta property="og:title" content="linux基础操作">
+<meta property="og:url" content="http://qliuewy.top/2023/10/22/linux%E5%9F%BA%E7%A1%80%E6%93%8D%E4%BD%9C/index.html">
+<meta property="og:site_name" content="杂记 from nobody">
+<meta property="og:description" content="在红岩上的第一节课讲的一些linux系统的基础操作命令">
+<meta property="og:locale">
+<meta property="og:image" content="https://liuew.oss-cn-hangzhou.aliyuncs.com/img/%25E5%259B%25BE%25E7%2589%25871.png">
+<meta property="og:image" content="https://liuew.oss-cn-hangzhou.aliyuncs.com/img/%25E5%259B%25BE%25E7%2589%25872.png">
+<meta property="og:image" content="https://liuew.oss-cn-hangzhou.aliyuncs.com/img/%25E5%259B%25BE%25E7%2589%25873.png">
+<meta property="og:image" content="https://liuew.oss-cn-hangzhou.aliyuncs.com/img/99d846c619494ad89dad72b4ee47073d.png">
+<meta property="og:image" content="https://liuew.oss-cn-hangzhou.aliyuncs.com/img/%25E5%259B%25BE%25E7%2589%25874.png">
+<meta property="og:image" content="https://liuew.oss-cn-hangzhou.aliyuncs.com/img/20190527221109516.png">
+<meta property="og:image" content="https://liuew.oss-cn-hangzhou.aliyuncs.com/img/20190527221619856.png">
+<meta property="og:image" content="https://liuew.oss-cn-hangzhou.aliyuncs.com/img/20190527222544485.png">
+<meta property="og:image" content="https://liuew.oss-cn-hangzhou.aliyuncs.com/img/20190527223047864.png">
+<meta property="og:image" content="https://liuew.oss-cn-hangzhou.aliyuncs.com/img/20190527223047864.png">
+<meta property="og:image" content="https://liuew.oss-cn-hangzhou.aliyuncs.com/img/20190527224720538.png">
+<meta property="og:image" content="https://liuew.oss-cn-hangzhou.aliyuncs.com/img/20190527225525278.png">
+<meta property="article:published_time" content="2023-10-22T02:49:25.000Z">
+<meta property="article:modified_time" content="2023-10-22T08:28:24.300Z">
+<meta property="article:author" content="liuew">
+<meta property="article:tag" content="linux">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://liuew.oss-cn-hangzhou.aliyuncs.com/img/%25E5%259B%25BE%25E7%2589%25871.png">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '',
+    scheme: 'Gemini',
+    version: '5.1.4',
+    sidebar: {"position":"left","display":"always","offset":12,"b2t":true,"scrollpercent":true,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://qliuewy.top/2023/10/22/linux基础操作/"/>
+
+
+
+
+
+  <title>linux基础操作 | 杂记 from nobody</title>
+  
+
+
+
+
+
+
+
+
+<meta name="generator" content="Hexo 6.3.0"></head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta custom-logo">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">杂记 from nobody</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle">成为自己想成为的样子</p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-fa fa-th"></i> <br />
+            
+            分类
+          </a>
+        </li>
+      
+
+      
+        <li class="menu-item menu-item-search">
+          
+            <a href="javascript:;" class="popup-trigger">
+          
+            
+              <i class="menu-item-icon fa fa-search fa-fw"></i> <br />
+            
+            搜索
+          </a>
+        </li>
+      
+    </ul>
+  
+
+  
+    <div class="site-search">
+      
+  <div class="popup search-popup local-search-popup">
+  <div class="local-search-header clearfix">
+    <span class="search-icon">
+      <i class="fa fa-search"></i>
+    </span>
+    <span class="popup-btn-close">
+      <i class="fa fa-times-circle"></i>
+    </span>
+    <div class="local-search-input-wrapper">
+      <input autocomplete="off"
+             placeholder="搜索..." spellcheck="false"
+             type="text" id="local-search-input">
+    </div>
+  </div>
+  <div id="local-search-result"></div>
+</div>
+
+
+
+    </div>
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://qliuewy.top/2023/10/22/linux%E5%9F%BA%E7%A1%80%E6%93%8D%E4%BD%9C/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/uploads/touxiang.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="杂记 from nobody">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">linux基础操作</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2023-10-22T10:49:25+08:00">
+                2023-10-22
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/linux/" itemprop="url" rel="index">
+                    <span itemprop="name">linux</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+            <div class="post-wordcount">
+              
+                
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-file-word-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">字数统计&#58;</span>
+                
+                <span title="字数统计">
+                  35k
+                </span>
+              
+
+              
+                <span class="post-meta-divider">|</span>
+              
+
+              
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-clock-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">阅读时长 &asymp;</span>
+                
+                <span title="阅读时长">
+                  2:07
+                </span>
+              
+            </div>
+          
+
+          
+              <div class="post-description">
+                  在红岩上的第一节课讲的一些linux系统的基础操作命令
+              </div>
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+  
+
+      
+        <h1 id="linux基础命令"><a href="#linux基础命令" class="headerlink" title="linux基础命令"></a>linux基础命令</h1><h2 id="1-ls"><a href="#1-ls" class="headerlink" title="1.ls"></a>1.ls</h2><p><strong>ls</strong>英文为list，作用是查看当前文件夹下的内容，可以列出目录及文件名</p>
+<p><img src="https://liuew.oss-cn-hangzhou.aliyuncs.com/img/%25E5%259B%25BE%25E7%2589%25871.png" alt="图片1"></p>
+<p>同时，可以在命令的后面接参数，完成更多的操作</p>
+<p>对于ls来说，常见的有-a,-l,-d等参数。如果想知道完整用法，可以使用man ls查看</p>
+<p><strong>1.ls -a</strong></p>
+<p>​	显示目录下所有的文件，包括隐藏(以.开头)</p>
+<p><img src="https://liuew.oss-cn-hangzhou.aliyuncs.com/img/%25E5%259B%25BE%25E7%2589%25872.png" alt="图片2"></p>
+<p><strong>2.ls –l</strong></p>
+<p>长数据串列出，包含文件的属性与权限等等数据，会产生长列表格式输出，包含了目录中每个文件的更多的信息</p>
+<p><img src="https://liuew.oss-cn-hangzhou.aliyuncs.com/img/%25E5%259B%25BE%25E7%2589%25873.png" alt="图片3"></p>
+<p>其中在上图，看到了一个–&gt;的标志，这个是什么呢，要知道就要看接下来这个知识点</p>
+<h2 id="2-ln-link-files-创建同步链接"><a href="#2-ln-link-files-创建同步链接" class="headerlink" title="2.ln(link files):创建同步链接"></a>2.ln(link files):创建同步链接</h2><p><code>ln</code> <strong>命令可以为某个文件或目录在另外一个位置建立软链接，也称为符号链接</strong>。类似于 Windows 系统里的快捷方式。<code>ln</code> 是 <code>link</code> 的缩写。</p>
+<p>其中ln的使用语法经常为如下格式</p>
+<p>#语法</p>
+<p><strong>ln -s 源文件或目录 目标软链接文件</strong></p>
+<p><em># 示例</em></p>
+<p> ln -s &#x2F;home&#x2F;lighthouse&#x2F;test.txt test.link</p>
+<p> ln -s &#x2F;home&#x2F;lighthouse&#x2F;test test</p>
+<p><img src="https://liuew.oss-cn-hangzhou.aliyuncs.com/img/99d846c619494ad89dad72b4ee47073d.png" alt="99d846c619494ad89dad72b4ee47073d"></p>
+<h2 id="3-touch"><a href="#3-touch" class="headerlink" title="3.touch"></a>3.touch</h2><p>用于修改文件或者目录的时间属性，包括存取时间和更改时间。若文件不存在，系统会建立一个新的文件。主要使用<strong>创造文件</strong>。</p>
+<p>如果文件 不存在，可以创建一个空白文件<br>如果文件 已经存在，可以修改文件的末次修改日期</p>
+<p><img src="https://liuew.oss-cn-hangzhou.aliyuncs.com/img/%25E5%259B%25BE%25E7%2589%25874.png" alt="图片4"></p>
+<h2 id="4-cd"><a href="#4-cd" class="headerlink" title="4.cd"></a>4.cd</h2><p><code>cd</code> 是英文单词 change directory 的简写，其功能为更改当前的工作目录，也是用户<strong>最常用的命令之一</strong><br>注意：Linux 所有的 目录 和 文件名 都是大小写敏感的</p>
+<table>
+<thead>
+<tr>
+<th>命令</th>
+<th>含义</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>cd</td>
+<td>切换到当前用户的主目录(&#x2F;home&#x2F;用户目录)</td>
+</tr>
+<tr>
+<td>cd ~</td>
+<td>切换到当前用户的主目录(&#x2F;home&#x2F;用户目录)</td>
+</tr>
+<tr>
+<td>cd .</td>
+<td>保持在当前目录不变</td>
+</tr>
+<tr>
+<td>cd …</td>
+<td>切换到上级目录</td>
+</tr>
+<tr>
+<td>cd -</td>
+<td>可以在最近两次工作目录之间来回切换</td>
+</tr>
+</tbody></table>
+<h4 id="相对路径和绝对路径"><a href="#相对路径和绝对路径" class="headerlink" title="相对路径和绝对路径"></a>相对路径和绝对路径</h4><p>相对路径 在输入路径时，最前面不是 &#x2F; 或者 ~，表示相对 当前目录 所在的目录位置<br>绝对路径 在输入路径时，最前面是 &#x2F; 或者 ~，表示从 <strong>根目录&#x2F;家目录</strong> 开始的具体目录位置</p>
+<h2 id="5-pwd"><a href="#5-pwd" class="headerlink" title="5.pwd"></a>5.pwd</h2><p>pwd命令的基本使用非常简单，只需要在命令行中输入<code>pwd</code>即可，这样就会返回当前工作目录的完整路径。</p>
+<p>例如，在用户的家目录（home directory）中执行pwd命令，结果可能会像下面这样：</p>
+<figure class="highlight powershell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="number">1</span> <span class="variable">$</span> <span class="built_in">pwd</span></span><br><span class="line"><span class="number">2</span> /home/username</span><br></pre></td></tr></table></figure>
+
+<p>这表示当前工作目录是<code>/home/username</code>，也就是用户username的家目录。在Linux系统中，每个用户都有一个独立的家目录，通常位于<code>/home/</code>目录下，用户名即为其家目录的名称。</p>
+<p>pwd命令中的两个参数，<code>-P</code>和<code>-L</code>，是用于处理符号链接的。</p>
+<p>例如，创建一个名为link_to_dir的符号链接，指向目录dir，然后切换到该符号链接：</p>
+<figure class="highlight powershell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="variable">$</span> ln <span class="literal">-s</span> <span class="built_in">dir</span> link_to_dir</span><br><span class="line"><span class="variable">$</span> <span class="built_in">cd</span> link_to_dir</span><br></pre></td></tr></table></figure>
+
+<p>此时执行pwd命令，结果可能会像下面这样：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">$ pwd</span><br><span class="line">/home/username/link_to_dir</span><br></pre></td></tr></table></figure>
+
+<p>使用-P参数执行pwd命令，结果可能会像下面这样：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">$ pwd -P</span><br><span class="line">/home/username/dir</span><br></pre></td></tr></table></figure>
+
+<p>这两个结果明显不同，前者显示了符号链接的路径，后者显示了实际的物理路径。<br>当需要生成一个文件或目录的绝对路径时，可以使用pwd命令。例如，可以把pwd命令的输出和一个相对路径连接起来，生成一个绝对路径。</p>
+<h2 id="6-makir"><a href="#6-makir" class="headerlink" title="6.makir"></a>6.makir</h2><p>mkdir是make directory的缩写，Linux中 mkdir 命令用来创建指定的名称的目录，要求创建目录的用户在当前目录中具有写权限，并且指定的目录名不能是当前目录中已有的目录。</p>
+<h6 id="1-语法："><a href="#1-语法：" class="headerlink" title="1.语法："></a>1.语法：</h6><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">mkdir [选项] 目录名称</span><br></pre></td></tr></table></figure>
+
+<h6 id="2-常用范例："><a href="#2-常用范例：" class="headerlink" title="2.常用范例："></a>2.常用范例：</h6><p><strong>例一：创建一个空目录</strong></p>
+<p>命令：<code>mkdir test</code></p>
+<figure class="highlight powershell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">[<span class="type">root</span>@<span class="type">localhost</span> ~]<span class="comment"># cd /usr/games/</span></span><br><span class="line">[<span class="type">root</span>@<span class="type">localhost</span> <span class="type">games</span>]<span class="comment"># ll</span></span><br><span class="line">总用量 <span class="number">0</span></span><br><span class="line">[<span class="type">root</span>@<span class="type">localhost</span> <span class="type">games</span>]<span class="comment"># mkdir test</span></span><br><span class="line">[<span class="type">root</span>@<span class="type">localhost</span> <span class="type">games</span>]<span class="comment"># ll</span></span><br><span class="line">总用量 <span class="number">0</span></span><br><span class="line">drwxr<span class="literal">-xr-x</span>. <span class="number">2</span> root root <span class="number">6</span> <span class="number">5</span>月  <span class="number">13</span> <span class="number">10</span>:<span class="number">41</span> test</span><br></pre></td></tr></table></figure>
+
+<p><strong>例二：递归创建多个目录</strong></p>
+<p>命令：<code>mkdir -p test2/test22</code></p>
+<figure class="highlight powershell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">[<span class="type">root</span>@<span class="type">localhost</span> <span class="type">games</span>]<span class="comment"># ll</span></span><br><span class="line">总用量 <span class="number">0</span></span><br><span class="line">drwxr<span class="literal">-xr-x</span>. <span class="number">2</span> root root <span class="number">6</span> <span class="number">5</span>月  <span class="number">13</span> <span class="number">10</span>:<span class="number">41</span> test</span><br><span class="line">[<span class="type">root</span>@<span class="type">localhost</span> <span class="type">games</span>]<span class="comment"># mkdir -p test2/test22</span></span><br><span class="line">[<span class="type">root</span>@<span class="type">localhost</span> <span class="type">games</span>]<span class="comment"># ll</span></span><br><span class="line">总用量 <span class="number">0</span></span><br><span class="line">drwxr<span class="literal">-xr-x</span>. <span class="number">2</span> root root  <span class="number">6</span> <span class="number">5</span>月  <span class="number">13</span> <span class="number">10</span>:<span class="number">41</span> test</span><br><span class="line">drwxr<span class="literal">-xr-x</span>. <span class="number">3</span> root root <span class="number">20</span> <span class="number">5</span>月  <span class="number">13</span> <span class="number">10</span>:<span class="number">44</span> test2</span><br><span class="line">[<span class="type">root</span>@<span class="type">localhost</span> <span class="type">games</span>]<span class="comment"># cd test2/</span></span><br><span class="line">[<span class="type">root</span>@<span class="type">localhost</span> <span class="type">test2</span>]<span class="comment"># ll</span></span><br><span class="line">总用量 <span class="number">0</span></span><br><span class="line">drwxr<span class="literal">-xr-x</span>. <span class="number">2</span> root root <span class="number">6</span> <span class="number">5</span>月  <span class="number">13</span> <span class="number">10</span>:<span class="number">44</span> test22</span><br></pre></td></tr></table></figure>
+
+<p>递归创建多个目录，即依次创建“mkdir -p”后面的目录，若以存在前面的目录，则直接进行创建下一个目录，且后面的目录为前面目录的子目录</p>
+<p><strong>例三：创建新目录都显示信息</strong></p>
+<p>命令： <code>mkdir -v test4</code></p>
+<figure class="highlight powershell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">[<span class="type">root</span>@<span class="type">localhost</span> <span class="type">games</span>]<span class="comment"># mkdir -v test4</span></span><br><span class="line">mkdir: 已创建目录 <span class="string">&#x27;test4&#x27;</span></span><br></pre></td></tr></table></figure>
+
+<p><strong>例四：一个命令创建项目的目录结构</strong></p>
+<p>命令： <code>mkdir -vp scf/&#123;lib/,bin/,doc/&#123;info,product&#125;,logs/&#123;info,product&#125;,service/deploy/&#123;info,product&#125;&#125;</code></p>
+<figure class="highlight powershell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">[<span class="type">root</span>@<span class="type">localhost</span> <span class="type">games</span>]<span class="comment"># mkdir -vp scf/&#123;lib/,bin/,doc/&#123;info,product&#125;,logs/&#123;info,product&#125;,service/deploy/&#123;info,product&#125;&#125;</span></span><br><span class="line">mkdir: 已创建目录 <span class="string">&#x27;scf&#x27;</span></span><br><span class="line">mkdir: 已创建目录 <span class="string">&#x27;scf/lib/&#x27;</span></span><br><span class="line">mkdir: 已创建目录 <span class="string">&#x27;scf/bin/&#x27;</span></span><br><span class="line">mkdir: 已创建目录 <span class="string">&#x27;scf/doc&#x27;</span></span><br><span class="line">mkdir: 已创建目录 <span class="string">&#x27;scf/doc/info&#x27;</span></span><br><span class="line">mkdir: 已创建目录 <span class="string">&#x27;scf/doc/product&#x27;</span></span><br><span class="line">mkdir: 已创建目录 <span class="string">&#x27;scf/logs&#x27;</span></span><br><span class="line">mkdir: 已创建目录 <span class="string">&#x27;scf/logs/info&#x27;</span></span><br><span class="line">mkdir: 已创建目录 <span class="string">&#x27;scf/logs/product&#x27;</span></span><br><span class="line">mkdir: 已创建目录 <span class="string">&#x27;scf/service&#x27;</span></span><br><span class="line">mkdir: 已创建目录 <span class="string">&#x27;scf/service/deploy&#x27;</span></span><br><span class="line">mkdir: 已创建目录 <span class="string">&#x27;scf/service/deploy/info&#x27;</span></span><br><span class="line">mkdir: 已创建目录 <span class="string">&#x27;scf/service/deploy/product&#x27;</span></span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<h2 id="7-cp-copy-file"><a href="#7-cp-copy-file" class="headerlink" title="7.cp(copy file)"></a>7.cp(copy file)</h2><p><strong>cp 命令</strong>，主要用来复制文件和目录，同时借助某些选项，还可以实现复制整个目录，以及比对两文件的新旧而予以升级等功能。</p>
+<h4 id="一、基本格式"><a href="#一、基本格式" class="headerlink" title="一、基本格式"></a>一、基本格式</h4><p>cp 命令的基本格式如下：</p>
+<figure class="highlight powershell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">[<span class="type">root</span>@<span class="type">localhost</span> ~]<span class="comment"># cp [选项] 源文件 目标文件</span></span><br></pre></td></tr></table></figure>
+
+<h4 id="二、参数"><a href="#二、参数" class="headerlink" title="二、参数"></a>二、参数</h4><p>选项：</p>
+<p>-a：相当于 -d、-p、-r 选项的集合，这几个选项我们一一介绍；<br>-d：如果源文件为<strong>软链接</strong>（对硬链接无效），则复制出的目标文件也为软链接；<br>-i：询问，如果目标文件已经存在，则会询问是否覆盖；<br>-l：把目标文件建立为源文件的硬链接文件，而不是复制源文件；<br>-s：把目标文件建立为源文件的软链接文件，而不是复制源文件；<br>-p：复制后目标文件保留源文件的属性（包括所有者、所属组、权限和时间）；<br>-r：递归复制，用于复制目录；<br>-u：若目标文件比源文件有差异，则使用该选项可以更新目标文件，此选项可用于对文件的升级和备用。</p>
+<h4 id="三、示例"><a href="#三、示例" class="headerlink" title="三、示例"></a>三、示例</h4><h5 id="【例-1】cp-命令基本用法"><a href="#【例-1】cp-命令基本用法" class="headerlink" title="【例 1】cp 命令基本用法"></a>【例 1】cp 命令基本用法</h5><p>cp 命令既可以复制文件，也可以复制目录。</p>
+<figure class="highlight powershell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#建立源文件</span></span><br><span class="line"></span><br><span class="line">[<span class="type">root</span>@<span class="type">localhost</span> ~]<span class="comment"># touch cangls</span></span><br><span class="line"></span><br><span class="line"><span class="comment">#把源文件不改名复制到 /tmp/ 目录下</span></span><br><span class="line"></span><br><span class="line">[<span class="type">root</span>@<span class="type">localhost</span> ~]<span class="comment"># cp cangls /tmp/</span></span><br><span class="line"></span><br><span class="line">如果需要改名复制，则命令如下：</span><br><span class="line"></span><br><span class="line"><span class="comment">#改名复制</span></span><br><span class="line"></span><br><span class="line">[<span class="type">root</span>@<span class="type">localhost</span> ~]<span class="comment"># cp cangls /tmp/bols</span></span><br></pre></td></tr></table></figure>
+
+<p>如果<strong>复制的目标位置已经存在同名的文件，则会提示是否覆盖，因为 cp 命令默认执行的是 “cp -i” 的别名</strong></p>
+<h5 id="【例二】复制目录：cp-r"><a href="#【例二】复制目录：cp-r" class="headerlink" title="【例二】复制目录：cp -r"></a>【例二】复制目录：cp -r</h5><p><strong>复制目录只需使用 “cp -r” 选项即可</strong>，例如：</p>
+<figure class="highlight powershell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#建立测试目录</span></span><br><span class="line"></span><br><span class="line">root@localhost ~]<span class="comment"># mkdir movie</span></span><br><span class="line"></span><br><span class="line"><span class="comment">#目录原名复制</span></span><br><span class="line"></span><br><span class="line">[<span class="type">root</span>@<span class="type">localhost</span> ~]<span class="comment"># cp -r /root/movie/ /tmp/</span></span><br></pre></td></tr></table></figure>
+
+<h5 id="【例-2】复制软链接文件：cp-d"><a href="#【例-2】复制软链接文件：cp-d" class="headerlink" title="【例 2】复制软链接文件：cp -d"></a>【例 2】复制软链接文件：cp -d</h5><p>如果源文件不是一个普通文件，而是一个软链接文件，那么是否可以复制软链接的属性呢？我们试试：</p>
+<figure class="highlight powershell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#建立一个测试软链接文件/tmp/cangls_slink</span></span><br><span class="line"></span><br><span class="line">[<span class="type">root</span>@<span class="type">localhost</span> ~]<span class="comment"># ln -s /root/cangls /tmp/cangls_slink</span></span><br><span class="line"></span><br><span class="line"><span class="comment">#源文件本身就是一个软链接文件</span></span><br><span class="line"></span><br><span class="line">[<span class="type">root</span>@<span class="type">localhost</span> ~]<span class="comment"># ll /tmp/cangls_slink</span></span><br><span class="line">lrwxrwxrwx <span class="number">1</span> root root <span class="number">12</span> <span class="number">6</span> 月 <span class="number">14</span> <span class="number">05</span>:<span class="number">53</span> /tmp/cangls_slink -&gt; /root/cangls</span><br><span class="line"></span><br><span class="line"><span class="comment">#复制软链接文件，但是不加&quot;-d&quot;选项</span></span><br><span class="line"></span><br><span class="line">[<span class="type">root</span>@<span class="type">localhost</span> ~]<span class="comment"># cp /tmp/cangls_slink /tmp/cangls_t1</span></span><br><span class="line"></span><br><span class="line"><span class="comment">#复制软链接文件，加入&quot;-d&quot;选项</span></span><br><span class="line"></span><br><span class="line">[<span class="type">root</span>@<span class="type">localhost</span> ~]<span class="comment"># cp -d /tmp/cangls_slink /tmp/cangls_t2</span></span><br><span class="line"></span><br><span class="line"><span class="comment">#会发现不加&quot;-d&quot;选项，实际复制的是软链接的源文件，而不是软链接文件</span></span><br><span class="line"></span><br><span class="line"><span class="comment">#而如果加入了&quot;-d&quot;选项，则会复制软链接文件</span></span><br><span class="line"></span><br><span class="line">[<span class="type">root</span>@<span class="type">localhost</span> ~]<span class="comment"># ll /tmp/cangls_t1 /tmp/cangls_t2</span></span><br><span class="line"><span class="literal">-rw-r--r--</span> <span class="number">1</span> root root <span class="number">0</span> <span class="number">6</span>月 <span class="number">14</span> <span class="number">05</span>:<span class="number">56</span> /tmp/cangls_t1</span><br><span class="line">lrwxrwxrwx <span class="number">1</span> root root <span class="number">12</span> <span class="number">6</span> 月 <span class="number">14</span> <span class="number">05</span>:<span class="number">56</span>/tmp/ cangls_t2-&gt; /root/cangls</span><br></pre></td></tr></table></figure>
+
+<p>说明，如果在复制软链接文件时不使用 “-d” 选项，则 cp 命令复制的是源文件，而不是软链接文件；只有加入了 “-d” 选项，才会复制软链接文件。<br>注意，“-d” 选项对硬链接是无效的。</p>
+<h5 id="【例-3】保留源文件属性复制：cp-p"><a href="#【例-3】保留源文件属性复制：cp-p" class="headerlink" title="【例 3】保留源文件属性复制：cp -p"></a>【例 3】保留源文件属性复制：cp -p</h5><p>我们发现，在执行复制命令后，目标文件的时间会变成复制命令的执行时间，而不是源文件的时间。例如：</p>
+<figure class="highlight powershell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">[<span class="type">root</span>@<span class="type">localhost</span> ~]<span class="comment"># cp /var/lib/mlocate/mlocate.db /tmp/</span></span><br><span class="line"></span><br><span class="line"><span class="comment">#注意源文件的时间和所属组</span></span><br><span class="line"></span><br><span class="line">[<span class="type">root</span>@<span class="type">localhost</span> ~]<span class="comment"># ll /var/lib/mlocate/mlocate.db</span></span><br><span class="line"><span class="literal">-rw-r-----1</span> root slocate2328027 <span class="number">6</span>月 <span class="number">14</span> <span class="number">02</span>:<span class="number">08</span>/var/lib/mlocate/mlocate.db</span><br><span class="line"></span><br><span class="line"><span class="comment">#由于复制命令由root用户执行，所以目标文件的所属组为了root，而且时间也变成了复制命令的执行时间</span></span><br><span class="line"></span><br><span class="line">[<span class="type">root</span>@<span class="type">localhost</span> ~]<span class="comment">#ll /tmp/mlocate.db</span></span><br><span class="line"><span class="literal">-rw-r-----</span> <span class="number">1</span> root root2328027 <span class="number">6</span> 月 <span class="number">14</span> <span class="number">06</span>:<span class="number">05</span>/tmp/mlocate.db</span><br></pre></td></tr></table></figure>
+
+<p>当我们执行备份、曰志备份的时候，这些文件的时间可能是一个重要的参数，这就需执行 <strong>“cp -p” 选项</strong>了。这个选项<strong>会保留源文件的属性，包括所有者、所属组和时间</strong>。例如：</p>
+<figure class="highlight powershell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#使用&quot;-p&quot;选项</span></span><br><span class="line"></span><br><span class="line">[<span class="type">root</span>@<span class="type">localhost</span> ~]<span class="comment"># cp -p /var/lib/mlocate/mlocate.db /tmp/mlocate.db_2</span></span><br><span class="line"></span><br><span class="line"><span class="comment">#源文件和目标文件的所有属性都一致，包括时间</span></span><br><span class="line"></span><br><span class="line">[<span class="type">root</span>@<span class="type">localhost</span> ~]<span class="comment"># ll /var/lib/mlocate/mlocate.db /tmp/mlocate.db_2</span></span><br><span class="line"><span class="literal">-rw-r-----</span> root slocate <span class="number">2328027</span> <span class="number">6</span>月 <span class="number">14</span> <span class="number">02</span>:<span class="number">08</span> /tmp/mlocate.db_2</span><br><span class="line"><span class="literal">-rw-r-----</span> root slocate <span class="number">2328027</span> <span class="number">6</span>月 <span class="number">14</span> <span class="number">02</span>:<span class="number">08</span> /var/lib/mlocate/mlocate.db</span><br></pre></td></tr></table></figure>
+
+<p><strong>“-a” 选项相当于 “-d、-p、-r” 选项</strong>，这几个选项我们已经分别讲过了。<br>所以，<strong>当我们使用 “-a” 选项时，目标文件和源文件的所有属性都一致，包括源文件的所有者，所属组、时间和软链接性</strong>。使用 “-a” 选项来取代 “-d、-p、-r” 选项更加方便。</p>
+<h5 id="【例-4】-“-l”-和-“-s”-选项"><a href="#【例-4】-“-l”-和-“-s”-选项" class="headerlink" title="【例 4】 “-l” 和 “-s” 选项"></a>【例 4】 “-l” 和 “-s” 选项</h5><p><strong>我们如果使用 “-l” 选项，则目标文件会被建立为源文件的硬链接；而如果使用了 “-s” 选项，则目标文件会被建立为源文件的软链接</strong>。</p>
+<p>这两个选项和 “-d” 选项是不同的，“d” 选项要求源文件必须是软链接，目标文件才会复制为软链接；而 <strong>“-l” 和 “-s” 选项的源文件只需是普通文件，目标文件就可以直接复制为硬链接和软链接</strong>。<br>例如：</p>
+<figure class="highlight powershell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#建立测试文件</span></span><br><span class="line"></span><br><span class="line">[<span class="type">root</span>@<span class="type">localhost</span> ~]<span class="comment"># touch bols</span></span><br><span class="line"></span><br><span class="line"><span class="comment">#源文件只是一个普通文件，而不是软链接文件</span></span><br><span class="line"></span><br><span class="line">[<span class="type">root</span>@<span class="type">localhost</span> ~]<span class="comment"># ll -i bols</span></span><br><span class="line"><span class="number">262154</span><span class="literal">-rw-r--r--</span> <span class="number">1</span> root root <span class="number">0</span> <span class="number">6</span>月 <span class="number">14</span> <span class="number">06</span>:<span class="number">26</span> bols</span><br><span class="line"></span><br><span class="line"><span class="comment">#使用&quot;-l&quot; 和&quot;-s&quot;选项复制</span></span><br><span class="line"></span><br><span class="line">[<span class="type">root</span>@<span class="type">localhost</span> ~]<span class="comment"># cp -l /root/bols /tmp/bols_h</span></span><br><span class="line">[<span class="type">root</span>@<span class="type">localhost</span> ~]<span class="comment"># cp -s /root/bols /tmp/bols_s</span></span><br><span class="line"></span><br><span class="line">[<span class="type">root</span>@<span class="type">localhost</span> ~]<span class="comment"># ll -i /tmp/bols_h /tmp/bols_s</span></span><br><span class="line"></span><br><span class="line"><span class="comment">#目标文件 /tmp/bols_h 为源文件的 硬链接 文件（cp -l）</span></span><br><span class="line"></span><br><span class="line"><span class="number">262154</span><span class="literal">-rw-r--r--</span> <span class="number">2</span>root root <span class="number">0</span> <span class="number">6</span> 月 <span class="number">14</span> <span class="number">06</span>:<span class="number">26</span>/tmp/bols_h</span><br><span class="line"></span><br><span class="line"><span class="comment">#目标文件 /tmp/bols_s 为源文件的 软链接 文件（cp -s）</span></span><br><span class="line"></span><br><span class="line"><span class="number">932113</span> lrwxrwxrwx <span class="number">1</span> root root <span class="number">10</span> <span class="number">6</span> 月 <span class="number">14</span> <span class="number">06</span>:<span class="number">27</span>/tmp/bols_s -&gt; /root/bols</span><br></pre></td></tr></table></figure>
+
+<h2 id="8-rm-remove"><a href="#8-rm-remove" class="headerlink" title="8.rm(remove)"></a>8.rm(remove)</h2><p><a target="_blank" rel="noopener" href="https://so.csdn.net/so/search?q=rm%E5%91%BD%E4%BB%A4&spm=1001.2101.3001.7020">rm命令</a>是英文单词remove的缩写，主要功能是删除文件或目录</p>
+<p>rm命令的语法格式如下：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">rm [选项] 文件名</span><br></pre></td></tr></table></figure>
+
+<p>常用选项如下：</p>
+<table>
+<thead>
+<tr>
+<th>选项</th>
+<th>作用或含义</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>-f</td>
+<td>强制删除，且不提示确认</td>
+</tr>
+<tr>
+<td>-i</td>
+<td>每次删除前会询问用户是否确定删除，默认选项</td>
+</tr>
+<tr>
+<td>-r或者-R</td>
+<td>递归删除目录及其内容</td>
+</tr>
+<tr>
+<td>-v</td>
+<td>显示指令的详细执行过程</td>
+</tr>
+<tr>
+<td>-d</td>
+<td>删除空目录</td>
+</tr>
+</tbody></table>
+<p>实例演示</p>
+<p>1、不带选项删除某个文件，默认会进行二次确认，敲击y进行确认。</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 不带选项删除文件会提示确认</span></span><br><span class="line">[root@myEuler ~]<span class="comment"># rm file1 </span></span><br><span class="line"><span class="built_in">rm</span>：是否删除普通文件 <span class="string">&#x27;file1&#x27;</span>？y</span><br><span class="line"> </span><br><span class="line"><span class="comment"># 选项-i的为默认选项，效果与无选项相同</span></span><br><span class="line">[root@myEuler ~]<span class="comment"># rm -i file1 </span></span><br><span class="line"><span class="built_in">rm</span>：是否删除普通文件 <span class="string">&#x27;file1&#x27;</span>？y</span><br></pre></td></tr></table></figure>
+
+<p>2、强行删除普通文件</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#使用选项-f删除普通文件时，不会提示确认</span></span><br><span class="line">[root@myEuler ~]<span class="comment"># rm -f file1 </span></span><br></pre></td></tr></table></figure>
+
+<p>3、删除目录</p>
+<figure class="highlight powershell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#注意目录文件与普通文件的区别，删除目录必须带选项-r，否则将会报错</span></span><br><span class="line"></span><br><span class="line"><span class="comment">#目录文件不能直接删除</span></span><br><span class="line"></span><br><span class="line">[<span class="type">root</span>@<span class="type">myEuler</span> ~]<span class="comment"># rm dir_file</span></span><br><span class="line"><span class="built_in">rm</span>: 无法删除 <span class="string">&#x27;dir_file&#x27;</span>: Is a directory</span><br><span class="line"></span><br><span class="line"><span class="comment">#删除目录文件必须使用选项-r</span></span><br><span class="line"></span><br><span class="line">[<span class="type">root</span>@<span class="type">myEuler</span> ~]<span class="comment"># rm -r dir_file</span></span><br><span class="line"><span class="built_in">rm</span>：是否删除目录 <span class="string">&#x27;dir_file&#x27;</span>？y</span><br><span class="line"></span><br><span class="line"><span class="comment">#联合使用-rf选项，可以强行删除目录，包括其中的内容</span></span><br><span class="line"></span><br><span class="line">[<span class="type">root</span>@<span class="type">myEuler</span> ~]<span class="comment"># rm -rf dir_file</span></span><br></pre></td></tr></table></figure>
+
+<p>4、删除多个文件</p>
+<figure class="highlight powershell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#可以将多个文件全部列出来，也可以使用通配符</span></span><br><span class="line"></span><br><span class="line"><span class="comment">#删除当前目录下的file3和file4文件</span></span><br><span class="line"></span><br><span class="line">[<span class="type">root</span>@<span class="type">myEuler</span> ~]<span class="comment"># rm -f file3 file4</span></span><br><span class="line"></span><br><span class="line"><span class="comment">#删除当前目录下的所有以file开头的普通文件</span></span><br><span class="line"></span><br><span class="line">[<span class="type">root</span>@<span class="type">myEuler</span> ~]<span class="comment"># rm -f file*</span></span><br><span class="line"></span><br><span class="line"><span class="comment">#删除当前目录下的所有扩展名为.txt的普通文件</span></span><br><span class="line"></span><br><span class="line">[<span class="type">root</span>@<span class="type">myEuler</span> ~]<span class="comment"># rm -f *.txt</span></span><br></pre></td></tr></table></figure>
+
+<p>5、强制清空服务器系统内的所有文件（谨慎操作！！！）</p>
+<figure class="highlight powershell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#该操作看看就好，切忌执行，否则系统将可能报废</span></span><br><span class="line"></span><br><span class="line">[<span class="type">root</span>@<span class="type">myEuler</span> ~]<span class="comment"># rm -rf /*</span></span><br></pre></td></tr></table></figure>
+
+<h2 id="9-mv-move-file"><a href="#9-mv-move-file" class="headerlink" title="9.mv(move file)"></a>9.mv(move file)</h2><p>mv命令是move的缩写，可以用来移动文件或者将文件改名（move (rename) files）。</p>
+<h4 id="命令格式"><a href="#命令格式" class="headerlink" title="命令格式"></a>命令格式</h4><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">mv [选项] 源文件或目录 目标文件或目录</span><br></pre></td></tr></table></figure>
+
+<p>1.当mv命令中的第二个参数类型（目标）是文件时，实现<strong>重命名</strong>源文件或目录的功能，记住这里源文件或目录只能有一个，因为如果有多个时，会存在命名冲突的问题 。</p>
+<p><img src="https://liuew.oss-cn-hangzhou.aliyuncs.com/img/20190527221109516.png" alt="20190527221109516"></p>
+<p>2.当mv命令中的第二个参数类型（目标）是目录时，实现的是<strong>移动</strong>源文件和目录的功能,这里源文件或目录可以有多个，mv命令会将源文件或目录移动到目标目录下。</p>
+<p><img src="https://liuew.oss-cn-hangzhou.aliyuncs.com/img/20190527221619856.png" alt="20190527221619856"></p>
+<p>3.mv -b:当覆盖文件之前先行备份。</p>
+<p><img src="https://liuew.oss-cn-hangzhou.aliyuncs.com/img/20190527222544485.png" alt="20190527222544485"></p>
+<p>4.mv -f(force强制):当覆盖文件时，不询问直接覆盖：</p>
+<p><img src="https://liuew.oss-cn-hangzhou.aliyuncs.com/img/20190527223047864.png" alt="20190527223047864"></p>
+<p>5.mv -i :当覆盖文件之前，会询问是否覆盖：</p>
+<p><img src="https://liuew.oss-cn-hangzhou.aliyuncs.com/img/20190527223047864.png" alt="20190527223047864"></p>
+<p>6.mv -u :只有当源文件是最新更新时，才可以覆盖目标文件</p>
+<p><img src="https://liuew.oss-cn-hangzhou.aliyuncs.com/img/20190527224720538.png" alt="20190527224720538">[7.mv -t:当需</p>
+<p>7.mv -t:当需要移动多个源文件时，适用于这种方式，这时目标目录在前，源文件在后</p>
+<p><img src="https://liuew.oss-cn-hangzhou.aliyuncs.com/img/20190527225525278.png" alt="20190527225525278"></p>
+
+      
+    </div>
+
+    <div>
+      
+        <div>
+  
+    <div style="text-align:center;color: #555;font-size:18px;">End~~ <i class="fa fa-paw"></i> 撒花ฅ&gt;ω&lt;*ฅ花撒</div>
+  
+</div>
+
+      
+    </div>
+    
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/linux/" rel="tag"># linux</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2023/10/20/ctfshow%E5%88%B7%E9%A2%98%E8%AE%B0%E5%BD%95/" rel="next" title="">
+                <i class="fa fa-chevron-left"></i> 
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2024/01/01/%E7%BA%A2%E5%B2%A9%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95%E4%BD%9C%E4%B8%9A/" rel="prev" title="红岩渗透测试作业">
+                红岩渗透测试作业 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+  <div>
+    
+    <div>
+  
+    <div style="text-align:center;color: #555;font-size:18px;">End~~ <i class="fa fa-paw"></i> 撒花ฅ&gt;ω&lt;*ฅ花撒</div>
+  
+</div>
+
+    
+ </div>
+
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <img class="site-author-image" itemprop="image"
+                src="/uploads/touxiang.jpg"
+                alt="" />
+            
+              <p class="site-author-name" itemprop="name"></p>
+              <p class="site-description motion-element" itemprop="description"></p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives/%7C%7C%20archive">
+              
+                  <span class="site-state-item-count">6</span>
+                  <span class="site-state-item-name">日志</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-categories">
+                <a href="/categories/index.html">
+                  <span class="site-state-item-count">2</span>
+                  <span class="site-state-item-name">分类</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-tags">
+                <a href="/tags/index.html">
+                  <span class="site-state-item-count">7</span>
+                  <span class="site-state-item-name">标签</span>
+                </a>
+              </div>
+            
+
+          </nav>
+
+          
+
+          
+            <div class="links-of-author motion-element">
+                
+                  <span class="links-of-author-item">
+                    <a href="https://www.csdn.net/" target="_blank" title="csdn">
+                      
+                        <i class="fa fa-fw fa-globe"></i>csdn</a>
+                  </span>
+                
+                  <span class="links-of-author-item">
+                    <a href="https://www.aliyun.com/activity/daily/topdeal?crowd=personal&utm_content=se_1014508963" target="_blank" title="阿里云">
+                      
+                        <i class="fa fa-fw fa-globe"></i>阿里云</a>
+                  </span>
+                
+                  <span class="links-of-author-item">
+                    <a href="https://www.bilibili.com/" target="_blank" title="bilibili">
+                      
+                        <i class="fa fa-fw fa-globe"></i>bilibili</a>
+                  </span>
+                
+            </div>
+          
+
+          
+          <div>
+             <iframe frameborder="no" border="0" marginwidth="0" marginheight="0" width="410" height="110" src="//music.163.com/outchain/player?type=2&id=188261&auto=1&height=66"></iframe>
+          </div>
+          
+    
+
+
+
+          
+          
+
+          
+          
+
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#linux%E5%9F%BA%E7%A1%80%E5%91%BD%E4%BB%A4"><span class="nav-number">1.</span> <span class="nav-text">linux基础命令</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#1-ls"><span class="nav-number">1.1.</span> <span class="nav-text">1.ls</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#2-ln-link-files-%E5%88%9B%E5%BB%BA%E5%90%8C%E6%AD%A5%E9%93%BE%E6%8E%A5"><span class="nav-number">1.2.</span> <span class="nav-text">2.ln(link files):创建同步链接</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#3-touch"><span class="nav-number">1.3.</span> <span class="nav-text">3.touch</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#4-cd"><span class="nav-number">1.4.</span> <span class="nav-text">4.cd</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E7%9B%B8%E5%AF%B9%E8%B7%AF%E5%BE%84%E5%92%8C%E7%BB%9D%E5%AF%B9%E8%B7%AF%E5%BE%84"><span class="nav-number">1.4.0.1.</span> <span class="nav-text">相对路径和绝对路径</span></a></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#5-pwd"><span class="nav-number">1.5.</span> <span class="nav-text">5.pwd</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#6-makir"><span class="nav-number">1.6.</span> <span class="nav-text">6.makir</span></a><ol class="nav-child"><li class="nav-item nav-level-6"><a class="nav-link" href="#1-%E8%AF%AD%E6%B3%95%EF%BC%9A"><span class="nav-number">1.6.0.0.0.1.</span> <span class="nav-text">1.语法：</span></a></li><li class="nav-item nav-level-6"><a class="nav-link" href="#2-%E5%B8%B8%E7%94%A8%E8%8C%83%E4%BE%8B%EF%BC%9A"><span class="nav-number">1.6.0.0.0.2.</span> <span class="nav-text">2.常用范例：</span></a></li></ol></li></ol></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#7-cp-copy-file"><span class="nav-number">1.7.</span> <span class="nav-text">7.cp(copy file)</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E4%B8%80%E3%80%81%E5%9F%BA%E6%9C%AC%E6%A0%BC%E5%BC%8F"><span class="nav-number">1.7.0.1.</span> <span class="nav-text">一、基本格式</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E4%BA%8C%E3%80%81%E5%8F%82%E6%95%B0"><span class="nav-number">1.7.0.2.</span> <span class="nav-text">二、参数</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E4%B8%89%E3%80%81%E7%A4%BA%E4%BE%8B"><span class="nav-number">1.7.0.3.</span> <span class="nav-text">三、示例</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#%E3%80%90%E4%BE%8B-1%E3%80%91cp-%E5%91%BD%E4%BB%A4%E5%9F%BA%E6%9C%AC%E7%94%A8%E6%B3%95"><span class="nav-number">1.7.0.3.1.</span> <span class="nav-text">【例 1】cp 命令基本用法</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#%E3%80%90%E4%BE%8B%E4%BA%8C%E3%80%91%E5%A4%8D%E5%88%B6%E7%9B%AE%E5%BD%95%EF%BC%9Acp-r"><span class="nav-number">1.7.0.3.2.</span> <span class="nav-text">【例二】复制目录：cp -r</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#%E3%80%90%E4%BE%8B-2%E3%80%91%E5%A4%8D%E5%88%B6%E8%BD%AF%E9%93%BE%E6%8E%A5%E6%96%87%E4%BB%B6%EF%BC%9Acp-d"><span class="nav-number">1.7.0.3.3.</span> <span class="nav-text">【例 2】复制软链接文件：cp -d</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#%E3%80%90%E4%BE%8B-3%E3%80%91%E4%BF%9D%E7%95%99%E6%BA%90%E6%96%87%E4%BB%B6%E5%B1%9E%E6%80%A7%E5%A4%8D%E5%88%B6%EF%BC%9Acp-p"><span class="nav-number">1.7.0.3.4.</span> <span class="nav-text">【例 3】保留源文件属性复制：cp -p</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#%E3%80%90%E4%BE%8B-4%E3%80%91-%E2%80%9C-l%E2%80%9D-%E5%92%8C-%E2%80%9C-s%E2%80%9D-%E9%80%89%E9%A1%B9"><span class="nav-number">1.7.0.3.5.</span> <span class="nav-text">【例 4】 “-l” 和 “-s” 选项</span></a></li></ol></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#8-rm-remove"><span class="nav-number">1.8.</span> <span class="nav-text">8.rm(remove)</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#9-mv-move-file"><span class="nav-number">1.9.</span> <span class="nav-text">9.mv(move file)</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%91%BD%E4%BB%A4%E6%A0%BC%E5%BC%8F"><span class="nav-number">1.9.0.1.</span> <span class="nav-text">命令格式</span></a></li></ol></li></ol></li></ol></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+        <div class="back-to-top">
+          <i class="fa fa-arrow-up"></i>
+          
+            <span id="scrollpercent"><span>0</span>%</span>
+          
+        </div>
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2024</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">liuew</span>
+
+  
+</div>
+
+
+
+
+
+
+  <div class="theme-info">主题 &mdash; <a class="theme-link" target="_blank" href="https://github.com/iissnan/hexo-theme-next">NexT.Gemini</a> v5.1.4</div>
+
+
+
+
+        
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/canvas-nest/canvas-nest.min.js"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.4"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.1.4"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.4"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  <script type="text/javascript">
+    // Popup Window;
+    var isfetched = false;
+    var isXml = true;
+    // Search DB path;
+    var search_path = "search.xml";
+    if (search_path.length === 0) {
+      search_path = "search.xml";
+    } else if (/json$/i.test(search_path)) {
+      isXml = false;
+    }
+    var path = "/" + search_path;
+    // monitor main search box;
+
+    var onPopupClose = function (e) {
+      $('.popup').hide();
+      $('#local-search-input').val('');
+      $('.search-result-list').remove();
+      $('#no-result').remove();
+      $(".local-search-pop-overlay").remove();
+      $('body').css('overflow', '');
+    }
+
+    function proceedsearch() {
+      $("body")
+        .append('<div class="search-popup-overlay local-search-pop-overlay"></div>')
+        .css('overflow', 'hidden');
+      $('.search-popup-overlay').click(onPopupClose);
+      $('.popup').toggle();
+      var $localSearchInput = $('#local-search-input');
+      $localSearchInput.attr("autocapitalize", "none");
+      $localSearchInput.attr("autocorrect", "off");
+      $localSearchInput.focus();
+    }
+
+    // search function;
+    var searchFunc = function(path, search_id, content_id) {
+      'use strict';
+
+      // start loading animation
+      $("body")
+        .append('<div class="search-popup-overlay local-search-pop-overlay">' +
+          '<div id="search-loading-icon">' +
+          '<i class="fa fa-spinner fa-pulse fa-5x fa-fw"></i>' +
+          '</div>' +
+          '</div>')
+        .css('overflow', 'hidden');
+      $("#search-loading-icon").css('margin', '20% auto 0 auto').css('text-align', 'center');
+
+      $.ajax({
+        url: path,
+        dataType: isXml ? "xml" : "json",
+        async: true,
+        success: function(res) {
+          // get the contents from search data
+          isfetched = true;
+          $('.popup').detach().appendTo('.header-inner');
+          var datas = isXml ? $("entry", res).map(function() {
+            return {
+              title: $("title", this).text(),
+              content: $("content",this).text(),
+              url: $("url" , this).text()
+            };
+          }).get() : res;
+          var input = document.getElementById(search_id);
+          var resultContent = document.getElementById(content_id);
+          var inputEventFunction = function() {
+            var searchText = input.value.trim().toLowerCase();
+            var keywords = searchText.split(/[\s\-]+/);
+            if (keywords.length > 1) {
+              keywords.push(searchText);
+            }
+            var resultItems = [];
+            if (searchText.length > 0) {
+              // perform local searching
+              datas.forEach(function(data) {
+                var isMatch = false;
+                var hitCount = 0;
+                var searchTextCount = 0;
+                var title = data.title.trim();
+                var titleInLowerCase = title.toLowerCase();
+                var content = data.content.trim().replace(/<[^>]+>/g,"");
+                var contentInLowerCase = content.toLowerCase();
+                var articleUrl = decodeURIComponent(data.url);
+                var indexOfTitle = [];
+                var indexOfContent = [];
+                // only match articles with not empty titles
+                if(title != '') {
+                  keywords.forEach(function(keyword) {
+                    function getIndexByWord(word, text, caseSensitive) {
+                      var wordLen = word.length;
+                      if (wordLen === 0) {
+                        return [];
+                      }
+                      var startPosition = 0, position = [], index = [];
+                      if (!caseSensitive) {
+                        text = text.toLowerCase();
+                        word = word.toLowerCase();
+                      }
+                      while ((position = text.indexOf(word, startPosition)) > -1) {
+                        index.push({position: position, word: word});
+                        startPosition = position + wordLen;
+                      }
+                      return index;
+                    }
+
+                    indexOfTitle = indexOfTitle.concat(getIndexByWord(keyword, titleInLowerCase, false));
+                    indexOfContent = indexOfContent.concat(getIndexByWord(keyword, contentInLowerCase, false));
+                  });
+                  if (indexOfTitle.length > 0 || indexOfContent.length > 0) {
+                    isMatch = true;
+                    hitCount = indexOfTitle.length + indexOfContent.length;
+                  }
+                }
+
+                // show search results
+
+                if (isMatch) {
+                  // sort index by position of keyword
+
+                  [indexOfTitle, indexOfContent].forEach(function (index) {
+                    index.sort(function (itemLeft, itemRight) {
+                      if (itemRight.position !== itemLeft.position) {
+                        return itemRight.position - itemLeft.position;
+                      } else {
+                        return itemLeft.word.length - itemRight.word.length;
+                      }
+                    });
+                  });
+
+                  // merge hits into slices
+
+                  function mergeIntoSlice(text, start, end, index) {
+                    var item = index[index.length - 1];
+                    var position = item.position;
+                    var word = item.word;
+                    var hits = [];
+                    var searchTextCountInSlice = 0;
+                    while (position + word.length <= end && index.length != 0) {
+                      if (word === searchText) {
+                        searchTextCountInSlice++;
+                      }
+                      hits.push({position: position, length: word.length});
+                      var wordEnd = position + word.length;
+
+                      // move to next position of hit
+
+                      index.pop();
+                      while (index.length != 0) {
+                        item = index[index.length - 1];
+                        position = item.position;
+                        word = item.word;
+                        if (wordEnd > position) {
+                          index.pop();
+                        } else {
+                          break;
+                        }
+                      }
+                    }
+                    searchTextCount += searchTextCountInSlice;
+                    return {
+                      hits: hits,
+                      start: start,
+                      end: end,
+                      searchTextCount: searchTextCountInSlice
+                    };
+                  }
+
+                  var slicesOfTitle = [];
+                  if (indexOfTitle.length != 0) {
+                    slicesOfTitle.push(mergeIntoSlice(title, 0, title.length, indexOfTitle));
+                  }
+
+                  var slicesOfContent = [];
+                  while (indexOfContent.length != 0) {
+                    var item = indexOfContent[indexOfContent.length - 1];
+                    var position = item.position;
+                    var word = item.word;
+                    // cut out 100 characters
+                    var start = position - 20;
+                    var end = position + 80;
+                    if(start < 0){
+                      start = 0;
+                    }
+                    if (end < position + word.length) {
+                      end = position + word.length;
+                    }
+                    if(end > content.length){
+                      end = content.length;
+                    }
+                    slicesOfContent.push(mergeIntoSlice(content, start, end, indexOfContent));
+                  }
+
+                  // sort slices in content by search text's count and hits' count
+
+                  slicesOfContent.sort(function (sliceLeft, sliceRight) {
+                    if (sliceLeft.searchTextCount !== sliceRight.searchTextCount) {
+                      return sliceRight.searchTextCount - sliceLeft.searchTextCount;
+                    } else if (sliceLeft.hits.length !== sliceRight.hits.length) {
+                      return sliceRight.hits.length - sliceLeft.hits.length;
+                    } else {
+                      return sliceLeft.start - sliceRight.start;
+                    }
+                  });
+
+                  // select top N slices in content
+
+                  var upperBound = parseInt('1');
+                  if (upperBound >= 0) {
+                    slicesOfContent = slicesOfContent.slice(0, upperBound);
+                  }
+
+                  // highlight title and content
+
+                  function highlightKeyword(text, slice) {
+                    var result = '';
+                    var prevEnd = slice.start;
+                    slice.hits.forEach(function (hit) {
+                      result += text.substring(prevEnd, hit.position);
+                      var end = hit.position + hit.length;
+                      result += '<b class="search-keyword">' + text.substring(hit.position, end) + '</b>';
+                      prevEnd = end;
+                    });
+                    result += text.substring(prevEnd, slice.end);
+                    return result;
+                  }
+
+                  var resultItem = '';
+
+                  if (slicesOfTitle.length != 0) {
+                    resultItem += "<li><a href='" + articleUrl + "' class='search-result-title'>" + highlightKeyword(title, slicesOfTitle[0]) + "</a>";
+                  } else {
+                    resultItem += "<li><a href='" + articleUrl + "' class='search-result-title'>" + title + "</a>";
+                  }
+
+                  slicesOfContent.forEach(function (slice) {
+                    resultItem += "<a href='" + articleUrl + "'>" +
+                      "<p class=\"search-result\">" + highlightKeyword(content, slice) +
+                      "...</p>" + "</a>";
+                  });
+
+                  resultItem += "</li>";
+                  resultItems.push({
+                    item: resultItem,
+                    searchTextCount: searchTextCount,
+                    hitCount: hitCount,
+                    id: resultItems.length
+                  });
+                }
+              })
+            };
+            if (keywords.length === 1 && keywords[0] === "") {
+              resultContent.innerHTML = '<div id="no-result"><i class="fa fa-search fa-5x" /></div>'
+            } else if (resultItems.length === 0) {
+              resultContent.innerHTML = '<div id="no-result"><i class="fa fa-frown-o fa-5x" /></div>'
+            } else {
+              resultItems.sort(function (resultLeft, resultRight) {
+                if (resultLeft.searchTextCount !== resultRight.searchTextCount) {
+                  return resultRight.searchTextCount - resultLeft.searchTextCount;
+                } else if (resultLeft.hitCount !== resultRight.hitCount) {
+                  return resultRight.hitCount - resultLeft.hitCount;
+                } else {
+                  return resultRight.id - resultLeft.id;
+                }
+              });
+              var searchResultList = '<ul class=\"search-result-list\">';
+              resultItems.forEach(function (result) {
+                searchResultList += result.item;
+              })
+              searchResultList += "</ul>";
+              resultContent.innerHTML = searchResultList;
+            }
+          }
+
+          if ('auto' === 'auto') {
+            input.addEventListener('input', inputEventFunction);
+          } else {
+            $('.search-icon').click(inputEventFunction);
+            input.addEventListener('keypress', function (event) {
+              if (event.keyCode === 13) {
+                inputEventFunction();
+              }
+            });
+          }
+
+          // remove loading animation
+          $(".local-search-pop-overlay").remove();
+          $('body').css('overflow', '');
+
+          proceedsearch();
+        }
+      });
+    }
+
+    // handle and trigger popup window;
+    $('.popup-trigger').click(function(e) {
+      e.stopPropagation();
+      if (isfetched === false) {
+        searchFunc(path, 'local-search-input', 'local-search-result');
+      } else {
+        proceedsearch();
+      };
+    });
+
+    $('.popup-btn-close').click(onPopupClose);
+    $('.popup').click(function(e){
+      e.stopPropagation();
+    });
+    $(document).on('keyup', function (event) {
+      var shouldDismissSearchPopup = event.which === 27 &&
+        $('.search-popup').is(':visible');
+      if (shouldDismissSearchPopup) {
+        onPopupClose();
+      }
+    });
+  </script>
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+  
+
+  
+
+  
+
+  
+
+<script src="/live2dw/lib/L2Dwidget.min.js?094cbace49a39548bed64abff5988b05"></script><script>L2Dwidget.init({"pluginRootPath":"live2dw/","pluginJsPath":"lib/","pluginModelPath":"assets/","tagMode":false,"model":{"jsonPath":"/live2dw/assets/assets/wanko.model.json"},"display":{"position":"right","width":150,"height":300},"mobile":{"show":"true#是否在手机端显示"},"log":false});</script></body>
+</html>
+<script type="text/javascript" src="/js/clicklove.js"></script>
